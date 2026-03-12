@@ -67,7 +67,6 @@ class CrearController extends Controller
             'adscripcion'     => $user->adscripcion,
             'dpto_coord'      => $user->dpto_coord,
             'area_secc'       => $user->area_secc,
-            // --------------------------------------------------
 
             'descripcion'     => $descripcion, 
             'observaciones'   => $observaciones, 
