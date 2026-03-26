@@ -39,6 +39,7 @@ class Ticket extends Model
     
     // Valor por defecto para descripción si no se envía
     protected $attributes = [
+        'email' => '', // Valor por defecto vacío
         'descripcion' => '', // Valor por defecto vacío
         'observaciones' => '',// Valor por defecto vacío
         'id_estado' => 1, // Valor por defecto 1 (Abierto)
