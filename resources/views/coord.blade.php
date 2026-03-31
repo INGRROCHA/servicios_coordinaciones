@@ -36,9 +36,9 @@
                         <!-- Relaciones Elocuentes -->
 						<td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->seccion->seccion }}</td>
                         <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->servicio->servicio }}</td>
-                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->users->adscripcion ?? 'Sin dato' }}</td>
-                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->users->dpto_coord ?? 'Sin dato' }}</td>
-                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->users->area_secc ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->descripcion }}</td>
                         <!-- Estatus -->
                         <td class="px-6 py-4 whitespace-nowrap">

@@ -120,7 +120,7 @@ class Ticket extends Model
     public function trabajadores(): BelongsTo
     {
         // belongsTo(ModeloRelacionado, 'llave_foranea_en_Ticket', 'llave_primaria_en_Trabajadores')
-        return $this->belongsTo(Trabajadores::class, 'id_tr_secc', 'id_tr_secc');
+        return $this->belongsTo(Trabajador::class, 'id_tr_secc', 'id_tr_secc');
     }
         
     

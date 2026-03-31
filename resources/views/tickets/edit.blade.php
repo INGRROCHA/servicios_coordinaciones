@@ -94,35 +94,35 @@
                                 <div class="fila">
                                     <div class="celda" data-label="nombre">Nombre Completo</div>
                                     <div class="celda">
-                                        <input type="text" id="nombre_completo" name="nombre" value="{{ $ticket->users->nombre ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                        <input type="text" id="nombre_completo" name="nombre" value="{{ $ticket->nombre ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                                     </div>
                                 </div>
 
                                 <div class="fila">
                                     <div class="celda" data-label="email">Correo Electrónico</div>
                                     <div class="celda">
-                                        <input type="text" id="email" name="email" value="{{ $ticket->users->email ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                        <input type="text" id="email" name="email" value="{{ $ticket->email ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                                     </div>
                                 </div>
 
                                 <div class="fila">
                                     <div class="celda" data-label="adscripcion">Adscripción</div>
                                     <div class="celda">
-                                        <input type="text" id="adscripcion" name="adscripcion" value="{{ $ticket->users->adscripcion ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                        <input type="text" id="adscripcion" name="adscripcion" value="{{ $ticket->adscripcion ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                                     </div>
                                 </div>      
 
                                 <div class="fila">
                                     <div class="celda" data-label="dpto_coord">Coordinación Administrativa o Departamento Académico</div>
                                     <div class="celda">
-                                        <input type="text" id="dpto_coord" name="dpto_coord" value="{{ $ticket->users->dpto_coord ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                        <input type="text" id="dpto_coord" name="dpto_coord" value="{{ $ticket->dpto_coord ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                                     </div>
                                 </div> 
 
                                 <div class="fila">
                                     <div class="celda" data-label="area_secc">Área Académica o Sección Administrativa</div>
                                     <div class="celda">
-                                        <input type="text" id="area_secc" name="area_secc" value="{{ $ticket->users->area_secc ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                        <input type="text" id="area_secc" name="area_secc" value="{{ $ticket->area_secc ?? '' }}" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                                     </div>
                                 </div> 
 
@@ -282,56 +282,54 @@
             else if (seleccionActual === "3") { mostrarServiciosEFisicos(seccion); }
             else if (seleccionActual === "4") { mostrarServiciosCIntegral(seccion); }
             
-            // Llamamos a la función que muestra a los trabajadores según la sección elegida
-            mostrarTrabajadores(seccion);
+            // Condicionamos: SOLO si es la selección 3, mostramos los trabajadores
+            if (seleccionActual === "3") {
+                mostrarTrabajadores(seccion);
+            } else {
+                // Ocultamos y vaciamos si es otra coordinación
+                contenedorTrabajadores.classList.add("oculto");
+                contenedorTrabajadores.innerHTML = "";
+            }
         }
 
-        // ---- Lógica de los Trabajadores ----
-        function mostrarTrabajadores(seccion) {
+        // ---- Lógica de los Trabajadores (Modificada para Base de Datos) ----
+        async function mostrarTrabajadores(seccion) {
             if (!seccion) {
                 contenedorTrabajadores.classList.add("oculto");
                 contenedorTrabajadores.innerHTML = "";
                 return;
             }
 
-            const htmlTrabajadores = generarSelectorTrabajadores(seccion);
-            
-            if(htmlTrabajadores) {
-                contenedorTrabajadores.classList.remove("oculto");
-                contenedorTrabajadores.innerHTML = htmlTrabajadores;
-            } else {
-                // Si la sección seleccionada no tiene trabajadores configurados, ocultamos el bloque
+            try {
+                // Hacemos la consulta al servidor usando Fetch
+                const response = await fetch(`/obtener-trabajadores/${seccion}`);
+                const data = await response.json();
+
+                if (data.success && data.trabajadores.length > 0) {
+                    // Sí encontró trabajadores, armamos el HTML
+                    const htmlTrabajadores = generarSelectorTrabajadores(data.trabajadores);
+                    contenedorTrabajadores.classList.remove("oculto");
+                    contenedorTrabajadores.innerHTML = htmlTrabajadores;
+                } else {
+                    // Sí no hay trabajadores o la sección no existe en la BD
+                    contenedorTrabajadores.classList.add("oculto");
+                    contenedorTrabajadores.innerHTML = "";
+                }
+            } catch (error) {
+                console.error("Error al obtener los trabajadores:", error);
                 contenedorTrabajadores.classList.add("oculto");
                 contenedorTrabajadores.innerHTML = "";
             }
         }
 
-        function generarSelectorTrabajadores(seccion) {
-            let opciones = "";
-            if (seccion === "11") {
-                opciones = `
-                    <option value="">Seleccione un trabajador</option>
-                    <option value="11001">César Cuatoche</option>
-                    <option value="11002">Efrén Sánchez</option>
-                    <option value="11003">Francisco Rangel</option>
-                    <option value="11004">Noel Reyes</option>
-                    <option value="11005">Mariana Tafolla</option>
-                    <option value="11006">Susana Perea</option>
-                    <option value="11007">Víctor Pazos</option>`;
-            } else if (seccion === "12") {
-                opciones = `
-                    <option value="">Seleccione un trabajador</option>
-                    <option value="12001">Jesús Rodríguez</option>
-                    <option value="12002">Jorge Hernández</option>
-                    <option value="12003">Sergio</option>`;
-            } else if (seccion === "13") {
-                opciones = `
-                    <option value="">Seleccione un trabajador</option>
-                    <option value="13001">Daniel Cruz</option>
-                    <option value="13002">Víctor</option>`;
-            } else {
-                return ""; // No genera dropdown si no es 11, 12 o 13
-            } 
+        // Genera el HTML basado en el arreglo JSON que envía el backend
+        function generarSelectorTrabajadores(trabajadores) {
+            let opciones = `<option value="">Seleccione un trabajador</option>`;
+            
+            trabajadores.forEach(trabajador => {
+
+                opciones += `<option value="${trabajador.id_tr_secc}">${trabajador.nombre}</option>`;
+            });
 
             return `
                 <label>Asignar Trabajador:</label>
@@ -339,8 +337,8 @@
                     ${opciones}
                 </select>`;
         }
-        // -------------------------------------
 
+        // -------------------------------------
         function mostrarCampos(id) {
             document.querySelectorAll('.oculto').forEach(div => {
                 if(div.id !== 'contenedorSecciones' && div.id !== 'botonSecciones' && div.id !== 'contenedorTrabajadores') {

@@ -14,7 +14,7 @@ class CrearController extends Controller
             ->table('Empleados')
             // Dejamos SOLO el JOIN de Adscripciones. 
             // ELIMINAMOS por completo el leftJoin de CE_Correo_Empleados de aquí.
-            ->leftJoin('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion') 
+            ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion') 
             ->where('Empleados.Estado', 1)
             ->where('Empleados.NumeroEconomico', $num_economico)
             ->select(
@@ -57,7 +57,7 @@ class CrearController extends Controller
         // APLICAMOS LA MISMA CORRECCIÓN AQUÍ: Quitamos el leftJoin del correo
         $user = DB::connection('nomina')
             ->table('Empleados')
-            ->leftJoin('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion')
+            ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion')
             ->where('Empleados.NumeroEconomico', $request->num_economico)
             ->where('Empleados.Estado', 1)
             ->select(
