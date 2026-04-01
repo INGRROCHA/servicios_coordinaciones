@@ -30,7 +30,7 @@ class Coordinacion extends Model
 
     public function trabajadores(): HasMany
     {
-        return $this->hasMany(Trabajadores::class);
+        return $this->hasMany(Trabajador::class);
     }
 
 }

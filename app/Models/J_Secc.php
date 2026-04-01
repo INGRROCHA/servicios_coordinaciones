@@ -47,7 +47,7 @@ class J_Secc extends Model
 
     public function trabajadores(): HasMany
     {
-        return $this->hasMany(Trabajadores::class, 'id_j_secc', 'id_j_secc');
+        return $this->hasMany(Trabajador::class, 'id_j_secc', 'id_j_secc');
     }
 
 }

@@ -17,12 +17,12 @@ return new class extends Migration
             $table->integer('id_seccion');
             $table->string('id_servicio');
             $table->string('nombre');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->integer('num_economico');
             $table->string('adscripcion');
             $table->string('dpto_coord');
             $table->string('area_secc');
-            $table->text('descripcion')->nullable();;   
+            $table->text('descripcion')->nullable();   
             $table->integer('id_estado')->default(1);
             $table->integer('id_tr_secc')->nullable();
             $table->boolean('estatus')->default(true); // 1 = activo, 0 = inactivo

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Trabajadores extends Model
+class Trabajador extends Model
 {
 
     protected $table = 'tr_secc';
@@ -13,7 +13,8 @@ class Trabajadores extends Model
         'id_tr_secc',
         'id_rol',
         'id_seccion',
-        'tr_secc',
+        'id_servicio',
+        'nombre',
         'estatus',
         'created_at',
         'updated_at'
