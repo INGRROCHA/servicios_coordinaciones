@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('dpto_coord');
             $table->string('area_secc');
             $table->text('descripcion')->nullable();   
-            $table->integer('id_estado')->default(1);
+            $table->integer('estado')->default(1);
             $table->integer('id_tr_secc')->nullable();
             $table->boolean('estatus')->default(true); // 1 = activo, 0 = inactivo
             $table->text('observaciones')->nullable(); 

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->integer('id_tr_secc')->primary();
             $table->integer('id_rol');
             $table->integer('id_seccion');
-            $table->string('id_servicio', 100);
             $table->string('nombre', 100);
-            $table->boolean('estatus')->default(true); // true = activo, false = inactivo
+            $table->string('id_servicio', 20);
+            $table->boolean('estatus')->default(true); // 1 = activo, 0 = inactivo
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
