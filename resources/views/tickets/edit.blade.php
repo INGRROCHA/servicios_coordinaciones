@@ -178,8 +178,9 @@
         const savedServicio = "{{ $ticket->id_servicio }}";
         const savedTrabajador = "{{ $ticket->id_tr_secc ?? '' }}"; // Para recuperar el trabajador
 
+        
         // Inicialización automática para Edición
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", async function() {
             const savedCoord = document.getElementById("id_coordinacion").value;
 
             if (savedCoord) {
@@ -190,18 +191,11 @@
                 const selectSeccion = document.querySelector('select[name="seccion"]');
                 if (selectSeccion && savedSeccion) {
                     selectSeccion.value = savedSeccion;
+                    
+                    // Mostramos los servicios de esa sección
                     mostrarServiciosSeccion(savedSeccion);
 
-                    // Restaurar trabajador si existe
-                    if (savedTrabajador) {
-                        setTimeout(() => {
-                            const selectTrabajador = document.querySelector('select[name="id_tr_secc"]');
-                            if (selectTrabajador) {
-                                selectTrabajador.value = savedTrabajador;
-                            }
-                        }, 100);
-                    }
-
+                    // Restauramos el servicio si existe
                     if (savedServicio) {
                         const inputServicio = document.querySelector(`input[name="servicio"][value="${savedServicio}"]`) || 
                                               document.querySelector(`input[name="servicio[]"][value="${savedServicio}"]`);
@@ -218,9 +212,40 @@
                             }, 50);
                         }
                     }
+
+                    await mostrarTrabajadores(savedSeccion, savedServicio);
+
+                    if (savedTrabajador) {
+                        const selectTrabajador = document.querySelector('select[name="id_tr_secc"]');
+                        if (selectTrabajador) {
+                            selectTrabajador.value = savedTrabajador;
+                        }
+                    }
                 }
             }
         });
+
+        //Detectar cuando el usuario cambia de Sección o hace clic en un Servicio
+        // Escuchamos los cambios dentro de todo el contenedor de la vista
+        document.addEventListener('change', function(event) {
+            
+            // Si el usuario cambió la Sección en el select principal
+            if (event.target.name === 'seccion') {
+                const seccionSeleccionada = event.target.value;
+                mostrarTrabajadores(seccionSeleccionada, null); // Sin servicio aún
+            }
+            
+            // Si el usuario hizo clic en un radio button o checkbox de Servicio
+            if (event.target.name === 'servicio' || event.target.name === 'servicio[]') {
+                const selectSeccion = document.querySelector('select[name="seccion"]');
+                const seccionSeleccionada = selectSeccion ? selectSeccion.value : null;
+                const servicioSeleccionado = event.target.value;
+                
+                // Disparamos la búsqueda con el filtro doble
+                mostrarTrabajadores(seccionSeleccionada, servicioSeleccionado);
+            }
+        });
+
 
         function mostrarBoton() {
             document.getElementById("botonSecciones").classList.remove("oculto");
@@ -291,9 +316,9 @@
                 contenedorTrabajadores.innerHTML = "";
             }
         }
-
-        // ---- Lógica de los Trabajadores (Modificada para Base de Datos) ----
-        async function mostrarTrabajadores(seccion) {
+        
+        // ---- Lógica de los Trabajadores (Modificada para BD única y Filtro Doble) ----
+        async function mostrarTrabajadores(seccion, servicio = null) {
             if (!seccion) {
                 contenedorTrabajadores.classList.add("oculto");
                 contenedorTrabajadores.innerHTML = "";
@@ -301,8 +326,15 @@
             }
 
             try {
+                // 1. Construimos la URL dinámicamente
+                // Siempre enviamos la sección. Si hay un servicio seleccionado, lo agregamos.
+                let url = `/obtener-trabajadores?seccion=${seccion}`;
+                if (servicio) {
+                    url += `&servicio=${servicio}`;
+                }
+
                 // Hacemos la consulta al servidor usando Fetch
-                const response = await fetch(`/obtener-trabajadores/${seccion}`);
+                const response = await fetch(url);
                 const data = await response.json();
 
                 if (data.success && data.trabajadores.length > 0) {
@@ -311,7 +343,7 @@
                     contenedorTrabajadores.classList.remove("oculto");
                     contenedorTrabajadores.innerHTML = htmlTrabajadores;
                 } else {
-                    // Sí no hay trabajadores o la sección no existe en la BD
+                    // Sí no hay trabajadores para esa combinación
                     contenedorTrabajadores.classList.add("oculto");
                     contenedorTrabajadores.innerHTML = "";
                 }
@@ -327,7 +359,6 @@
             let opciones = `<option value="">Seleccione un trabajador</option>`;
             
             trabajadores.forEach(trabajador => {
-
                 opciones += `<option value="${trabajador.id_tr_secc}">${trabajador.nombre}</option>`;
             });
 
@@ -355,6 +386,7 @@
                 if (textarea) textarea.setAttribute('name', 'descripcion');
             }
         }
+
 
         // --- Funciones de Servicios ---
         function mostrarServiciosComputo(valor) {

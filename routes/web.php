@@ -37,7 +37,7 @@ Route::get('/seccs/{id}', [ServicioController::class, 'ticketsPorSeccion']);
 
 //Editar ticket de la base de datos
 Route::get('/tickets/{id_ticket}/editar', [ServicioController::class, 'edit']); 
-Route::get('/obtener-trabajadores/{seccion}', [EditarController::class, 'obtenerTrabajadoresPorSeccion']);
+Route::get('/obtener-trabajadores', [EditarController::class, 'obtenerTrabajadoresPorSeccion']);
 Route::put('/tickets/{id_ticket}', [EditarController::class, 'editarTicket']);
 
 //Ver PDF y descargar PDF

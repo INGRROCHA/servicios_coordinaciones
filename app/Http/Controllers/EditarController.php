@@ -56,30 +56,35 @@ class EditarController extends Controller
         return redirect('/tickets/index')->with('success', 'Ticket actualizado exitosamente.');
     }
 
-     public function obtenerTrabajadoresPorSeccion($seccion)
+     public function obtenerTrabajadoresPorSeccion(Request $request) 
     {
-        $tabla = null;
+        // 1. Capturamos las variables que vienen en la URL
+        $seccion = $request->query('seccion');
+        $servicio = $request->query('servicio');
 
-        // Validamos la sección y asignamos la tabla correspondiente.
-        if ($seccion == '31') {
-            $tabla = 'mant_campo';
-        } elseif ($seccion == '32') {
-            $tabla = 'mant_esp';
-        } elseif ($seccion == '33') {
-            $tabla = 'mant_abi';
-        }
-
-        // Si es una sección que no lleva trabajador de mantenimiento, regresamos vacío
-        if (!$tabla) {
+        // Si no mandan sección, regresamos vacío por seguridad
+        if (!$seccion) {
             return response()->json(['success' => false, 'trabajadores' => []]);
         }
 
-        // Realizamos la consulta a la BD Principal
-        $trabajadores = DB::table($tabla)
+        // 2. Iniciamos la consulta base
+        $query = DB::table('tr_secc')
             ->select('id_tr_secc', 'nombre')
-            ->where('estatus', 1) // Solo trabajadores activos
-            ->orderBy('nombre', 'asc')
-            ->get();
+            ->where('estatus', 1)
+            ->where('id_seccion', $seccion); // Primer filtro obligatorio
+
+        // 3. Aplicamos el segundo filtro con la lógica corregida
+        if ($servicio) {
+            // Agrupamos la condición para evitar que el "OR" rompa el filtro de sección
+            $query->where(function ($q) use ($servicio) {
+                $q->where('id_servicio', $servicio)
+                  ->orWhereNull('id_servicio')      // Incluye si el valor es NULL en la BD
+                  ->orWhere('id_servicio', '');     // Incluye si el valor está vacío ('') en la BD
+            });
+        }
+
+        // 4. Ejecutamos la consulta
+        $trabajadores = $query->orderBy('nombre', 'asc')->get();
 
         return response()->json([
             'success' => true,
