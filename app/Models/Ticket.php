@@ -30,7 +30,7 @@ class Ticket extends Model
         'area_secc',
         'descripcion',
         'observaciones',
-        'id_estado',
+        'estado',
         'id_tr_secc',
         'estatus',
         'created_at',
@@ -42,7 +42,7 @@ class Ticket extends Model
         'email' => '', // Valor por defecto vacío
         'descripcion' => '', // Valor por defecto vacío
         'observaciones' => '',// Valor por defecto vacío
-        'id_estado' => 1, // Valor por defecto 1 (Abierto)
+        'estado' => 1, // Valor por defecto 1 (Abierto)
         'id_tr_secc' => '', // Valor por defecto vacío
         'estatus' => true, // Valor por defecto activo
     ];

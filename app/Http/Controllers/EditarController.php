@@ -48,7 +48,7 @@ class EditarController extends Controller
             'id_seccion'      => $request->input('seccion'), 
             'id_servicio'     => $id_servicio,
             'descripcion'     => $request->input('descripcion') ?? null,
-            'id_estado'       => 1, // Para desarrollo, se asigna el estado "Abierto"
+            'estado'          => 1, // Para desarrollo, se asigna el estado "Abierto"
             'id_tr_secc'      => $id_tr_secc, // Asignamos el trabajador
         ]);
 

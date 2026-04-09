@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Estado extends Model
 {
     protected $table = 'estado_ticket';
-    protected $primaryKey = 'id_estado';
+    protected $primaryKey = 'estado';
     protected $fillable = ['tipo_estado', 'descripcion', 'estatus'];
     public $timestamps = true;
 

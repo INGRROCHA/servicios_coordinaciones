@@ -54,7 +54,6 @@ class CrearController extends Controller
         ]);
 
         // 2. OBTENEMOS LA INFORMACIÓN DE LA BASE DE DATOS EXTERNA
-        // APLICAMOS LA MISMA CORRECCIÓN AQUÍ: Quitamos el leftJoin del correo
         $user = DB::connection('nomina')
             ->table('Empleados')
             ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion')
@@ -92,6 +91,7 @@ class CrearController extends Controller
             'area_secc'       => $user->area_secc,
 
             'descripcion'     => $descripcion, 
+            'estado'          => 1, // Para desarrollo, se asigna el estado "Abierto"
             'observaciones'   => $observaciones, 
             'id_tr_secc'      => null, 
             'estatus'         => 'activo'
