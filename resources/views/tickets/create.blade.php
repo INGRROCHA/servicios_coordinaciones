@@ -463,29 +463,178 @@
 
                             } else if (valor === "32") {
                                 html = `<div class="bloque">
-                                    <strong>Mantenimiento Especializado:</strong><br>
                                     
-                                    <label><input type="radio" name="servicio" value="me_1" onclick="mostrarCampos('mecanica')"> Mecánica</label><br>
-                                    <div id="mecanica" class="oculto">
-                                        <label>Descripción detallada del servicio solicitado.</label><br>
-                                        <textarea class="celda" rows="6" cols="60"
-                                            placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                    <div class="mb-4">
+                                        <strong>ELECTRICIDAD</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_1" onclick="mostrarCampos('div_me_1')"> INSTALACION DE CONTACTO O CONEXIÓN ELÉCTRICA DEL SISTEMA REGULADO.</label><br>
+                                        <div id="div_me_1" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_2" onclick="mostrarCampos('div_me_2')"> REVISION DE INSTALACION O CONTACTOS ELECTRICOS REGULADOS.</label><br>
+                                        <div id="div_me_2" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_3" onclick="mostrarCampos('div_me_3')"> REUBICACION DE CONTACTOS ELECTRICOS REGULADOS.</label><br>
+                                        <div id="div_me_3" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_4" onclick="mostrarCampos('div_me_4')"> INSTALACION DE CONTACTO O CONEXIÓN ELÉCTRICA DEL SISTEMA EMERGENCIA.</label><br>
+                                        <div id="div_me_4" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_5" onclick="mostrarCampos('div_me_5')"> REVISION DE INSTALACION O CONTACTOS ELECTRICOS EMERGENCIA.</label><br>
+                                        <div id="div_me_5" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_6" onclick="mostrarCampos('div_me_6')"> REUBICACION DE CONTACTOS ELECTRICOS DE EMERGECIA.</label><br>
+                                        <div id="div_me_6" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_7" onclick="mostrarCampos('div_me_7')"> REESTABLECER SUMINISTRO ELÉCTRICO</label><br>
+                                        <div id="div_me_7" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
                                     </div>
 
-                                    <label><input type="radio" name="servicio" value="me_2" onclick="mostrarCampos('svidrio')"> Soplado de Vidrio</label><br>
-                                    <div id="svidrio" class="oculto">
-                                        <label>Descripción detallada del servicio solicitado.</label><br>
-                                        <textarea class="celda" rows="6" cols="60"
-                                            placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                    <div class="mb-4">
+                                        <strong>SOPLADO DE VIDRIO</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_8" onclick="mostrarCampos('div_me_8')"> REPARACION DE INSTRUMENTOS DE VIDRIO</label><br>
+                                        <div id="div_me_8" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
                                     </div>
 
-                                    <label><input type="radio" name="servicio" value="me_3" onclick="mostrarCampos('instrumentacion')"> Instrumentación</label><br>
-                                    <div id="instrumentacion" class="oculto">
-                                        <label>Descripción detallada del servicio solicitado.</label><br>
-                                        <textarea class="celda" rows="6" cols="60"
-                                            placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
-                                    </div>                        
-                                        
+                                    <div class="mb-4">
+                                        <strong>ELECTRÓNICA</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_9" onclick="mostrarCampos('div_me_9')"> REPARACION DE EQUIPOS ELECTRONICOS</label><br>
+                                        <div id="div_me_9" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_10" onclick="mostrarCampos('div_me_10')"> INSTALACION Y FIJACION DE PANTALLAS Y SOPORTES</label><br>
+                                        <div id="div_me_10" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <strong>ELECTROMECÁNICA</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_11" onclick="mostrarCampos('div_me_11')"> REPARACION DE EQUIPOS DE LABORATORIO</label><br>
+                                        <div id="div_me_11" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_12" onclick="mostrarCampos('div_me_12')"> REPARACION DE TOMAS DE GASES</label><br>
+                                        <div id="div_me_12" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_13" onclick="mostrarCampos('div_me_13')"> REVISION DE EQUIPOS DE LABORATORIO</label><br>
+                                        <div id="div_me_13" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_14" onclick="mostrarCampos('div_me_14')"> FIJACION DE INMUEBLES</label><br>
+                                        <div id="div_me_14" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_15" onclick="mostrarCampos('div_me_15')"> DESMANTELAMIENTO DE BIENES E INMUBLES</label><br>
+                                        <div id="div_me_15" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <strong>TELEFONÍA</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_16" onclick="mostrarCampos('div_me_16')"> REVISION DE EXTENSION TELEFONICA</label><br>
+                                        <div id="div_me_16" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_17" onclick="mostrarCampos('div_me_17')"> CAMBIO DE EQUIPO TELEFONICO</label><br>
+                                        <div id="div_me_17" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_18" onclick="mostrarCampos('div_me_18')"> CAMBIO DE NOMBRE DE EXTENSION</label><br>
+                                        <div id="div_me_18" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_19" onclick="mostrarCampos('div_me_19')"> INSTALACION DE NODOS DE RED</label><br>
+                                        <div id="div_me_19" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <strong>CLINICAS ESTOMATOLÓGICAS</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_20" onclick="mostrarCampos('div_me_20')"> REVISION DE UNIDADES DENTALES</label><br>
+                                        <div id="div_me_20" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_21" onclick="mostrarCampos('div_me_21')"> REVISION DE FILTROS DE AGUA</label><br>
+                                        <div id="div_me_21" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_22" onclick="mostrarCampos('div_me_22')"> INSTALACION DE NUEVA TOMA DE GASES</label><br>
+                                        <div id="div_me_22" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <strong>OTROS SERVICIOS</strong><br>
+                                        <label><input type="radio" name="servicio" value="me_23" onclick="mostrarCampos('div_me_23')"> MANTENIMIENTO DE EQUIPOS DE AIRE ACONDICIONADO</label><br>
+                                        <div id="div_me_23" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_24" onclick="mostrarCampos('div_me_24')"> MANTENIMIENTO DE EQUIPOS DE EXTRACCION E INYECCION DE AIRE</label><br>
+                                        <div id="div_me_24" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+
+                                        <label><input type="radio" name="servicio" value="me_25" onclick="mostrarCampos('div_me_25')"> MANTENIMIENTO DE EQUIPOS DE REFRIGERACION</label><br>
+                                        <div id="div_me_25" class="oculto">
+                                            <label>Descripción detallada del servicio solicitado.</label><br>
+                                            <textarea class="celda" rows="6" cols="60" placeholder="Escriba aquí los detalles del servicio solicitado..."></textarea><br>
+                                        </div>
+                                    </div>
+
                                 </div>`;
                             } else if (valor === "33") {
                                 html = `<div class="bloque">
