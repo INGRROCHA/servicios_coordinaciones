@@ -15,4 +15,4 @@
     <p>
         Para más información sobre la UAM-Xochimilco, visita nuestro sitio web oficial.
         <a href="https://www.xoc.uam.mx" class="text-blue-500 hover:underline">UAM-Xochimilco</a>.
-    </x-layout>
+</x-layout>

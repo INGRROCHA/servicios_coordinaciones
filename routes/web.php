@@ -5,21 +5,19 @@ use App\Http\Controllers\CrearController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\EditarController;
+use App\Http\Controllers\SessionsController;
+
 
 Route::get('/', function () {
     return view('home');
 });
 
-
 //Levantar un ticket de servicio
 Route::get('/tickets/create', function () {
     return view('tickets.create');
 });
-
 Route::get('/buscar-usuario/{num_economico}', [CrearController::class, 'buscarPorNomina']);
-
 Route::post('/guardar-datos-personales', [CrearController::class, 'storeDatosPersonales']);
-
 Route::post('/tickets', [CrearController::class, 'crear']);
 
 //Mostrar todos los tickets
@@ -44,7 +42,12 @@ Route::put('/tickets/{id_ticket}', [EditarController::class, 'editarTicket']);
 Route::get('/tickets/{id_ticket}/generar-pdf', [ServicioController::class, 'generarPdf']);
 Route::get('/tickets/{id_ticket}/ver-pdf', [ServicioController::class, 'verPdf']);
 
-    
+//Sesiones
+Route::get('/login', [SessionsController::class, 'create']);
+Route::post('/login', [SessionsController::class, 'store']);
+Route::delete('/logout', [SessionsController::class, 'destroy']);
+
+
 Route::get('/acerca', function () {
     return view('acerca');
 });
