@@ -15,7 +15,8 @@ return new class extends Migration
             $table->integer('id_coordinacion')->primary();
             $table->integer('id_rol');
             $table->string('coordinacion');
-            $table->string('coord_admvo');
+            $table->string('ClavePuesto');
+            $table->integer('Pagaduria');
             $table->boolean('estatus')->default(true); // true = activo, false = inactivo
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('secciones', function (Blueprint $table) {
+        Schema::create('secciones', function (Blueprint $table) {
             $table->integer('id_seccion')->primary();
+            $table->integer('id_rol');
             $table->string('seccion');
-            $table->integer('id_coordinacion');
+            $table->string('ClavePuesto');
+            $table->integer('Pagaduria');
             $table->boolean('estatus')->default(true); // true = activo, false = inactivo
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
