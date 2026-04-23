@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthWSDLController extends Controller
 {
     // Método para mostrar la vista (el formulario HTML)
     public function mostrarFormulario()
     {
-        return view('acerca');
+        return view('home');
     }
 
     // Método para ejecutar tu código SOAP
@@ -41,11 +42,11 @@ class AuthWSDLController extends Controller
             // Evaluamos el resultado de tu código
             if ($Resultado == 1) {
                 // Si es 1, regresamos a la vista con un mensaje de éxito
-                return back()->with('success', '¡Bienvenido! El usuario SÍ se encuentra en la Base de datos:');
+                 return redirect()->intended('/tickets/create')->with('success', '¡Bienvenido! Has iniciado sesión correctamente.');
                     
             } else {
                 // Si es 0 (o cualquier otra cosa), regresamos con un error y mantenemos el IdUsuario escrito
-                return back()->with('error', 'Matrícula o NIP incorrectos. Intenta de nuevo.')->withInput(['IdUsuario' => $request->IdUsuario]);
+                return back()->with('error', 'No. Económico o NIP incorrectos. Intenta de nuevo.')->withInput(['IdUsuario' => $request->IdUsuario]);
             }
 
         } catch (\SoapFault $e) {
