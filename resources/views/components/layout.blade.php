@@ -25,6 +25,17 @@
     
     <h1 class="text-xl font-bold text-gray-900 mt-3 md:mt-0 w-full md:w-auto text-center md:text-left">Mesa de Servicios</h1>
     
+    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+        <p class="text-blue-800">
+            <strong>No. Económico:</strong> {{ session('no_economico') }}
+        </p>
+    </div>
+
+    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+        <label>Nombre del Solicitante:</label>
+        <input type="text" value="{{ session('solo_nombre') }}" readonly class="bg-gray-100">
+    </div>
+
     <ul class="header center hidden md:block text-sm text-right">
          <li><a><script type="text/javascript"> var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"); var f=new Date(); document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()); </script></a></li>
          <li><a><script type="text/javascript"> function startTime(){ today=new Date(); h=today.getHours(); m=today.getMinutes(); s=today.getSeconds(); m=checkTime(m); s=checkTime(s); document.getElementById('reloj').innerHTML=h+":"+m+":"+s; t=setTimeout('startTime()',500);} function checkTime(i) {if (i<10) {i="0" + i;}return i;} window.onload=function(){startTime();} </script> <div id="reloj"></div></a></li>
