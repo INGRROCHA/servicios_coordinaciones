@@ -105,8 +105,11 @@
 
     <div class="mt-10 text-center text-sm text-gray-500 space-y-2 max-w-sm">
         <p> 
-            Si necesitas ayuda, no dudes en contactar a nuestro equipo de soporte, Ext. 7092 o            
+            Si necesitas ayuda, no dudes en contactar a nuestro equipo de soporte,             
             <a href="mailto:rbelmont@correo.xoc.uam.mx" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors">rbelmont@correo.xoc.uam.mx</a>
+        </p>
+        <p class="mt-auto pt-4 text-xs text-center text-gray-400">
+                © 2026, Diseño de Sistemas, UAM-X. Todos los derechos reservados.
         </p>
     </div>
 

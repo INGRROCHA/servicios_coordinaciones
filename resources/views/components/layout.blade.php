@@ -39,46 +39,18 @@
     <ul class="header center hidden md:block text-sm text-right">
          <li><a><script type="text/javascript"> var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"); var f=new Date(); document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()); </script></a></li>
          <li><a><script type="text/javascript"> function startTime(){ today=new Date(); h=today.getHours(); m=today.getMinutes(); s=today.getSeconds(); m=checkTime(m); s=checkTime(s); document.getElementById('reloj').innerHTML=h+":"+m+":"+s; t=setTimeout('startTime()',500);} function checkTime(i) {if (i<10) {i="0" + i;}return i;} window.onload=function(){startTime();} </script> <div id="reloj"></div></a></li>
-     </ul>
-  </header>
+    </ul>
 
-  <div class="flex flex-1 relative overflow-hidden"> 
-    
-    <div id="fondoMenu" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
-
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 flex-shrink-0 bg-white shadow h-full transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:flex md:flex-col p-4">
-      
-      <button id="btnCerrarMenu" class="md:hidden absolute top-4 right-4 text-gray-500 hover:text-red-500">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-
-      <nav class="flex flex-col h-full mt-8 md:mt-0">
-        <ul class="flex-1">
-          <li class="mb-4">
-              <x-nav-link href="/" :active="request()->is('/')">Inicio</x-nav-link>
-          </li>
-          <li class="mb-4">
-              <x-nav-link href="/tickets/create" :active="request()->is('tickets/create')">Levantar Ticket</x-nav-link>
-          </li>
-          <li class="mb-4">
-              <x-nav-link href="/tickets/index" :active="request()->is('tickets/index')">Consultar Ticket</x-nav-link>
-          </li>
-          <li class="mb-4">
-              <x-nav-link href="/tickets/show" :active="request()->is('tickets/show*')">BD de Tickets</x-nav-link>
-          </li>
-          <li>
-              <x-nav-link href="/acerca" :active="request()->is('acerca')">Acerca</x-nav-link>
-          </li>
-        </ul>
-        <p class="mt-auto pt-4 text-xs text-center text-gray-400">
-                © 2026, Diseño de Sistemas, UAM-X. Todos los derechos reservados.
-        </p>
-      </nav>
-    </aside>
+</header>
 
     <main class="flex-1 p-6 overflow-auto">
+    @if(session('usuario_autenticado'))
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 transition duration-150 ease-in-out active:scale-[0.98]">
+                    Salir
+            </button>
+        </form>
+    @endif
       {{ $slot }}   
 
 </body>

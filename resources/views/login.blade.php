@@ -1,5 +1,3 @@
-// Página de inicio de sesión personalizada para Coordinadores
-
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-gray-100">
 <head>

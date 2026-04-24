@@ -49,19 +49,18 @@ class AuthWSDLController extends Controller
                 ]);
 
                 // 1. Separamos la cadena usando el pipeline '|'
-                // Suponiendo que $infoUsuario devuelve la cadena directamente, o si viene en un objeto ajusta a $infoUsuario->return
                 $datosSeparados = explode('|', $infoUsuario);
 
                 // 2. Extraemos los datos según su posición
                 // Validamos que el arreglo tenga suficientes elementos para evitar errores
                 $nombreCompleto = isset($datosSeparados[1]) ? $datosSeparados[1] : 'Usuario UAM';
-                $tercerDato     = isset($datosSeparados[2]) ? $datosSeparados[2] : ''; // Aquí estará "ROBERTO"
+                $tercerDato     = isset($datosSeparados[2]) ? $datosSeparados[2] : ''; // Aquí esta sólo el nombre
                 
                 // Guardamos los datos en la SESIÓN de Laravel
                 session([
                     'usuario_autenticado' => true,
                     'no_economico'        => $request->IdUsuario,
-                    'solo_nombre'         => $tercerDato // Agregamos el tercer dato a la sesión
+                    'solo_nombre'         => $tercerDato // Agregamos el nombre a la sesión
                 ]);
 
                 return redirect()->intended('/tickets/create')->with('success', '¡Bienvenido ' . $tercerDato . '! Has iniciado sesión correctamente.');
@@ -75,11 +74,12 @@ class AuthWSDLController extends Controller
         }
     }
 
-    public function destroy()
+
+    public function destroy(Request $request)
     {
-        // Limpiamos la sesión manual
-        session()->forget(['usuario_autenticado', 'no_economico', 'nombre']);
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/')->with('success', 'Has cerrado sesión correctamente.');
     }
 }
