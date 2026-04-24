@@ -712,63 +712,66 @@
 
 
                     <!-- Información de usuario final -->
-                    <div class="container">
-                        <div class="fila">
-                            <div class="celda" data-label="num_economico">Número Económico</div>
-                            <div class="celda" style="display: flex; gap: 10px;">
-                                <input 
-                                    type="text" 
-                                    id="num_economico"
-                                    name="num_economico" 
-                                    class="form-control" 
-                                    placeholder="INGRESE SU NÚMERO ECONÓMICO" 
-                                    value="{{ session('no_economico') }}" 
-                                    readonly
-                                    style="background-color: #f3f4f6;"
-                                    required 
-                                    pattern="\d{1,5}" 
-                                    maxlength="5" 
-                                    title="Ingrese entre 1 y 5 dígitos" 
-                                    inputmode="numeric"
-                                >
+                        <div class="container">
+                            <div class="fila">
+                                <div class="celda" data-label="num_economico">Número Económico (Máx. 5 dígitos)</div>
+                                <div class="celda" style="display: flex; gap: 10px;">
+                                    <input 
+                                        type="text" 
+                                        id="num_economico"
+                                        name="num_economico" 
+                                        class="form-control" 
+                                        placeholder="INGRESE SU NÚMERO ECONÓMICO" 
+                                        value="{{ session('no_economico') }}" 
+                                        readonly
+                                        style="background-color: #f3f4f6;"
+                                        required 
+                                        pattern="\d{1,5}" 
+                                        maxlength="5" 
+                                        title="Ingrese entre 1 y 5 dígitos" 
+                                        inputmode="numeric"
+                                    >
+                                    <button type="button" id="btn-buscar" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700">
+                                        Buscar
+                                    </button>
+                                </div>
                             </div>
+
+                            <div class="fila">
+                                <div class="celda" data-label="nombre">Nombre Completo</div>
+                                <div class="celda">
+                                    <input type="text" id="nombre_completo" name="nombre" class="form-control" placeholder="Datos desde nómina..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                </div>
+                            </div>
+
+                            <div class="fila">
+                                <div class="celda" data-label="email">Correo Electrónico</div>
+                                <div class="celda">
+                                    <input type="text" id="email" name="email" class="form-control" placeholder="Correo institucional..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                </div>
+                            </div>
+
+                            <div class="fila">
+                                <div class="celda" data-label="adscripcion">Adscripción</div>
+                                <div class="celda">
+                                    <input type="text" id="adscripcion" name="adscripcion" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                </div>
+                            </div>     
+
+                            <div class="fila">
+                                <div class="celda" data-label="dpto_coord">Coordinación Administrativa o Departamento Académico</div>
+                                <div class="celda">
+                                    <input type="text" id="dpto_coord" name="dpto_coord" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                </div>
+                            </div> 
+
+                            <div class="fila">
+                                <div class="celda" data-label="area_secc">Área Académica o Sección Administrativa</div>
+                                <div class="celda">
+                                    <input type="text" id="area_secc" name="area_secc" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                </div>
+                            </div> 
                         </div>
-
-                        <div class="fila">
-                            <div class="celda" data-label="nombre">Nombre Completo</div>
-                            <div class="celda">
-                                <input type="text" id="nombre_completo" name="nombre" class="form-control" placeholder="Datos desde nómina..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
-                            </div>
-                        </div>
-
-                        <div class="fila">
-                            <div class="celda" data-label="email">Correo Electrónico</div>
-                            <div class="celda">
-                                <input type="text" id="email" name="email" class="form-control" placeholder="Correo institucional..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
-                            </div>
-                        </div>
-
-                        <div class="fila">
-                            <div class="celda" data-label="adscripcion">Adscripción</div>
-                            <div class="celda">
-                                <input type="text" id="adscripcion" name="adscripcion" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
-                            </div>
-                        </div>     
-
-                        <div class="fila">
-                            <div class="celda" data-label="dpto_coord">Coordinación Administrativa o Departamento Académico</div>
-                            <div class="celda">
-                                <input type="text" id="dpto_coord" name="dpto_coord" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
-                            </div>
-                        </div> 
-
-                        <div class="fila">
-                            <div class="celda" data-label="area_secc">Área Académica o Sección Administrativa</div>
-                            <div class="celda">
-                                <input type="text" id="area_secc" name="area_secc" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
-                            </div>
-                        </div> 
-                    </div>
 
                         <!-- Campos para completar por el usuario (Tabla dpersonales) -->
                         <div class="fila">
@@ -851,7 +854,7 @@
                                 buscarUsuario();
                             }
                         });
-                    </script>        
+                        </script>
                 
                 </form>      
            
