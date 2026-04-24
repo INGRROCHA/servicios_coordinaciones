@@ -8,10 +8,9 @@ use App\Http\Controllers\EditarController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AuthWSDLController;
 
-
-Route::get('/', function () {
-    return view('home');
-});
+//Autenticación con WSDL al iniciar sesión
+Route::get('/', [AuthWSDLController::class, 'mostrarFormulario'])->name('login.uam');
+Route::post('/', [AuthWSDLController::class, 'procesarLogin']);
 
 //Levantar un ticket de servicio
 Route::get('/tickets/create', function () {
@@ -48,9 +47,7 @@ Route::get('/login', [SessionsController::class, 'create']);
 Route::post('/login', [SessionsController::class, 'store']);
 Route::delete('/logout', [SessionsController::class, 'destroy']);
 
+Route::get('/acerca', function () {
+    return view('acerca');
+});
 
-// Mostrar el formulario
-Route::get('/acerca', [AuthWSDLController::class, 'mostrarFormulario'])->name('login.uam');
-
-// Procesar los datos con tu código SOAP
-Route::post('/acerca', [AuthWSDLController::class, 'procesarLogin']);

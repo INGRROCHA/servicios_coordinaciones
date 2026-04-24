@@ -713,9 +713,8 @@
 
                     <!-- Información de usuario final -->
                     <div class="container">
-                        <!-- Campo de Búsqueda: Número Económico primero -->
                         <div class="fila">
-                            <div class="celda" data-label="num_economico">Número Económico (Máx. 5 dígitos)</div>
+                            <div class="celda" data-label="num_economico">Número Económico</div>
                             <div class="celda" style="display: flex; gap: 10px;">
                                 <input 
                                     type="text" 
@@ -723,19 +722,18 @@
                                     name="num_economico" 
                                     class="form-control" 
                                     placeholder="INGRESE SU NÚMERO ECONÓMICO" 
+                                    value="{{ session('no_economico') }}" 
+                                    readonly
+                                    style="background-color: #f3f4f6;"
                                     required 
                                     pattern="\d{1,5}" 
                                     maxlength="5" 
                                     title="Ingrese entre 1 y 5 dígitos" 
                                     inputmode="numeric"
                                 >
-                                <button type="button" id="btn-buscar" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700">
-                                    Buscar
-                                </button>
                             </div>
                         </div>
 
-                        <!-- Campos que se llenan automáticamente (Readonly para evitar cambios accidentales) -->
                         <div class="fila">
                             <div class="celda" data-label="nombre">Nombre Completo</div>
                             <div class="celda">
@@ -770,6 +768,7 @@
                                 <input type="text" id="area_secc" name="area_secc" class="form-control" readonly style="text-transform:uppercase; background-color: #f3f4f6;">
                             </div>
                         </div> 
+                    </div>
 
                         <!-- Campos para completar por el usuario (Tabla dpersonales) -->
                         <div class="fila">
@@ -806,36 +805,53 @@
                     </div>
 
                     <script>
-                    document.getElementById('btn-buscar').addEventListener('click', async function() {
-                        const numEcon = document.getElementById('num_economico').value;
-                        
-                        if (numEcon.length === 0 || isNaN(numEcon)) {
-                            alert('Por favor, ingrese un número económico válido. Que contenga máximo 5 dígitos.');
-                            return;
-                        }
+                        document.addEventListener('DOMContentLoaded', function() {
+                            
+                            // 1. Aislamos la lógica de búsqueda en una función independiente
+                            const buscarUsuario = async function() {
+                                const numEcon = document.getElementById('num_economico').value;
+                                
+                                if (numEcon.length === 0 || isNaN(numEcon)) {
+                                    // Si está vacío, no hacemos nada automáticamente
+                                    return;
+                                }
 
-                        try {
-                            // Cambiar la URL según tu configuración de rutas en Laravel
-                            const response = await fetch(`/buscar-usuario/${numEcon}`);
-                            const data = await response.json();
+                                try {
+                                    const response = await fetch(`/buscar-usuario/${numEcon}`);
+                                    const data = await response.json();
 
-                            if (data.success) {
-                                const user = data.user;
-                                // Unificamos nombre y apellidos si vienen separados en la DB original
-                                document.getElementById('nombre_completo').value = user.nombre;
-                                document.getElementById('email').value = user.email;
-                                document.getElementById('adscripcion').value = user.adscripcion;
-                                document.getElementById('dpto_coord').value = user.dpto_coord;
-                                document.getElementById('area_secc').value = user.area_secc;
-                            } else {
-                                alert('Usuario no encontrado en la base de datos de personal.');
+                                    if (data.success) {
+                                        const user = data.user;
+                                        document.getElementById('nombre_completo').value = user.nombre;
+                                        document.getElementById('email').value = user.email;
+                                        document.getElementById('adscripcion').value = user.adscripcion;
+                                        document.getElementById('dpto_coord').value = user.dpto_coord;
+                                        document.getElementById('area_secc').value = user.area_secc;
+                                    } else {
+                                        console.log('Usuario no encontrado en la base de datos local.');
+                                    }
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    alert('Ocurrió un error al cargar los datos del usuario.');
+                                }
+                            };
+
+                            // 2. Mantenemos el evento click por si el usuario lo necesita
+                            document.getElementById('btn-buscar').addEventListener('click', function() {
+                                const numEcon = document.getElementById('num_economico').value;
+                                if (numEcon.length === 0 || isNaN(numEcon)) {
+                                    alert('Por favor, ingrese un número económico válido.');
+                                    return;
+                                }
+                                buscarUsuario();
+                            });
+
+                            // 3. AUTO-EJECUCIÓN: Al cargar la página, si ya hay un número económico, buscamos los datos automáticamente
+                            if (document.getElementById('num_economico').value.trim() !== '') {
+                                buscarUsuario();
                             }
-                        } catch (error) {
-                            console.error('Error:', error);
-                            alert('Ocurrió un error al realizar la búsqueda.');
-                        }
-                    });
-                    </script>         
+                        });
+                    </script>        
                 
                 </form>      
            
