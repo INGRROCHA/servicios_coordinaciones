@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VerificarSesionUAM
 {
-    /**
-     * Handle an incoming request.
-     */
+
     public function handle(Request $request, Closure $next): Response
     {
         // Verificamos si la variable de sesión NO existe o es falsa

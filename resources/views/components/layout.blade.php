@@ -31,26 +31,24 @@
         </p>
     </div>
 
-    <div class="bg-blue-50 p-4 rounded-lg mb-6">
-        <label>Nombre del Solicitante:</label>
-        <input type="text" value="{{ session('solo_nombre') }}" readonly class="bg-gray-100">
-    </div>
-
     <ul class="header center hidden md:block text-sm text-right">
          <li><a><script type="text/javascript"> var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"); var f=new Date(); document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()); </script></a></li>
          <li><a><script type="text/javascript"> function startTime(){ today=new Date(); h=today.getHours(); m=today.getMinutes(); s=today.getSeconds(); m=checkTime(m); s=checkTime(s); document.getElementById('reloj').innerHTML=h+":"+m+":"+s; t=setTimeout('startTime()',500);} function checkTime(i) {if (i<10) {i="0" + i;}return i;} window.onload=function(){startTime();} </script> <div id="reloj"></div></a></li>
     </ul>
 
+    @if(session('usuario_autenticado'))
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button type="submit" class="bg-red-700 text-white px-6 py-2 rounded hover:bg-red-500">Salir</button>
+        </form>
+    
+    @endif
+   
+
 </header>
 
     <main class="flex-1 p-6 overflow-auto">
-    @if(session('usuario_autenticado'))
-        <form method="POST" action="{{ route('logout') }}" class="inline">
-            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 transition duration-150 ease-in-out active:scale-[0.98]">
-                    Salir
-            </button>
-        </form>
-    @endif
+    
       {{ $slot }}   
 
 </body>
