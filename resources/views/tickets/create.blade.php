@@ -24,27 +24,36 @@
 
         .fila {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 2fr 4fr; /* <-- MODIFICADO: Ahora los datos tienen mucho más espacio */
             align-items: center;
         }
 
         .celda {
-            padding: 10px;
+            padding: 20px;
             border-bottom: 1px solid #ddd;
         }
 
+        .celda input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            box-sizing: border-box; 
+        }
+
         @media (max-width: 768px) {
-        
-        .fila {
-            grid-template-columns: 1fr;
+            .fila {
+                grid-template-columns: 1fr; /* En celulares seguirá viéndose uno arriba del otro */
+            }
         }
-        }
-        
-  </style>
+    </style>
 
 
 
 <!-- Levantar Ticket de Servicio -->
+
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 font-sans">
+<div class="bg-white p-8 rounded-2xl shadow-xl max-w-4xl w-full border-t-4 border-blue-700">
+
 
 <div class="tabla">
     <div class="container-fluid">
@@ -842,7 +851,8 @@
           </div>        
         </div>
       </div>
-
+</div>
+</div>
     
 </x-layout>
 
