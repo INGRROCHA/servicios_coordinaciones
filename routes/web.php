@@ -23,13 +23,15 @@ Route::post('/', [AuthWSDLController::class, 'procesarLogin'])->name('login.uam'
 
 Route::middleware([VerificarSesionUAM::class])->group(function () {
 
-    //Levantar un ticket de servicio
-    Route::get('/tickets/create', function () {
-        return view('tickets.create');
-    });
+    // ==========================================
+    // Levantar un ticket de servicio
+    // ==========================================
+    
+    Route::get('/tickets/create', [CrearController::class, 'create'])->name('tickets.create');
+    
     Route::get('/buscar-usuario/{num_economico}', [CrearController::class, 'buscarPorNomina']);
     Route::post('/guardar-datos-personales', [CrearController::class, 'storeDatosPersonales']);
-    Route::post('/tickets', [CrearController::class, 'crear']);
+    Route::post('/tickets', [CrearController::class, 'crear'])->name('tickets.store');
 
     //Mostrar todos los tickets
     Route::get('/tickets/show/', [ServicioController::class, 'show']);

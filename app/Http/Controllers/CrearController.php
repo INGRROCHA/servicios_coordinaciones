@@ -8,12 +8,44 @@ use Illuminate\Http\Request;
 
 class CrearController extends Controller
 {
+
+    public function create()
+    {
+        // Obtenemos los catálogos únicos y ordenados de la tabla Adscripciones
+        $adscripciones_lista = DB::connection('nomina')->table('Adscripciones')
+            ->select('NombreAdscripcion1')
+            ->whereNotNull('NombreAdscripcion1')
+            ->where('NombreAdscripcion1', '!=', '')
+            ->distinct()
+            ->orderBy('NombreAdscripcion1')
+            ->pluck('NombreAdscripcion1');
+
+        $dptos_lista = DB::connection('nomina')->table('Adscripciones')
+            ->select('NombreAdscripcion2')
+            ->whereNotNull('NombreAdscripcion2')
+            ->where('NombreAdscripcion2', '!=', '')
+            ->distinct()
+            ->orderBy('NombreAdscripcion2')
+            ->pluck('NombreAdscripcion2');
+
+        $areas_lista = DB::connection('nomina')->table('Adscripciones')
+            ->select('NombreSeccionOficinaArea')
+            ->whereNotNull('NombreSeccionOficinaArea')
+            ->where('NombreSeccionOficinaArea', '!=', '')
+            ->distinct()
+            ->orderBy('NombreSeccionOficinaArea')
+            ->pluck('NombreSeccionOficinaArea');
+
+        return view('tickets.create', compact('adscripciones_lista', 'dptos_lista', 'areas_lista'));
+    }
+
+    // =====================================================================
+    // MÉTODO AJAX: Busca los datos del usuario en tiempo real
+    // =====================================================================
     public function buscarPorNomina($num_economico)
     {
         $user = DB::connection('nomina')
             ->table('Empleados')
-            // Dejamos SOLO el JOIN de Adscripciones. 
-            // ELIMINAMOS por completo el leftJoin de CE_Correo_Empleados de aquí.
             ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion') 
             ->where('Empleados.Estado', 1)
             ->where('Empleados.NumeroEconomico', $num_economico)
@@ -40,6 +72,9 @@ class CrearController extends Controller
         ], 404);
     }
 
+    // =====================================================================
+    // MÉTODO POST: Guarda el ticket en la BD Principal
+    // =====================================================================
     public function crear(Request $request)
     {
         // 1. Validamos los datos de entrada
@@ -50,10 +85,13 @@ class CrearController extends Controller
             'edificio'      => 'required',
             'nivel'         => 'required',
             'cubiculo'      => 'required',
-            'extension'     => 'required'
+            'extension'     => 'required',
+            'adscripcion'   => 'nullable|string', 
+            'dpto_coord'    => 'nullable|string',
+            'area_secc'     => 'nullable|string',
         ]);
 
-        // 2. OBTENEMOS LA INFORMACIÓN DE LA BASE DE DATOS DE LA UAM USANDO EL NÚMERO ECONÓMICO
+        // 2. Obtenemos información base del trabajador por seguridad (para nombre y correo)
         $user = DB::connection('nomina')
             ->table('Empleados')
             ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion')
@@ -61,11 +99,7 @@ class CrearController extends Controller
             ->where('Empleados.Estado', 1)
             ->select(
                 DB::raw("CONCAT(Empleados.Nombre, ' ', Empleados.ApellidoPaterno, ' ', Empleados.ApellidoMaterno) AS nombre"),
-                // Usamos la subconsulta también aquí en lugar de llamarlo directamente
-                DB::raw("(SELECT CE_Email FROM CE_Correo_Empleados WHERE CE_NumEconomico = Empleados.NumeroEconomico LIMIT 1) AS email"),
-                'Adscripciones.NombreAdscripcion1 AS adscripcion',
-                'Adscripciones.NombreAdscripcion2 AS dpto_coord',
-                'Adscripciones.NombreSeccionOficinaArea AS area_secc'
+                DB::raw("(SELECT CE_Email FROM CE_Correo_Empleados WHERE CE_NumEconomico = Empleados.NumeroEconomico LIMIT 1) AS email")
             )
             ->first();
 
@@ -82,13 +116,13 @@ class CrearController extends Controller
             'id_seccion'      => $request->input('seccion'), 
             'id_servicio'     => is_array($request->input('servicio')) ? ($request->input('servicio')[0] ?? null) : $request->input('servicio'),
             'num_economico'   => $request->input('num_economico'),
-            
-            // Congelamos los datos traídos desde la DB Externa
             'nombre'          => $user->nombre,
-            'email'           => $user->email, // Si no tiene correo, insertará NULL o vacío, pero no fallará
-            'adscripcion'     => $user->adscripcion,
-            'dpto_coord'      => $user->dpto_coord,
-            'area_secc'       => $user->area_secc,
+            'email'           => $user->email, 
+            
+            // Tomamos los valores del formulario (lo que el usuario seleccionó/modificó)
+            'adscripcion'     => $request->input('adscripcion'),
+            'dpto_coord'      => $request->input('dpto_coord'),
+            'area_secc'       => $request->input('area_secc'),
 
             'descripcion'     => $descripcion, 
             'estado'          => 1, // Para desarrollo, se asigna el estado "Abierto"

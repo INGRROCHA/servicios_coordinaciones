@@ -773,24 +773,38 @@
                             <div class="fila">
                                 <div class="celda" data-label="adscripcion">Adscripción</div>
                                 <div class="celda">
-                                    <input type="text" id="adscripcion" name="adscripcion" class="form-control" placeholder="Cargando..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                    <select id="adscripcion" name="adscripcion" class="form-control" style="text-transform:uppercase;">
+                                        <option value="">SELECCIONE UNA OPCIÓN...</option>
+                                        @foreach($adscripciones_lista as $opcion)
+                                            <option value="{{ $opcion }}">{{ $opcion }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>     
 
                             <div class="fila">
                                 <div class="celda" data-label="dpto_coord">Coordinación Administrativa o Departamento Académico</div>
                                 <div class="celda">
-                                    <input type="text" id="dpto_coord" name="dpto_coord" class="form-control" placeholder="Cargando..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                    <select id="dpto_coord" name="dpto_coord" class="form-control" style="text-transform:uppercase;">
+                                        <option value="">SELECCIONE UNA OPCIÓN...</option>
+                                        @foreach($dptos_lista as $opcion)
+                                            <option value="{{ $opcion }}">{{ $opcion }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div> 
 
                             <div class="fila">
                                 <div class="celda" data-label="area_secc">Área Académica o Sección Administrativa</div>
                                 <div class="celda">
-                                    <input type="text" id="area_secc" name="area_secc" class="form-control" placeholder="Cargando..." readonly style="text-transform:uppercase; background-color: #f3f4f6;">
+                                    <select id="area_secc" name="area_secc" class="form-control" style="text-transform:uppercase;">
+                                        <option value="">SELECCIONE UNA OPCIÓN...</option>
+                                        @foreach($areas_lista as $opcion)
+                                            <option value="{{ $opcion }}">{{ $opcion }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div> 
-                        </div>
+                            </div>
 
                         <!-- Campos para completar por el usuario (Tabla dpersonales) -->
                         <div class="fila">
@@ -828,13 +842,10 @@
 
                     <script>
                     document.addEventListener('DOMContentLoaded', async function() {
-                        
-                        // Se toma el valor de la autenticación SOAP que se guardó en la sesión para buscar los datos adicionales en la BD de la UAM
                         const numEcon = document.getElementById('num_economico').value.trim();
                         
                         if (numEcon !== '') {
                             try {
-
                                 const response = await fetch(`/buscar-usuario/${numEcon}`);
                                 const data = await response.json();
 
@@ -842,18 +853,17 @@
                                     const user = data.user;
                                     
                                     if(user.nombre) document.getElementById('nombre_completo').value = user.nombre;
+                                    if(user.email) document.getElementById('email').value = user.email;
                                     
-                                    // Rellenamos el resto de los campos de tu DB
-                                    document.getElementById('email').value = user.email || 'SIN REGISTRO';
-                                    document.getElementById('adscripcion').value = user.adscripcion || 'SIN REGISTRO';
-                                    document.getElementById('dpto_coord').value = user.dpto_coord || 'SIN REGISTRO';
-                                    document.getElementById('area_secc').value = user.area_secc || 'SIN REGISTRO';
+                                    // Si el usuario trae datos, seleccionará la opción correspondiente en el <select>
+                                    if(user.adscripcion) document.getElementById('adscripcion').value = user.adscripcion;
+                                    if(user.dpto_coord) document.getElementById('dpto_coord').value = user.dpto_coord;
+                                    if(user.area_secc) document.getElementById('area_secc').value = user.area_secc;
+
                                 } else {
                                     console.warn('Los datos extra del usuario no se encontraron en la base local.');
+                                    // Los <select> se quedarán en su valor por defecto ("SELECCIONE UNA OPCIÓN...")
                                     document.getElementById('email').value = '';
-                                    document.getElementById('adscripcion').value = '';
-                                    document.getElementById('dpto_coord').value = '';
-                                    document.getElementById('area_secc').value = '';
                                 }
                             } catch (error) {
                                 console.error('Error en la conexión con la base de datos:', error);
