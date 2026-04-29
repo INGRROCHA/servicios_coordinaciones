@@ -53,7 +53,7 @@ class CrearController extends Controller
             'extension'     => 'required'
         ]);
 
-        // 2. OBTENEMOS LA INFORMACIÓN DE LA BASE DE DATOS EXTERNA
+        // 2. OBTENEMOS LA INFORMACIÓN DE LA BASE DE DATOS DE LA UAM USANDO EL NÚMERO ECONÓMICO
         $user = DB::connection('nomina')
             ->table('Empleados')
             ->join('Adscripciones', 'Empleados.pagaduria', '=', 'Adscripciones.ClaveAdscripcion')

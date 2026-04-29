@@ -24,25 +24,41 @@
 
         .fila {
             display: grid;
-            grid-template-columns: 2fr 4fr; /* <-- MODIFICADO: Ahora los datos tienen mucho más espacio */
+            grid-template-columns: 2fr 4fr; 
             align-items: center;
         }
 
-        .celda {
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-
+        /* 1. Diseño para los campos editables (Por llenar) */
         .celda input {
             width: 100%;
             padding: 12px;
             font-size: 16px;
             box-sizing: border-box; 
+            background-color: #f3f4f6; /* Fondo gris claro */
+            border: 1px solid #9ca3af; /* Borde gris un poco más oscuro para que se note la caja */
+            border-radius: 6px;        /* Bordes redondeados */
+            transition: all 0.2s ease-in-out; /* Efecto suave al hacer clic */
+            color: #111827;            /* Texto oscuro */
+        }
+
+        /* Efecto cuando el usuario hace clic en un campo para escribir */
+        .celda input:focus {
+            background-color: #ffffff; /* Se pone blanco al escribir */
+            border-color: #3b82f6;     /* Borde azul (estilo Tailwind) */
+            outline: none;
+        }
+
+        /* 2. Diseño para los campos bloqueados (Ya llenos y no editables) */
+        .celda input[readonly] {
+            background-color: #ffffff !important; /* Fondo blanco */
+            border: 1px dashed #d1d5db;           /* Borde punteado tenue para diferenciarlo */
+            color: #4b5563;                       /* Texto un poco más gris para indicar que es de solo lectura */
+            cursor: not-allowed;                  /* Muestra el cursor de "bloqueado" al pasar el mouse */
         }
 
         @media (max-width: 768px) {
             .fila {
-                grid-template-columns: 1fr; /* En celulares seguirá viéndose uno arriba del otro */
+                grid-template-columns: 1fr; 
             }
         }
     </style>
@@ -162,7 +178,7 @@
 
 
 
-// ********      Revisar para asignar la sección seleccionada a la variable seleccionActual   ***************
+// ********      Revisa para asignar la sección seleccionada a la variable seleccionActual   ***************
                            
 
 
@@ -813,7 +829,7 @@
                     <script>
                     document.addEventListener('DOMContentLoaded', async function() {
                         
-                        // Se tomamos el valor de la autenticación SOAP que se guardó en la sesión para buscar los datos adicionales en la BD local
+                        // Se toma el valor de la autenticación SOAP que se guardó en la sesión para buscar los datos adicionales en la BD de la UAM
                         const numEcon = document.getElementById('num_economico').value.trim();
                         
                         if (numEcon !== '') {
