@@ -77,9 +77,23 @@ class AuthWSDLController extends Controller
 
     public function destroy(Request $request)
     {
+        // Cierra sesión en el Guard de Laravel
         Auth::logout();
+
+        // Borra todos los datos de la sesión actual
+        $request->session()->flush(); 
+
+        // Invalida la sesión y regenera el token CSRF para evitar ataques
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/')->with('success', 'Has cerrado sesión correctamente.');
+
+        // Redirigir eliminando las cabeceras de caché también en la salida
+        return redirect('/')
+            ->with('success', 'Has cerrado sesión correctamente.')
+            ->withHeaders([
+                'Cache-Control' => 'no-cache, no-store, max-age=0, must-revalidate',
+                'Pragma' => 'no-cache',
+                'Expires' => 'Sun, 02 Jan 1990 00:00:00 GMT',
+            ]);
     }
 }

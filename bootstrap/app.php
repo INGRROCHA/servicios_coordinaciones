@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        
+        // AQUÍ REGISTRAMOS EL MIDDLEWARE PARA EVITAR EL "ATRÁS"
+        $middleware->alias([
+            'prevent-back' => \App\Http\Middleware\PreventBackHistory::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

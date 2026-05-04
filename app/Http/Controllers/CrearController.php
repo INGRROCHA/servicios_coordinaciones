@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 class CrearController extends Controller
 {
 
+    // =====================================================================
+    // Carga la vista de creación de tickets y envía la lista de adscripciones para el primer dropdown
+    // =====================================================================
     public function create()
     {
-        // Obtenemos los catálogos únicos y ordenados de la tabla Adscripciones
         $adscripciones_lista = DB::connection('nomina')->table('Adscripciones')
             ->select('NombreAdscripcion1')
             ->whereNotNull('NombreAdscripcion1')
@@ -20,23 +22,39 @@ class CrearController extends Controller
             ->orderBy('NombreAdscripcion1')
             ->pluck('NombreAdscripcion1');
 
-        $dptos_lista = DB::connection('nomina')->table('Adscripciones')
+        return view('tickets.create', compact('adscripciones_lista'));
+    }
+
+    // =====================================================================
+    // MÉTODOS AJAX PARA LISTAS EN CASCADA
+    // =====================================================================
+    public function getDepartamentos(Request $request)
+    {
+        $dptos = DB::connection('nomina')->table('Adscripciones')
             ->select('NombreAdscripcion2')
+            ->where('NombreAdscripcion1', $request->adscripcion) // Filtramos por Adscripcion1
             ->whereNotNull('NombreAdscripcion2')
             ->where('NombreAdscripcion2', '!=', '')
             ->distinct()
             ->orderBy('NombreAdscripcion2')
             ->pluck('NombreAdscripcion2');
+            
+        return response()->json($dptos);
+    }
 
-        $areas_lista = DB::connection('nomina')->table('Adscripciones')
+    public function getAreas(Request $request)
+    {
+        $areas = DB::connection('nomina')->table('Adscripciones')
             ->select('NombreSeccionOficinaArea')
+            ->where('NombreAdscripcion1', $request->adscripcion) // Filtramos por Adscripcion1
+            ->where('NombreAdscripcion2', $request->dpto)        // Filtramos por Adscripcion2
             ->whereNotNull('NombreSeccionOficinaArea')
             ->where('NombreSeccionOficinaArea', '!=', '')
             ->distinct()
             ->orderBy('NombreSeccionOficinaArea')
             ->pluck('NombreSeccionOficinaArea');
-
-        return view('tickets.create', compact('adscripciones_lista', 'dptos_lista', 'areas_lista'));
+            
+        return response()->json($areas);
     }
 
     // =====================================================================
