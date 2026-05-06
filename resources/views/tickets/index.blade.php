@@ -1,4 +1,6 @@
 <x-layout>
+    <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 font-sans">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border-t-4 border-blue-700">
     <h1><strong>Consultar Estatus de Ticket de Servicio</strong></h1><br>
 
     <form method="POST" action="{{ route('consultar.buscar') }}">
@@ -128,4 +130,6 @@
             <span class="block sm:inline"> No se encontró ningún ticket con ese número.</span>
         </div>
     @endif
+    </div>
+    </div>
 </x-layout>

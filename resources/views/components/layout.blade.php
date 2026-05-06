@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Mesa de Servicios, UAM-Xochimilco</title>
+  @livewireStyles
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="h-full flex flex-col min-h-screen">
@@ -50,6 +51,6 @@
     <main class="flex-1 p-6 overflow-auto">
     
       {{ $slot }}   
-
+    @livewireScripts
 </body>
 </html>
