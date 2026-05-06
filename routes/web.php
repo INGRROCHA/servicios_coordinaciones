@@ -18,7 +18,7 @@ Route::post('/', [AuthWSDLController::class, 'procesarLogin'])->name('login.uam'
 
 
 // ==========================================
-// Rutas Protegidas (Requieren sesión activa)
+// Rutas Protegidas (Requieren sesión activa y NO permiten usar el botón "Atrás" después del logout)
 // ==========================================
 
 Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function () {
