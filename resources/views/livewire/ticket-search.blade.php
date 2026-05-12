@@ -10,19 +10,139 @@
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="table min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"># de Ticket</th>
-					<th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Sección</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Tipo de Servicio Solicitado</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Adscripción</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Coordinación Administrativa o Departamento Académico</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Área Académica o Sección Administrativa</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Descripción</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Estatus</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Fecha de Creación</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Observaciones</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Última actualización</th>
-					<th class="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">Acciones</th>
+                <tr class="bg-gray-200 text-black text-xs font-semibold uppercase tracking-wider">
+                        <th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                # Ticket
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Sección
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Tipo de Servicio Solicitado
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Adscripción
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Coordinación Administrativa o Departamento Académico
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Área Académica o Sección Administrativa
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Descripción
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Estatus
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Fecha de Creación
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Observaciones
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Última actualización
+                                @if ($sortBy !== 'id_ticket')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
+						<th class="px-6 py-4 text-center">Acciones</th>
                 </tr>
             </thead>
 				<tbody class="bg-white divide-y divide-gray-200">
@@ -71,7 +191,19 @@
 			</table>
 		</div>
 
-		<div class="mt-4">
-			{{ $tickets->links() }}
-		</div>
+        <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-gray-600">Mostrar:</label>
+            <select wire:model.live="perPage" class="p-2 border-2 border-blue-200 rounded-lg focus:border-blue-500 outline-none">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span class="text-sm text-gray-600">registros</span>
+        </div>
+
+
+        <div class="mt-4">
+            {{ $tickets->links('vendor.pagination.tailwind') }}
+        </div>
 	</div>
