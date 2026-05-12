@@ -12,6 +12,9 @@ class TicketSearchSecc extends Component
 
     public $search = '';
     public $seccionId; // Propiedad para recibir el ID
+    public $sortBy = 'id_ticket';
+    public $sortDir = 'desc';
+    public $perPage = 10; 
 
     // El método mount se ejecuta una sola vez al cargar el componente
     public function mount($seccionId = null)
@@ -19,10 +22,20 @@ class TicketSearchSecc extends Component
         $this->seccionId = $seccionId;
     }
 
-    public function updatingSearch()
+    public function updatingSearch() { $this->resetPage(); }
+    public function updatingPerPage() { $this->resetPage(); }
+
+    public function setSort($column)
     {
-        $this->resetPage();
+        if ($this->sortBy === $column) {
+            $this->sortDir = ($this->sortDir === 'asc') ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $column;
+            $this->sortDir = 'asc';
+        }
     }
+
+    protected $paginationTheme = 'tailwind';
 
     public function render()
     {
@@ -34,11 +47,11 @@ class TicketSearchSecc extends Component
                     ->orWhere('descripcion', 'like', '%' . $this->search . '%')
                     ->orWhere('num_economico', 'like', '%' . $this->search . '%');
             })
-            ->orderBy('id_ticket', 'desc')
-            ->paginate(10);
+            ->orderBy($this->sortBy, $this->sortDir)
+            ->paginate($this->perPage);
 
         return view('livewire.ticket-search', [
             'tickets' => $tickets
-        ]);
+        ])->layout('components.layout');
     }
 }

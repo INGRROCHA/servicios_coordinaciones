@@ -23,10 +23,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('id_seccion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Sección
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'id_seccion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -35,10 +35,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('id_servicio')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Tipo de Servicio Solicitado
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'id_servicio')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -47,10 +47,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('adscripcion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Adscripción
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'adscripcion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -59,10 +59,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('dpto_coord')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Coordinación Administrativa o Departamento Académico
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'dpto_coord')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -70,10 +70,11 @@
                                     <span class="ml-1">↓</span>
                                 @endif
                             </div>
-                        </th>						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                        </th>						
+                        <th wire:click="setSort('area_secc')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Área Académica o Sección Administrativa
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'area_secc')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -82,10 +83,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('descripcion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Descripción
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'descripcion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -94,10 +95,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('estatus')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Estatus
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'estatus')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -106,10 +107,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('created_at')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Fecha de Creación
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'created_at')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -118,10 +119,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('observaciones')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Observaciones
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'observaciones')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -130,10 +131,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_ticket')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('updated_at')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Última actualización
-                                @if ($sortBy !== 'id_ticket')
+                                @if ($sortBy !== 'updated_at')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
