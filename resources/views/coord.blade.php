@@ -8,7 +8,7 @@
         Tickets de Servicios de la {{ $coord['coordinacion'] }}.
     </p>
 
-    @livewire('ticket-search')
-
+    {{-- Pasamos el ID de la coordinación al componente --}}
+    @livewire('ticket-search', ['coordinacionId' => $coord['id_coordinacion']])
 
 </x-layout>
