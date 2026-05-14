@@ -220,9 +220,9 @@
                     </div>                           
 
                     <div class="fila">
-                        <div class="celda font-medium text-gray-700">Extensión Telefónica</div>
+                        <div class="celda font-medium text-gray-700">Extensión o Teléfono</div>
                         <div class="celda">
-                            <input type="text" name="extension" class="form-control" placeholder="Proporcione su extensión" required style="text-transform:uppercase">
+                            <input type="text" name="extension" class="form-control" placeholder="Proporcione su extensión o número de teléfono" required style="text-transform:uppercase">
                         </div>
                     </div> 
 

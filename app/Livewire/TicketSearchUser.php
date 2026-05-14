@@ -44,7 +44,6 @@ class TicketSearchUser extends Component
 
     public function render()
     {
-        // Ya tenemos el dato guardado en $this->no_economico gracias al mount()
         $tickets = Ticket::with(['seccion', 'servicio'])
             ->where('num_economico', $this->no_economico) // DB usa 'num_economico'
             ->where(function($query) {
