@@ -336,61 +336,61 @@
                 // -- SECCIÓN 1 (Cómputo) --
                 if (valor === "11") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="saat_1" onclick="mostrarCampos('antivirus')"> Antivirus</label><br>
+                        <label><input type="radio" name="servicio" value="Antivirus" onclick="mostrarCampos('antivirus')"> Antivirus</label><br>
                         <div id="antivirus" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_2" onclick="mostrarCampos('msoffice')"> MS Office</label><br>
+                        <label><input type="radio" name="servicio" value="MS Office" onclick="mostrarCampos('msoffice')"> MS Office</label><br>
                         <div id="msoffice" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_3" onclick="mostrarCampos('s_adobe')"> Suite Adobe</label><br>
+                        <label><input type="radio" name="servicio" value="Suite Adobe" onclick="mostrarCampos('s_adobe')"> Suite Adobe</label><br>
                         <div id="s_adobe" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_4" onclick="mostrarCampos('conf_int')"> Configurar Internet</label><br>
+                        <label><input type="radio" name="servicio" value="Configurar Internet" onclick="mostrarCampos('conf_int')"> Configurar Internet</label><br>
                         <div id="conf_int" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
                         
-                        <label><input type="radio" name="servicio" value="saat_5" onclick="mostrarCampos('s_autodesk')"> Suite Autodesk</label><br>
+                        <label><input type="radio" name="servicio" value="Suite Autodesk" onclick="mostrarCampos('s_autodesk')"> Suite Autodesk</label><br>
                         <div id="s_autodesk" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_6" onclick="mostrarCampos('otros_prog')"> Otros Programas</label><br>
+                        <label><input type="radio" name="servicio" value="Otros Programas" onclick="mostrarCampos('otros_prog')"> Otros Programas</label><br>
                         <div id="otros_prog" class="oculto">
                             <label>La instalación de programas dependerá del licenciamiento de la institución, o si es Software Libre.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_7" onclick="mostrarCampos('inst_peri')"> Instalar Periférico</label><br>
+                        <label><input type="radio" name="servicio" value="Instalar Periférico" onclick="mostrarCampos('inst_peri')"> Instalar Periférico</label><br>
                         <div id="inst_peri" class="oculto">
                             <label>Descripción detallada del servicio solicitado:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
                         
-                        <label><input type="radio" name="servicio" value="saat_8" onclick="mostrarCampos('sae')"> SIIUAM-SAE</label><br>
+                        <label><input type="radio" name="servicio" value="SIIUAM-SAE" onclick="mostrarCampos('sae')"> SIIUAM-SAE</label><br>
                         <div id="sae" class="oculto">
                             <label>La instalación y configuración dependerá de los permisos otorgados previamente.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_9" onclick="mostrarCampos('srf')"> SIIUAM-SRF</label><br>
+                        <label><input type="radio" name="servicio" value="SIIUAM-SRF" onclick="mostrarCampos('srf')"> SIIUAM-SRF</label><br>
                         <div id="srf" class="oculto">
                             <label>La instalación y configuración dependerá de los permisos otorgados previamente.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saat_10" onclick="mostrarCampos('saad')"> SIIUAM-SAAD</label><br>
+                        <label><input type="radio" name="servicio" value="SIIUAM-SAAD" onclick="mostrarCampos('saad')"> SIIUAM-SAAD</label><br>
                         <div id="saad" class="oculto">
                             <label>La instalación y configuración dependerá de los permisos otorgados previamente.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
@@ -398,13 +398,13 @@
                     </div>`;
                 } else if (valor === "12") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="redes_1" onclick="mostrarCampos('cableado')"> Internet Cableado</label><br>
+                        <label><input type="radio" name="servicio" value="Internet Cableado" onclick="mostrarCampos('cableado')"> Internet Cableado</label><br>
                         <div id="cableado" class="oculto">
                             <label>Explique la falla presentada:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="redes_2" onclick="mostrarCampos('wifi')"> Wi-Fi</label><br>
+                        <label><input type="radio" name="servicio" value="Wi-Fi" onclick="mostrarCampos('wifi')"> Wi-Fi</label><br>
                         <div id="wifi" class="oculto">
                             <label>Explique la falla presentada:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
@@ -412,13 +412,13 @@
                     </div>`;
                 } else if (valor === "13") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="saos_1" onclick="mostrarCampos('falla_comp')"> Falla de Computadora</label><br>
+                        <label><input type="radio" name="servicio" value="Falla de Computadora" onclick="mostrarCampos('falla_comp')"> Falla de Computadora</label><br>
                         <div id="falla_comp" class="oculto">
                             <label>Explique la falla presentada:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="saos_2" onclick="mostrarCampos('falla_peri')"> Falla de Periférico</label><br>
+                        <label><input type="radio" name="servicio" value="Falla de Periférico" onclick="mostrarCampos('falla_peri')"> Falla de Periférico</label><br>
                         <div id="falla_peri" class="oculto">
                             <label>Explique la falla presentada:</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
@@ -428,25 +428,25 @@
                 // -- SECCIÓN 2 (Generales) --
                 else if (valor === "21") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="ij_1" onclick="mostrarCampos('limpiezaGeneral')"> Limpieza General</label><br>
+                        <label><input type="radio" name="servicio" value="Limpieza General" onclick="mostrarCampos('limpiezaGeneral')"> Limpieza General</label><br>
                         <div id="limpiezaGeneral" class="oculto">
                             <label>Si es para un evento, proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="ij_2" onclick="mostrarCampos('limpiezaProfunda')"> Limpieza Profunda</label><br>
+                        <label><input type="radio" name="servicio" value="Limpieza Profunda" onclick="mostrarCampos('limpiezaProfunda')"> Limpieza Profunda</label><br>
                         <div id="limpiezaProfunda" class="oculto">
                             <label>Si es para un evento, proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="ij_3" onclick="mostrarCampos('cargaMobiliario')"> Carga, traslado y acomodo de mobiliario</label><br>
+                        <label><input type="radio" name="servicio" value="Carga, traslado y acomodo de mobiliario" onclick="mostrarCampos('cargaMobiliario')"> Carga, traslado y acomodo de mobiliario</label><br>
                         <div id="cargaMobiliario" class="oculto">
                             <label>Si es para un evento, proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
                         </div>
 
-                        <label><input type="radio" name="servicio" value="ij_4" onclick="mostrarCampos('jardineria')"> Jardinería</label><br>
+                        <label><input type="radio" name="servicio" value="Jardinería" onclick="mostrarCampos('jardineria')"> Jardinería</label><br>
                         <div id="jardineria" class="oculto">
                             <label>Si es para un evento, proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>
@@ -454,7 +454,7 @@
                     </div>`;
                 } else if (valor === "22") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="transp_1" onclick="mostrarCampos('apoyoevento1')"> Apoyo a evento</label><br>
+                        <label><input type="radio" name="servicio" value="Apoyo a evento" onclick="mostrarCampos('apoyoevento1')"> Apoyo a evento</label><br>
                         <div id="apoyoevento1" class="oculto">
                             <label>Proporcione: Nombre del evento, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>     
@@ -462,7 +462,7 @@
                     </div>`;
                 } else if (valor === "23") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="vigil_1" onclick="mostrarCampos('apoyoevento2')"> Apoyo a evento</label><br>
+                        <label><input type="radio" name="servicio" value="Vigilancia" onclick="mostrarCampos('apoyoevento2')"> Vigilancia</label><br>
                         <div id="apoyoevento2" class="oculto">
                             <label>Proporcione: Nombre del evento, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea>   
@@ -472,147 +472,147 @@
                 // -- SECCIÓN 3 (Espacios Físicos) --
                 else if (valor === "31") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="mc_1" onclick="mostrarCampos('cerrajeria')"> Cerrajería</label><br>
+                        <label><input type="radio" name="servicio" value="Cerrajería" onclick="mostrarCampos('cerrajeria')"> Cerrajería</label><br>
                         <div id="cerrajeria" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mc_2" onclick="mostrarCampos('hojalateria')"> Hojalatería</label><br>
+                        <label><input type="radio" name="servicio" value="Hojalatería" onclick="mostrarCampos('hojalateria')"> Hojalatería</label><br>
                         <div id="hojalateria" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mc_3" onclick="mostrarCampos('electricidad')"> Electricidad</label><br>
+                        <label><input type="radio" name="servicio" value="Electricidad" onclick="mostrarCampos('electricidad')"> Electricidad</label><br>
                         <div id="electricidad" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mc_4" onclick="mostrarCampos('albanileria')"> Albañilería</label><br>
+                        <label><input type="radio" name="servicio" value="Albañilería" onclick="mostrarCampos('albanileria')"> Albañilería</label><br>
                         <div id="albanileria" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
                         
-                        <label><input type="radio" name="servicio" value="mc_5" onclick="mostrarCampos('plomeria')"> Plomería</label><br>
+                        <label><input type="radio" name="servicio" value="Plomería" onclick="mostrarCampos('plomeria')"> Plomería</label><br>
                         <div id="plomeria" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mc_6" onclick="mostrarCampos('carpinteria')"> Carpintería</label><br>
+                        <label><input type="radio" name="servicio" value="Carpintería" onclick="mostrarCampos('carpinteria')"> Carpintería</label><br>
                         <div id="carpinteria" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mc_7" onclick="mostrarCampos('pintura')"> Pintura</label><br>
+                        <label><input type="radio" name="servicio" value="Pintura" onclick="mostrarCampos('pintura')"> Pintura</label><br>
                         <div id="pintura" class="oculto"><textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea></div>
                     </div>`;
                 } else if (valor === "32") {
                     html = `<div class="bloque">
                         <div class="mb-4">
                             <strong>ELECTRICIDAD</strong>
-                            <label><input type="radio" name="servicio" value="me_1" onclick="mostrarCampos('div_me_1')"> Instalación de contacto regulado.</label><br>
+                            <label><input type="radio" name="servicio" value="Instalación de contacto regulado." onclick="mostrarCampos('div_me_1')"> Instalación de contacto regulado.</label><br>
                             <div id="div_me_1" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_2" onclick="mostrarCampos('div_me_2')"> Revisión de contactos regulados.</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de contactos regulados." onclick="mostrarCampos('div_me_2')"> Revisión de contactos regulados.</label><br>
                             <div id="div_me_2" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_3" onclick="mostrarCampos('div_me_3')"> Reubicación de contactos regulados.</label><br>
+                            <label><input type="radio" name="servicio" value="Reubicación de contactos regulados." onclick="mostrarCampos('div_me_3')"> Reubicación de contactos regulados.</label><br>
                             <div id="div_me_3" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_4" onclick="mostrarCampos('div_me_4')"> Instalación de contacto de emergencia.</label><br>
+                            <label><input type="radio" name="servicio" value="Instalación de contacto de emergencia." onclick="mostrarCampos('div_me_4')"> Instalación de contacto de emergencia.</label><br>
                             <div id="div_me_4" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_5" onclick="mostrarCampos('div_me_5')"> Revisión de contactos de emergencia.</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de contactos de emergencia." onclick="mostrarCampos('div_me_5')"> Revisión de contactos de emergencia.</label><br>
                             <div id="div_me_5" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_6" onclick="mostrarCampos('div_me_6')"> Reubicación de contactos de emergencia.</label><br>
+                            <label><input type="radio" name="servicio" value="Reubicación de contactos de emergencia." onclick="mostrarCampos('div_me_6')"> Reubicación de contactos de emergencia.</label><br>
                             <div id="div_me_6" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_7" onclick="mostrarCampos('div_me_7')"> Reestablecer suministro eléctrico</label><br>
+                            <label><input type="radio" name="servicio" value="Reestablecer suministro eléctrico" onclick="mostrarCampos('div_me_7')"> Reestablecer suministro eléctrico</label><br>
                             <div id="div_me_7" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>SOPLADO DE VIDRIO</strong>
-                            <label><input type="radio" name="servicio" value="me_8" onclick="mostrarCampos('div_me_8')"> Reparación de instrumentos de vidrio</label><br>
+                            <label><input type="radio" name="servicio" value="Reparación de instrumentos de vidrio" onclick="mostrarCampos('div_me_8')"> Reparación de instrumentos de vidrio</label><br>
                             <div id="div_me_8" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>ELECTRÓNICA</strong>
-                            <label><input type="radio" name="servicio" value="me_9" onclick="mostrarCampos('div_me_9')"> Reparación de equipos electrónicos</label><br>
+                            <label><input type="radio" name="servicio" value="Reparación de equipos electrónicos" onclick="mostrarCampos('div_me_9')"> Reparación de equipos electrónicos</label><br>
                             <div id="div_me_9" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_10" onclick="mostrarCampos('div_me_10')"> Instalación/Fijación de pantallas y soportes</label><br>
+                            <label><input type="radio" name="servicio" value="Instalación/Fijación de pantallas y soportes" onclick="mostrarCampos('div_me_10')"> Instalación/Fijación de pantallas y soportes</label><br>
                             <div id="div_me_10" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>ELECTROMECÁNICA</strong>
-                            <label><input type="radio" name="servicio" value="me_11" onclick="mostrarCampos('div_me_11')"> Reparación de equipos de laboratorio</label><br>
+                            <label><input type="radio" name="servicio" value="Reparación de equipos de laboratorio" onclick="mostrarCampos('div_me_11')"> Reparación de equipos de laboratorio</label><br>
                             <div id="div_me_11" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_12" onclick="mostrarCampos('div_me_12')"> Reparación de tomas de gases</label><br>
+                            <label><input type="radio" name="servicio" value="Reparación de tomas de gases" onclick="mostrarCampos('div_me_12')"> Reparación de tomas de gases</label><br>
                             <div id="div_me_12" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_13" onclick="mostrarCampos('div_me_13')"> Revisión de equipos de laboratorio</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de equipos de laboratorio" onclick="mostrarCampos('div_me_13')"> Revisión de equipos de laboratorio</label><br>
                             <div id="div_me_13" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_14" onclick="mostrarCampos('div_me_14')"> Fijación de inmuebles</label><br>
+                            <label><input type="radio" name="servicio" value="Fijación de inmuebles" onclick="mostrarCampos('div_me_14')"> Fijación de inmuebles</label><br>
                             <div id="div_me_14" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_15" onclick="mostrarCampos('div_me_15')"> Desmantelamiento de bienes e inmuebles</label><br>
+                            <label><input type="radio" name="servicio" value="Desmantelamiento de bienes e inmuebles" onclick="mostrarCampos('div_me_15')"> Desmantelamiento de bienes e inmuebles</label><br>
                             <div id="div_me_15" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>TELEFONÍA</strong>
-                            <label><input type="radio" name="servicio" value="me_16" onclick="mostrarCampos('div_me_16')"> Revisión de extensión telefónica</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de extensión telefónica" onclick="mostrarCampos('div_me_16')"> Revisión de extensión telefónica</label><br>
                             <div id="div_me_16" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_17" onclick="mostrarCampos('div_me_17')"> Cambio de equipo telefónico</label><br>
+                            <label><input type="radio" name="servicio" value="Cambio de equipo telefónico" onclick="mostrarCampos('div_me_17')"> Cambio de equipo telefónico</label><br>
                             <div id="div_me_17" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_18" onclick="mostrarCampos('div_me_18')"> Cambio de nombre de extensión</label><br>
+                            <label><input type="radio" name="servicio" value="Cambio de nombre de extensión" onclick="mostrarCampos('div_me_18')"> Cambio de nombre de extensión</label><br>
                             <div id="div_me_18" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_19" onclick="mostrarCampos('div_me_19')"> Instalación de nodos de red</label><br>
+                            <label><input type="radio" name="servicio" value="Instalación de nodos de red" onclick="mostrarCampos('div_me_19')"> Instalación de nodos de red</label><br>
                             <div id="div_me_19" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>CLÍNICAS ESTOMATOLÓGICAS</strong>
-                            <label><input type="radio" name="servicio" value="me_20" onclick="mostrarCampos('div_me_20')"> Revisión de unidades dentales</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de unidades dentales" onclick="mostrarCampos('div_me_20')"> Revisión de unidades dentales</label><br>
                             <div id="div_me_20" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_21" onclick="mostrarCampos('div_me_21')"> Revisión de filtros de agua</label><br>
+                            <label><input type="radio" name="servicio" value="Revisión de filtros de agua" onclick="mostrarCampos('div_me_21')"> Revisión de filtros de agua</label><br>
                             <div id="div_me_21" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_22" onclick="mostrarCampos('div_me_22')"> Instalación de nueva toma de gases</label><br>
+                            <label><input type="radio" name="servicio" value="Instalación de nueva toma de gases" onclick="mostrarCampos('div_me_22')"> Instalación de nueva toma de gases</label><br>
                             <div id="div_me_22" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
 
                         <div class="mb-4">
                             <strong>OTROS SERVICIOS</strong>
-                            <label><input type="radio" name="servicio" value="me_23" onclick="mostrarCampos('div_me_23')"> Mantenimiento de aire acondicionado</label><br>
+                            <label><input type="radio" name="servicio" value="Mantenimiento de aire acondicionado" onclick="mostrarCampos('div_me_23')"> Mantenimiento de aire acondicionado</label><br>
                             <div id="div_me_23" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_24" onclick="mostrarCampos('div_me_24')"> Mantenimiento de equipos de extracción e inyección de aire</label><br>
+                            <label><input type="radio" name="servicio" value="Mantenimiento de equipos de extracción e inyección de aire" onclick="mostrarCampos('div_me_24')"> Mantenimiento de equipos de extracción e inyección de aire</label><br>
                             <div id="div_me_24" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
 
-                            <label><input type="radio" name="servicio" value="me_25" onclick="mostrarCampos('div_me_25')"> Mantenimiento de equipos de refrigeración</label><br>
+                            <label><input type="radio" name="servicio" value="Mantenimiento de equipos de refrigeración" onclick="mostrarCampos('div_me_25')"> Mantenimiento de equipos de refrigeración</label><br>
                             <div id="div_me_25" class="oculto"><textarea class="celda" rows="3" placeholder="Detalles..."></textarea></div>
                         </div>
                     </div>`;
                 } else if (valor === "33") {
                     html = `<div class="bloque">
-                        <label><input type="radio" name="servicio" value="mabi_1" onclick="mostrarCampos('electricidad2')"> Electricidad</label><br>
+                        <label><input type="radio" name="servicio" value="Electricidad" onclick="mostrarCampos('electricidad2')"> Electricidad</label><br>
                         <div id="electricidad2" class="oculto"><textarea class="celda" rows="4" placeholder="Detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mabi_2" onclick="mostrarCampos('albanileria2')"> Albañilería</label><br>
+                        <label><input type="radio" name="servicio" value="Albañilería" onclick="mostrarCampos('albanileria2')"> Albañilería</label><br>
                         <div id="albanileria2" class="oculto"><textarea class="celda" rows="4" placeholder="Detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mabi_3" onclick="mostrarCampos('plomeria2')"> Plomería</label><br>
+                        <label><input type="radio" name="servicio" value="Plomería" onclick="mostrarCampos('plomeria2')"> Plomería</label><br>
                         <div id="plomeria2" class="oculto"><textarea class="celda" rows="4" placeholder="Detalles..."></textarea></div>
 
-                        <label><input type="radio" name="servicio" value="mabi_4" onclick="mostrarCampos('carpinteria2')"> Carpintería</label><br>
+                        <label><input type="radio" name="servicio" value="Carpintería" onclick="mostrarCampos('carpinteria2')"> Carpintería</label><br>
                         <div id="carpinteria2" class="oculto"><textarea class="celda" rows="4" placeholder="Detalles..."></textarea></div>
                         
-                        <label><input type="radio" name="servicio" value="mabi_5" onclick="mostrarCampos('pintura2')"> Pintura</label><br>
+                        <label><input type="radio" name="servicio" value="Pintura" onclick="mostrarCampos('pintura2')"> Pintura</label><br>
                         <div id="pintura2" class="oculto"><textarea class="celda" rows="4" placeholder="Detalles..."></textarea></div>
                     </div>`;
                 } 
                 // -- SECCIÓN 4 (Convivencia) --
                 else if (valor === "41") {
                     html = `<div class="bloque">
-                        <label><input type="checkbox" name="servicio[]" value="cafe_1" onclick="mostrarCampos('apoyoevento3')"> Apoyo a evento (Cafetería)</label><br>
+                        <label><input type="checkbox" name="servicio[]" value="Apoyo a evento" onclick="mostrarCampos('apoyoevento3')"> Apoyo a evento (Cafetería)</label><br>
                         <div id="apoyoevento3" class="oculto">
                             <label>Proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea> 
@@ -620,7 +620,7 @@
                     </div>`;
                 } else if (valor === "42") {
                     html = `<div class="bloque">
-                        <label><input type="checkbox" name="servicio[]" value="adep_1" onclick="mostrarCampos('apoyoevento4')"> Apoyo a evento (Deportes)</label><br>
+                        <label><input type="checkbox" name="servicio[]" value="Apoyo a evento" onclick="mostrarCampos('apoyoevento4')"> Apoyo a evento (Deportes)</label><br>
                         <div id="apoyoevento4" class="oculto">
                             <label>Proporcione: Nombre, Lugar, Fecha, Hora y Tipo de Apoyo.</label>
                             <textarea class="celda" rows="4" placeholder="Escriba aquí los detalles..."></textarea> 
