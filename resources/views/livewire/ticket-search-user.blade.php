@@ -23,6 +23,18 @@
                                 @endif
                             </div>
                         </th>
+                        <th wire:click="setSort('id_coordinacion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                            <div class="flex items-center">
+                                Coordinación
+                                @if ($sortBy !== 'id_coordinacion')
+                                    <span class="ml-1 opacity-40">↕</span>
+                                @elseif ($sortDir === 'asc')
+                                    <span class="ml-1">↑</span>
+                                @else
+                                    <span class="ml-1">↓</span>
+                                @endif
+                            </div>
+                        </th>
 						<th wire:click="setSort('id_seccion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Sección
@@ -149,9 +161,9 @@
 					@forelse($tickets as $ticket)
 						<tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
-                        <!-- Relaciones Elocuentes -->
-						<td class="px-6 py-4 text-xs">{{ $ticket->seccion->seccion }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->servicio->servicio }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->id_coordinacion }}</td>
+						<td class="px-6 py-4 text-xs">{{ $ticket->id_seccion }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->id_servicio }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
