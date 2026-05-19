@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Coordinacion;
 use App\Models\Seccion;
 use App\Models\Servicio;
-use Spatie\Activitylog\Traits\LogsActivity; // <-- 1. Importar el Trait
-use Spatie\Activitylog\LogOptions;          // <-- 2.  Importar LogOptions
+use Spatie\Activitylog\Traits\LogsActivity; 
+use Spatie\Activitylog\LogOptions;          
 
 class Ticket extends Model
 {
