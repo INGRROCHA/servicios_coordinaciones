@@ -42,43 +42,45 @@ class TicketSearchUser extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    public function render()
-        {
-            // Iniciamos la consulta base
-            $query = Ticket::query()
-                ->with(['coordinacion', 'seccion', 'servicio'])
-                ->where('num_economico', $this->no_economico);
+   public function render()
+    {
+        // 1. Iniciamos la consulta base fijando los LEFT JOINS y el SELECT principal
+        $query = Ticket::query()
+            ->select('ticket.*') // Evita que se mezclen IDs de las tablas unidas
+            ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
+            ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
+            ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
+            ->with(['seccion', 'servicio', 'coordinacion']) // Mantiene la carga optimizada de relaciones
+            ->where('ticket.num_economico', $this->no_economico); // Especificamos la tabla para evitar ambigüedad
 
-            // Aplicamos la búsqueda (Search)
-            $query->where(function($q) {
-                $q->where('id_ticket', 'like', '%' . $this->search . '%')
-                ->orWhere('nombre', 'like', '%' . $this->search . '%')
-                ->orWhere('descripcion', 'like', '%' . $this->search . '%');
-            });
+        // 2. Aplicamos la búsqueda expandida (Search) incluyendo las tablas unidas
+        $query->where(function($q) {
+            $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
+              ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
+              ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
+              // Nuevas columnas incluidas en la búsqueda global:
+              ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
+              ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
+              ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
+        });
 
-            // Ordenar usando joins para columnas relacionadas:
-            if ($this->sortBy === 'nombre_coordinacion') {
-                $query->join('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
-                    ->orderBy('coordinaciones.coordinacion', $this->sortDir)
-                    ->select('ticket.*');		
-            } elseif ($this->sortBy === 'nombre_seccion') {
-                $query->join('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
-                    ->orderBy('secciones.seccion', $this->sortDir)
-                    ->select('ticket.*');
-            } elseif ($this->sortBy === 'nombre_servicio') {
-                $query->join('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
-                    ->orderBy('servicios.servicio', $this->sortDir)
-                    ->select('ticket.*');
-            } else {
-                $query->orderBy($this->sortBy, $this->sortDir);
-            }
-
-
-            // Ejecutamos la paginación
-            $tickets = $query->paginate($this->perPage);
-
-            return view('livewire.ticket-search-user', [
-                'tickets' => $tickets
-            ])->layout('components.layout');
+        // 3. Aplicamos el Ordenamiento (Sort) de forma simplificada
+        if ($this->sortBy === 'nombre_servicio') {
+            $query->orderBy('servicios.servicio', $this->sortDir);
+        } elseif ($this->sortBy === 'nombre_seccion') {
+            $query->orderBy('secciones.seccion', $this->sortDir);
+        } elseif ($this->sortBy === 'nombre_coordinacion') {
+            $query->orderBy('coordinaciones.coordinacion', $this->sortDir);
+        } else {
+            // Columnas directas de la tabla ticket
+            $query->orderBy('ticket.' . $this->sortBy, $this->sortDir);
         }
+
+        // 4. Ejecutamos la paginación
+        $tickets = $query->paginate($this->perPage);
+
+        return view('livewire.ticket-search-user', [
+            'tickets' => $tickets
+        ])->layout('components.layout');
+    }
 }

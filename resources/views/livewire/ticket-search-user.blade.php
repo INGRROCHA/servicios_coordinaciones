@@ -2,7 +2,7 @@
 		<div class="px-8 py-4">
 			<input wire:model.live="search" 
 				   type="text" 
-				   placeholder="🔍 Buscar por folio, nombre o servicio..." 
+				   placeholder="🔍 Buscar por # de ticket, coordinación, sección o servicio..." 
 				   class="w-1/4 p-4 border-2 border-blue-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
 		</div>
 
