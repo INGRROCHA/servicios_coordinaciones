@@ -42,7 +42,7 @@ class TicketSearchUser extends Component
 
     protected $paginationTheme = 'tailwind';
 
-   public function render()
+    public function render()
     {
         // 1. Iniciamos la consulta base fijando los LEFT JOINS y el SELECT principal
         $query = Ticket::query()
@@ -58,7 +58,6 @@ class TicketSearchUser extends Component
             $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
               ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
               ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
-              // Nuevas columnas incluidas en la búsqueda global:
               ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
               ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
               ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
