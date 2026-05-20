@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Seccion extends Model {
     protected $table = 'secciones';
     protected $primaryKey = 'id_seccion';
-    protected $fillable = ['seccion', 'id_coordinacion', 'estatus'];
+    protected $fillable = ['id_rol', 'seccion', 'ClavePuesto', 'Pagaduria', 'estatus'];
 
 
     public function servicio(): HasMany
@@ -24,5 +25,10 @@ class Seccion extends Model {
     public function trabajadores(): HasMany
     {
         return $this->hasMany(Trabajador::class);
+    }
+
+    public function coordinacion(): BelongsTo
+    {
+        return $this->belongsTo(Coordinacion::class);
     }
 }

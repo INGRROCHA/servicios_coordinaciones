@@ -9,7 +9,7 @@ class Coordinacion extends Model
 {
     protected $table = 'coordinaciones';
     protected $primaryKey = 'id_coordinacion';
-    protected $fillable = ['id_coordinacion', 'coordinacion', 'estatus'];
+    protected $fillable = ['id_coordinacion', 'id_rol', 'coordinacion', 'ClavePuesto', 'Pagaduria', 'estatus'];
     public $timestamps = false;
 
 
