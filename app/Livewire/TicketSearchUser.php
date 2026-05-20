@@ -46,7 +46,7 @@ class TicketSearchUser extends Component
         {
             // Iniciamos la consulta base
             $query = Ticket::query()
-                ->with(['seccion', 'servicio'])
+                ->with(['coordinacion', 'seccion', 'servicio'])
                 ->where('num_economico', $this->no_economico);
 
             // Aplicamos la búsqueda (Search)
@@ -57,13 +57,17 @@ class TicketSearchUser extends Component
             });
 
             // Ordenar usando joins para columnas relacionadas:
-            if ($this->sortBy === 'nombre_servicio') {
-                $query->join('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
-                    ->orderBy('servicios.servicio', $this->sortDir)
-                    ->select('ticket.*');
+            if ($this->sortBy === 'nombre_coordinacion') {
+                $query->join('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
+                    ->orderBy('coordinaciones.coordinacion', $this->sortDir)
+                    ->select('ticket.*');		
             } elseif ($this->sortBy === 'nombre_seccion') {
                 $query->join('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
                     ->orderBy('secciones.seccion', $this->sortDir)
+                    ->select('ticket.*');
+            } elseif ($this->sortBy === 'nombre_servicio') {
+                $query->join('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
+                    ->orderBy('servicios.servicio', $this->sortDir)
                     ->select('ticket.*');
             } else {
                 $query->orderBy($this->sortBy, $this->sortDir);

@@ -23,10 +23,10 @@
                                 @endif
                             </div>
                         </th>
-                        <th wire:click="setSort('id_coordinacion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                        <th wire:click="setSort('nombre_coordinacion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Coordinación
-                                @if ($sortBy !== 'id_coordinacion')
+                                @if ($sortBy !== 'nombre_coordinacion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -160,7 +160,7 @@
 					@forelse($tickets as $ticket)
 						<tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->id_coordinacion }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->coordinacion->coordinacion }}</td>
 						<td class="px-6 py-4 text-xs">{{ $ticket->seccion->seccion }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->servicio->servicio }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
