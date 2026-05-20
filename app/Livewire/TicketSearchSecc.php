@@ -11,12 +11,11 @@ class TicketSearchSecc extends Component
     use WithPagination;
 
     public $search = '';
-    public $seccionId; // Propiedad para recibir el ID
+    public ?int $seccionId = null; 
     public $sortBy = 'id_ticket';
     public $sortDir = 'desc';
     public $perPage = 10; 
 
-    // El método mount se ejecuta una sola vez al cargar el componente
     public function mount($seccionId = null)
     {
         $this->seccionId = $seccionId;
@@ -39,18 +38,36 @@ class TicketSearchSecc extends Component
 
     public function render()
     {
-        $tickets = Ticket::with(['seccion', 'servicio']) 
-            ->where('id_seccion', $this->seccionId) 
-            ->where(function($query) {
-                $query->where('id_ticket', 'like', '%' . $this->search . '%')
-                    ->orWhere('nombre', 'like', '%' . $this->search . '%')
-                    ->orWhere('descripcion', 'like', '%' . $this->search . '%')
-                    ->orWhere('num_economico', 'like', '%' . $this->search . '%');
-            })
-            ->orderBy($this->sortBy, $this->sortDir)
-            ->paginate($this->perPage);
+        // 1. Consulta base
+        $query = Ticket::query()
+            ->select('ticket.*') 
+            ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
+            ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion') 
+            ->with(['seccion', 'servicio', 'coordinacion']) 
+            ->where('ticket.id_seccion', $this->seccionId);
 
-        return view('livewire.ticket-search', [
+        // 2. Aplicamos la búsqueda expandida
+        $query->where(function($q) {
+            $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
+              ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
+              ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
+              ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
+              ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
+        });
+
+        // 3. Aplicamos el ordenamiento
+        if ($this->sortBy === 'nombre_servicio') {
+            $query->orderBy('servicios.servicio', $this->sortDir);
+        } elseif ($this->sortBy === 'nombre_coordinacion') { 
+            $query->orderBy('coordinaciones.coordinacion', $this->sortDir);
+        } else {
+            $query->orderBy('ticket.' . $this->sortBy, $this->sortDir);
+        }
+
+        // 4. Ejecutamos la paginación
+        $tickets = $query->paginate($this->perPage);
+
+        return view('livewire.ticket-search-secc', [
             'tickets' => $tickets
         ])->layout('components.layout');
     }

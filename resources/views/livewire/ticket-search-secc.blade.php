@@ -2,7 +2,7 @@
 		<div class="px-8 py-4">
 			<input wire:model.live="search" 
 				   type="text" 
-				   placeholder="🔍 Buscar por folio, nombre, servicio o núm económico..." 
+				   placeholder="🔍 Buscar por # de ticket o servicio..." 
 				   class="w-1/4 p-4 border-2 border-blue-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
 		</div>
 
@@ -23,11 +23,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_servicio')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                        <th wire:click="setSort('nombre_servicio')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Tipo de Servicio Solicitado
-                                @if ($sortBy !== 'id_servicio')
-                                    <span class="ml-1 opacity-40">↕</span>
+                                @if ($sortBy !== 'nombre_servicio') <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
                                 @else
@@ -138,7 +137,7 @@
 					@forelse($tickets as $ticket)
 						<tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->id_servicio }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->servicio->servicio }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
