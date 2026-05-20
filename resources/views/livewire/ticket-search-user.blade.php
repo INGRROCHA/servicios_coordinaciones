@@ -35,10 +35,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_seccion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('nombre_seccion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Sección
-                                @if ($sortBy !== 'id_seccion')
+                                @if ($sortBy !== 'nombre_seccion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -47,11 +47,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('id_servicio')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+                        <th wire:click="setSort('nombre_servicio')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Tipo de Servicio Solicitado
-                                @if ($sortBy !== 'id_servicio')
-                                    <span class="ml-1 opacity-40">↕</span>
+                                @if ($sortBy !== 'nombre_servicio') <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
                                 @else
