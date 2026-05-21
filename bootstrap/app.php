@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // AQUÍ REGISTRAMOS EL MIDDLEWARE PARA EVITAR EL "ATRÁS"
         $middleware->alias([
             'prevent-back' => \App\Http\Middleware\PreventBackHistory::class,
+            'role' => \App\Http\Middleware\CheckRole::class,
         ]);
 
     })
