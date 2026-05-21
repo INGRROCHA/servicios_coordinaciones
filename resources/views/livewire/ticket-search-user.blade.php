@@ -160,9 +160,9 @@
 					@forelse($tickets as $ticket)
 						<tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->coordinacion->coordinacion }}</td>
-						<td class="px-6 py-4 text-xs">{{ $ticket->seccion->seccion }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->servicio->servicio }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->coordinacion?->coordinacion ?? 'Sin coordinación' }}</td>         
+                        <td class="px-6 py-4 text-xs">{{ $ticket->seccion?->seccion ?? 'Sin sección' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->servicio?->servicio ?? 'Sin servicio' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
