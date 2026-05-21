@@ -2,7 +2,7 @@
 		<div class="px-8 py-4">
 			<input wire:model.live="search" 
 				   type="text" 
-				   placeholder="🔍 Buscar por # de ticket, coordinación, sección o servicio..." 
+				   placeholder="🔍 Buscar por # de ticket, sección o servicio..." 
 				   class="w-1/4 p-4 border-2 border-blue-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
 		</div>
 
@@ -15,18 +15,6 @@
                             <div class="flex items-center">
                                 # Ticket
                                 @if ($sortBy !== 'id_ticket')
-                                    <span class="ml-1 opacity-40">↕</span>
-                                @elseif ($sortDir === 'asc')
-                                    <span class="ml-1">↑</span>
-                                @else
-                                    <span class="ml-1">↓</span>
-                                @endif
-                            </div>
-                        </th>
-                        <th wire:click="setSort('nombre_coordinacion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
-                            <div class="flex items-center">
-                                Coordinación
-                                @if ($sortBy !== 'nombre_coordinacion')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -154,42 +142,51 @@
                                 @endif
                             </div>
                         </th>
+						<th class="px-6 py-4 text-center">Acciones</th>
                 </tr>
             </thead>
 				<tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($tickets as $ticket)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
-                            
-                            <td class="px-6 py-4 text-xs">{{ $ticket->coordinacion?->coordinacion ?? 'Sin coordinación' }}</td>
-                            
-                            <td class="px-6 py-4 text-xs">{{ $ticket->seccion?->seccion ?? 'Sin sección' }}</td>
-                            
-                            <td class="px-6 py-4 text-xs">{{ $ticket->servicio?->servicio ?? 'Sin servicio' }}</td>
-                            
-                            <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
-                            <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
-                            <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
-                            <td class="px-6 py-4 text-xs">{{ $ticket->descripcion }}</td>
-                            
-                            <td class="px-6 py-4">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $ticket->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                    {{ $ticket->estatus }}
-                                </span>
-                            </td>
-                            
-                            <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->created_at }}</td>
-                            <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->observaciones }}</td>
-                            <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->updated_at }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="12" class="px-6 py-10 text-center text-gray-500">
-                                No se encontraron tickets con "{{ $search }}"
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+					@forelse($tickets as $ticket)
+						<tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-xs">{{ $ticket->id_ticket }}</td>
+						<td class="px-6 py-4 text-xs">{{ $ticket->seccion->seccion }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->servicio->servicio }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $ticket->descripcion }}</td>
+                        <!-- Estatus -->
+                        <td class="px-6 py-4">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $ticket->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                {{ $ticket->estatus }}
+                            </span>
+                        </td>
+                        <!--  -->
+                        <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->created_at }}</td>
+                        <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->observaciones }}</td>
+                        <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->updated_at }}</td>
+                        <td class="px-6">
+                            <div class="flex items-center">
+                                <a href="/tickets/{{ $ticket->id_ticket }}/editar" class="flex-shrink-0"> 
+                                    <img src="{{ asset('imagenes/edit.png') }}" alt="Editar" title="Editar Ticket" class="w-[30px] h-[30px] object-contain">
+                                </a>
+                                <a href="/tickets/{{ $ticket->id_ticket }}/generar-pdf" class="flex-shrink-0">
+                                    <img src="{{ asset('imagenes/download-pdf.png') }}" alt="Descargar PDF" title="Descargar PDF" class="w-[30px] h-[30px] object-contain">
+                                </a>
+                                <a href="/tickets/{{ $ticket->id_ticket }}/ver-pdf" target="_blank" class="flex-shrink-0">
+                                    <img src="{{ asset('imagenes/view.png') }}" alt="Ver PDF" title="Ver PDF" class="w-[30px] h-[30px] object-contain">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+					@empty
+						<tr>
+							<td colspan="4" class="px-6 py-10 text-center text-gray-500">
+								No se encontraron tickets con "{{ $search }}"
+							</td>
+						</tr>
+					@endforelse
+				</tbody>
 			</table>
 		</div>
 

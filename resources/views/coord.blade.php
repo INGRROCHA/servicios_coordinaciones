@@ -9,6 +9,6 @@
     </p>
 
     {{-- Pasamos el ID de la coordinación al componente --}}
-    @livewire('ticket-search', ['coordinacionId' => $coord['id_coordinacion']])
+    @livewire('ticket-search-coord', ['coordinacionId' => $coord['id_coordinacion']])
 
 </x-layout>

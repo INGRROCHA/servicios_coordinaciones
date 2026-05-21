@@ -162,6 +162,6 @@ class CrearController extends Controller
             ]
         );
 
-        return redirect('/tickets/show')->with('success', 'Ticket creado exitosamente.');
+        return redirect('/show')->with('success', 'Ticket creado exitosamente.');
     }
 }

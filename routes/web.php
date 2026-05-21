@@ -40,14 +40,19 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
         Route::get('/api/departamentos', [CrearController::class, 'getDepartamentos']);
         Route::get('/api/areas', [CrearController::class, 'getAreas']);
 
-        // Mostrar todos los tickets del usuario general
-        Route::get('/tickets/show/', function() {
-            return view('tickets.show');
+        // Mostrar todos los tickets del usuario
+        Route::get('/show', function() {
+            return view('show');
         });
 
         // Mostrar ticket por id
         Route::get('/tickets/index', [ConsultaController::class, 'mostrarFormulario'])->name('consultar.form');
         Route::post('tickets.index', [ConsultaController::class, 'buscarTicket'])->name('consultar.buscar');
+
+        // Mostrar todos los tickets administrador
+        Route::get('/tickets/all', function() {
+            return view('tickets.all');
+        });
 
         // Mostrar ticket por Coordinacion
         Route::get('/coords/{id}', [ServicioController::class, 'ticketsPorCoordinacion']);
