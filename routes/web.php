@@ -27,35 +27,26 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
     // ------------------------------------------
     Route::get('/mis-tickets', TicketSearchUser::class)->name('tickets.usuario');
     Route::get('/show', function() { return view('show'); });
-    Route::get('/tickets/index', [ConsultaController::class, 'mostrarFormulario'])->name('consultar.form');
-    Route::post('/tickets/buscar', [ConsultaController::class, 'buscarTicket'])->name('consultar.buscar'); // Corregido URI
-    
-    // Ver y descargar PDF (Se asume que el controlador valida que el ticket sea del usuario)
-    Route::get('/tickets/{id_ticket}/generar-pdf', [ServicioController::class, 'generarPdf']);
-    Route::get('/tickets/{id_ticket}/ver-pdf', [ServicioController::class, 'verPdf']);
-
     Route::get('/acerca', function () { return view('acerca'); });
     Route::post('/logout', [AuthWSDLController::class, 'destroy'])->name('logout');
+    Route::get('/tickets/create', [CrearController::class, 'create'])->name('tickets.create');
+    Route::get('/buscar-usuario/{num_economico}', [CrearController::class, 'buscarPorNomina']);
+    Route::post('/guardar-datos-personales', [CrearController::class, 'storeDatosPersonales']);
+    Route::post('/tickets', [CrearController::class, 'crear'])->name('tickets.store');
+    Route::get('/api/departamentos', [CrearController::class, 'getDepartamentos']);
+    Route::get('/api/areas', [CrearController::class, 'getAreas']);
 
     // ------------------------------------------
-    // LEVANTAR TICKETS (Todos los roles permitidos)
-    // ------------------------------------------
-    Route::middleware(['role:usuario,admin,coordinador,seccion'])->group(function () {
-        Route::get('/tickets/create', [CrearController::class, 'create'])->name('tickets.create');
-        Route::get('/buscar-usuario/{num_economico}', [CrearController::class, 'buscarPorNomina']);
-        Route::post('/guardar-datos-personales', [CrearController::class, 'storeDatosPersonales']);
-        Route::post('/tickets', [CrearController::class, 'crear'])->name('tickets.store');
-        Route::get('/api/departamentos', [CrearController::class, 'getDepartamentos']);
-        Route::get('/api/areas', [CrearController::class, 'getAreas']);
-    });
-
-    // ------------------------------------------
-    // STAFF (Solo personal de atención: Admin, Coord, Secc)
+    // Admin, Coord, Secc
     // ------------------------------------------
     Route::middleware(['role:admin,coordinador,seccion'])->group(function () {
         Route::get('/tickets/{id_ticket}/editar', [ServicioController::class, 'edit']); 
-        Route::put('/tickets/{id_ticket}', [EditarController::class, 'editarTicket']);
         Route::get('/obtener-trabajadores', [EditarController::class, 'obtenerTrabajadoresPorSeccion']);
+        Route::put('/tickets/{id_ticket}', [EditarController::class, 'editarTicket']);
+        Route::get('/tickets/{id_ticket}/generar-pdf', [ServicioController::class, 'generarPdf']);
+        Route::get('/tickets/{id_ticket}/ver-pdf', [ServicioController::class, 'verPdf']);
+        Route::get('/tickets/index', [ConsultaController::class, 'mostrarFormulario'])->name('consultar.form');
+        Route::post('/tickets/buscar', [ConsultaController::class, 'buscarTicket'])->name('consultar.buscar');
     });
 
     // ------------------------------------------
@@ -63,7 +54,7 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
     // ------------------------------------------
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/dashboard', TicketSearch::class); 
-        Route::get('/tickets/all', function() { return view('tickets.all'); }); // Protegida por si acaso
+        Route::get('/tickets/all', function() { return view('tickets.all'); }); 
     });
 
     // ------------------------------------------

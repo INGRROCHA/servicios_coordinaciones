@@ -7,7 +7,6 @@ use App\Models\Coordinacion;
 use App\Models\Seccion;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
 class ServicioController extends Controller
 {
     // Método para ver todos los tickets
@@ -18,13 +17,22 @@ class ServicioController extends Controller
         return view('tickets.show', compact('tickets'));
     }
 
+    // ========================================================
     // Método tickets filtrado por coordinación con paginación
-    public function ticketsPorCoordinacion($id)
+    // ========================================================
+    public function ticketsPorCoordinacion(int $id)
     {
+        // 🛡️ SEGURIDAD: Si es un coordinador, forzamos a que el ID sea el suyo de la sesión.
+        // Se ignora cualquier número que intente escribir manualmente en la URL.
+        // Si el usuario es 'admin', el if se ignora y respeta el $id que viene en la URL.
+        if (session('usuario_rol') === 'coordinador') {
+            $id = session('id_coordinacion');
+        }
+
         $coord = Coordinacion::find($id);
         
         if (!$coord) {
-            abort(404);
+            abort(404, 'La coordinación solicitada no existe.');
         }
 
         $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
@@ -34,13 +42,21 @@ class ServicioController extends Controller
         return view('coord', compact('tickets', 'coord'));
     }
 
+    // ========================================================
     // Método tickets filtrado por Seccion con paginación
-    public function ticketsPorSeccion($id2)
+    // ========================================================
+    public function ticketsPorSeccion(int $id2)
     {
+        // 🛡️ SEGURIDAD: Si es usuario de sección, forzamos su ID de sesión.
+        // Si es 'admin', se le permite ver el ID de la URL que solicitó.
+        if (session('usuario_rol') === 'seccion') {
+            $id2 = session('id_seccion');
+        }
+
         $secc = Seccion::find($id2);
         
         if (!$secc) {
-            abort(404);
+            abort(404, 'La sección solicitada no existe.');
         }
 
         $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
@@ -51,7 +67,7 @@ class ServicioController extends Controller
     }
 
     // Método que edita el ticket por su id_ticket
-     public function edit($id_ticket)
+    public function edit($id_ticket)
     {
         $ticket = Ticket::with(['users', 'dpersonales'])->where('id_ticket', $id_ticket)->firstOrFail();
         return view('tickets.edit', compact('ticket'));

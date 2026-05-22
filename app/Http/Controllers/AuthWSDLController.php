@@ -67,8 +67,7 @@ class AuthWSDLController extends Controller
                 $idCoordinacion = null;
                 $idSeccion = null;
 
-                // 1. Prioridad Alta: Buscamos si el número económico está registrado como Administrador (dis_sis)
-                // Lo buscamos directamente con $request->IdUsuario por seguridad
+            // 1. Prioridad Alta: Buscamos si el número económico está registrado como Administrador (dis_sis)
                 $matchDis = DB::table('dis_sis')
                     ->join('rol', 'dis_sis.id_rol', '=', 'rol.id_rol')
                     ->where('dis_sis.num_economico', $request->IdUsuario)
@@ -76,8 +75,9 @@ class AuthWSDLController extends Controller
                     ->first();
 
                 if ($matchDis) {
-                    // Si la DB devuelve 'administrador', lo homologamos a 'admin' para que coincida con tus rutas
-                    $rol = ($matchDis->nombre_rol === 'administrador') ? 'admin' : $matchDis->nombre_rol;
+                    // Convertimos a minúsculas para evitar fallas por mayúsculas en la DB
+                    $rolLimpio = trim(strtolower($matchDis->nombre_rol));
+                    $rol = ($rolLimpio === 'administrador') ? 'admin' : $rolLimpio;
                     $idDisSis = $matchDis->id_dis_sis;
 
                 } elseif ($empleado) {
@@ -91,7 +91,7 @@ class AuthWSDLController extends Controller
                         ->first();
 
                     if ($matchCoord) {
-                        $rol = $matchCoord->nombre_rol; // Tomará el valor 'coordinador'
+                        $rol = trim(strtolower($matchCoord->nombre_rol)); // Forzamos minúsculas (coordinador)
                         $idCoordinacion = $matchCoord->id_coordinacion;
                     } else {
                         
@@ -104,7 +104,7 @@ class AuthWSDLController extends Controller
                             ->first();
 
                         if ($matchSecc) {
-                            $rol = $matchSecc->nombre_rol; // Tomará el valor 'seccion'
+                            $rol = trim(strtolower($matchSecc->nombre_rol)); // Forzamos minúsculas (seccion)
                             $idSeccion = $matchSecc->id_seccion;
                         }
                     }
@@ -116,22 +116,25 @@ class AuthWSDLController extends Controller
                     'no_economico'        => $request->IdUsuario,
                     'solo_nombre'         => $tercerDato, 
                     'usuario_rol'         => $rol,
-                    'id_dis_sis'          => $idDisSis,      // Corregido el string y añadida la coma
+                    'id_dis_sis'          => $idDisSis,      
                     'id_coordinacion'     => $idCoordinacion, 
                     'id_seccion'          => $idSeccion       
                 ]);
 
-                // REDIRECCIÓN DINÁMICA CON CONCATENACIÓN DE VARIABLES REALES
+
+                // ======================================================================
+                // 🛡️ REDIRECCIÓN FORZADA (Cambiamos redirect()->intended por redirect())
+                // ======================================================================
                 if ($rol === 'admin') {
-                    return redirect()->intended('/tickets/all')->with('success', 'Panel de Administrador.');
+                    return redirect('/tickets/all')->with('success', 'Panel de Administrador.');
                 } elseif ($rol === 'coordinador') {
-                    return redirect()->intended('/coords/' . $idCoordinacion)->with('success', 'Panel de Coordinación.');
+                    return redirect('/coords/' . $idCoordinacion)->with('success', 'Panel de Coordinación.');
                 } elseif ($rol === 'seccion') {
-                    return redirect()->intended('/seccs/' . $idSeccion)->with('success', 'Panel de Sección.');
+                    return redirect('/seccs/' . $idSeccion)->with('success', 'Panel de Sección.');
                 }
 
                 // Redirección por defecto (Trabajador común)
-                return redirect()->intended('/tickets/create')->with('success', '¡Bienvenido ' . $tercerDato . '! Has iniciado sesión correctamente.');
+                return redirect('/tickets/create')->with('success', '¡Bienvenido ' . $tercerDato . '! Has iniciado sesión correctamente.');
                     
             } else {
                 return back()->with('error', 'No. Económico o NIP incorrectos.')->withInput();
