@@ -63,11 +63,26 @@ class AuthWSDLController extends Controller
 
                 // Valores por defecto
                 $rol = 'usuario'; 
+                $idDisSis = null;
                 $idCoordinacion = null;
                 $idSeccion = null;
 
-                if ($empleado) {
-                    // 1. Buscamos primero si la combinación existe en la tabla de Coordinaciones
+                // 1. Prioridad Alta: Buscamos si el número económico está registrado como Administrador (dis_sis)
+                // Lo buscamos directamente con $request->IdUsuario por seguridad
+                $matchDis = DB::table('dis_sis')
+                    ->join('rol', 'dis_sis.id_rol', '=', 'rol.id_rol')
+                    ->where('dis_sis.num_economico', $request->IdUsuario)
+                    ->select('rol.tipo_rol as nombre_rol', 'dis_sis.id_dis_sis')
+                    ->first();
+
+                if ($matchDis) {
+                    // Si la DB devuelve 'administrador', lo homologamos a 'admin' para que coincida con tus rutas
+                    $rol = ($matchDis->nombre_rol === 'administrador') ? 'admin' : $matchDis->nombre_rol;
+                    $idDisSis = $matchDis->id_dis_sis;
+
+                } elseif ($empleado) {
+                    
+                    // 2. Si no es administrador, buscamos si la combinación existe en Coordinaciones
                     $matchCoord = DB::table('coordinaciones')
                         ->join('rol', 'coordinaciones.id_rol', '=', 'rol.id_rol')
                         ->where('coordinaciones.ClavePuesto', $empleado->ClavePuesto)
@@ -76,10 +91,11 @@ class AuthWSDLController extends Controller
                         ->first();
 
                     if ($matchCoord) {
-                        $rol = $matchCoord->nombre_rol; // Tomará valores como 'coordinador'
+                        $rol = $matchCoord->nombre_rol; // Tomará el valor 'coordinador'
                         $idCoordinacion = $matchCoord->id_coordinacion;
                     } else {
-                        // 2. Si no fue así, buscamos en la tabla de Secciones
+                        
+                        // 3. Si tampoco es coordinación, buscamos en la tabla de Secciones
                         $matchSecc = DB::table('secciones')
                             ->join('rol', 'secciones.id_rol', '=', 'rol.id_rol')
                             ->where('secciones.ClavePuesto', $empleado->ClavePuesto)
@@ -88,32 +104,30 @@ class AuthWSDLController extends Controller
                             ->first();
 
                         if ($matchSecc) {
-                            $rol = $matchSecc->nombre_rol; // Tomará valores como 'seccion'
+                            $rol = $matchSecc->nombre_rol; // Tomará el valor 'seccion'
                             $idSeccion = $matchSecc->id_seccion;
                         }
                     }
                 }
 
-                // Guardamos los datos en la SESIÓN de Laravel
+                // Guardamos los datos corregidos en la SESIÓN de Laravel
                 session([
                     'usuario_autenticado' => true,
                     'no_economico'        => $request->IdUsuario,
-                    'solo_nombre'         => $tercerDato, // <-- CORREGIDO: Faltaba una coma aquí
+                    'solo_nombre'         => $tercerDato, 
                     'usuario_rol'         => $rol,
-                    
-                    // BONUS: Guardamos los IDs correspondientes en la sesión. 
-                    // Esto evitará que tengas que pasarlos por la URL en tus componentes Livewire.
+                    'id_dis_sis'          => $idDisSis,      // Corregido el string y añadida la coma
                     'id_coordinacion'     => $idCoordinacion, 
                     'id_seccion'          => $idSeccion       
                 ]);
 
-                // REDIRECCIÓN DINÁMICA SEGÚN EL ROL DEVUELTO POR LA BASE DE DATOS
+                // REDIRECCIÓN DINÁMICA CON CONCATENACIÓN DE VARIABLES REALES
                 if ($rol === 'admin') {
-                    return redirect()->intended('/admin/dashboard')->with('success', 'Panel de Administrador.');
+                    return redirect()->intended('/tickets/all')->with('success', 'Panel de Administrador.');
                 } elseif ($rol === 'coordinador') {
-                    return redirect()->intended('/tickets/coordinacion')->with('success', 'Panel de Coordinación.');
+                    return redirect()->intended('/coords/' . $idCoordinacion)->with('success', 'Panel de Coordinación.');
                 } elseif ($rol === 'seccion') {
-                    return redirect()->intended('/tickets/seccion')->with('success', 'Panel de Sección.');
+                    return redirect()->intended('/seccs/' . $idSeccion)->with('success', 'Panel de Sección.');
                 }
 
                 // Redirección por defecto (Trabajador común)
