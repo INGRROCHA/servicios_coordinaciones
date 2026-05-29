@@ -9,6 +9,8 @@ class Estado extends Model
 {
     protected $table = 'estado_ticket';
     protected $primaryKey = 'estado';
+    public $incrementing = false;
+    protected $keyType = 'int';
     protected $fillable = ['tipo_estado', 'descripcion', 'estatus'];
     public $timestamps = true;
 

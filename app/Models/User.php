@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->belongsTo(Ticket::class, 'num_economico', 'num_economico');
     }
 
-    public function estado(): BelongsTo
+    public function estadoRelacion(): BelongsTo
     {
         return $this->belongsTo(Estado::class, 'id_estado', 'id_estado');
     }

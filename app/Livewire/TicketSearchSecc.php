@@ -43,7 +43,7 @@ class TicketSearchSecc extends Component
             ->select('ticket.*') 
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion') 
-            ->with(['seccion', 'servicio', 'coordinacion']) 
+            ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) 
             ->where('ticket.id_seccion', $this->seccionId);
 
         // 2. Aplicamos la búsqueda expandida

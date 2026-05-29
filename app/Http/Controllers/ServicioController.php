@@ -35,7 +35,7 @@ class ServicioController extends Controller
             abort(404, 'La coordinación solicitada no existe.');
         }
 
-        $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
+        $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales', 'estadoRelacion'])
                         ->where('id_coordinacion', $id)
                         ->paginate(20); 
 
@@ -59,7 +59,7 @@ class ServicioController extends Controller
             abort(404, 'La sección solicitada no existe.');
         }
 
-        $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
+        $tickets = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales', 'estadoRelacion'])
                         ->where('id_seccion', $id2)
                         ->paginate(20); 
 
@@ -76,7 +76,7 @@ class ServicioController extends Controller
     // Método para ver el PDF
     public function verPdf($id_ticket)
     {  
-        $ticket = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
+        $ticket = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales', 'estadoRelacion'])
                         ->where('id_ticket', $id_ticket)
                         ->firstOrFail();
 
@@ -86,7 +86,7 @@ class ServicioController extends Controller
     // Método para generar el PDF
     public function generarPdf($id_ticket)
     {
-        $ticket = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales'])
+        $ticket = Ticket::with(['coordinacion', 'seccion', 'servicio', 'users', 'dpersonales', 'estadoRelacion'])
                         ->where('id_ticket', $id_ticket)
                         ->firstOrFail();
         $data = ['ticket' => $ticket];

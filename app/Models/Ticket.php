@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Coordinacion;
 use App\Models\Seccion;
 use App\Models\Servicio;
+use App\Models\Estado;
 use Spatie\Activitylog\Traits\LogsActivity; 
 use Spatie\Activitylog\LogOptions;          
 
 class Ticket extends Model
 {
-
-    use LogsActivity; // <-- 3. Usar el Trait
+    use LogsActivity;
 
     protected $table = 'ticket';
     protected $primaryKey = 'id_ticket';
+    
     protected $fillable = [
         'id_ticket',
         'id_coordinacion',
@@ -37,108 +38,109 @@ class Ticket extends Model
         'updated_at'
     ];
     
-    // Valor por defecto para descripción si no se envía
+    // Valor por defecto para atributos
     protected $attributes = [
-        'email' => '', // Valor por defecto vacío
-        'descripcion' => '', // Valor por defecto vacío
-        'observaciones' => '',// Valor por defecto vacío
-        'estado' => 1, // Valor por defecto 1 (Abierto)
-        'id_tr_secc' => '', // Valor por defecto vacío
-        'estatus' => true, // Valor por defecto activo
+        'email'         => '', 
+        'descripcion'   => '', 
+        'observaciones' => '',
+        'estado'        => 1, 
+        'id_tr_secc'    => '', 
+        'estatus'       => 1, 
     ];
 
+    // Casteo de tipos
+    protected $casts = [
+        'estado'  => 'integer',
+        'estatus' => 'integer',
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            // Indica qué campos quieres rastrear cuando cambien
             ->logFillable() 
-            // Opcional: Solo registrar si realmente hubo un cambio
             ->logOnlyDirty()
-            // Opcional: No guardar registros vacíos si no cambió nada
             ->dontSubmitEmptyLogs()
-            // Opcional: Nombre para identificar estos logs fácilmente
             ->useLogName('ticket_modificacion'); 
     }
 
-    // Atributo de estatus como booleano
-    protected $casts = [
-        'estatus' => 'boolean',
-    ];
-
-    public function setEstatusAttribute($value)
+    // ==========================================
+    // ACCESOR PARA EL NOMBRE DEL ESTADO (DINÁMICO DESDE BD)
+    // ==========================================
+    public function getEstadoNombreAttribute()
     {
-        $this->attributes['estatus'] = ($value === 'activo') ? 1 : 0;
+        // Navega a través de la relación hacia la tabla estado_ticket
+        // y extrae la columna 'tipo_estado'
+        return $this->estadoRelacion?->tipo_estado ?? 'Desconocido';
     }
 
-    public function getEstatusAttribute($value)
+    // ==========================================
+    // ACCESOR PARA EL COLOR DEL ESTADO (TAILWIND)
+    // ==========================================
+    public function getEstadoColorAttribute()
     {
-        return $value ? 'activo' : 'inactivo';
+        // Aquí mapeamos los colores directo por el ID numérico del estado
+        $colores = [
+            1 => 'bg-blue-100 text-blue-800',      // 1 = Abierto
+            2 => 'bg-yellow-100 text-yellow-800',  // 2 = En Proceso
+            3 => 'bg-red-100 text-red-800',        // 3 = Cancelado
+            4 => 'bg-indigo-100 text-indigo-800',  // 4 = Asignado
+            5 => 'bg-purple-100 text-purple-800',  // 5 = Reasignado
+            9 => 'bg-green-100 text-green-800',    // 9 = Cerrado
+        ];
+
+        return $colores[$this->estado] ?? 'bg-gray-100 text-gray-800';
     }
 
     public $timestamps = true;
 
+    // ==========================================
+    // RELACIONES
+    // ==========================================
 
-    // 🔹 Relación con Coordinacion
-    public function coordinacion(): BelongsTo
-    {
-        // belongsTo(ModeloRelacionado, 'llave_foranea_en_ticket', 'llave_primaria_en_coordinacion')
+    public function coordinacion(): BelongsTo {
         return $this->belongsTo(Coordinacion::class, 'id_coordinacion', 'id_coordinacion');
     }
 
-    // 🔹 Relación con Sección
-    public function seccion(): BelongsTo
-    {
+    public function seccion(): BelongsTo {
         return $this->belongsTo(Seccion::class, 'id_seccion', 'id_seccion');
     }
 
-    // 🔹 Relación con Servicio
-    public function servicio(): BelongsTo
-    {
+    public function servicio(): BelongsTo {
         return $this->belongsTo(Servicio::class, 'id_servicio', 'id_servicio');
     }
 
-     // 🔹 Relación con User
-    public function users(): BelongsTo
-    {
+    public function users(): BelongsTo {
         return $this->belongsTo(User::class, 'num_economico', 'num_economico');
     }
 
-     // 🔹 Relación con Dpersonales
-     public function dpersonales(): BelongsTo
-    {
+    public function dpersonales(): BelongsTo {
         return $this->belongsTo(Dpersonales::class, 'num_economico', 'num_economico');
     }
     
-       // 🔹 Relación con Estado
-    public function estado(): BelongsTo
+    // 🔹 Relación con la tabla estado_ticket
+    public function estadoRelacion(): BelongsTo 
     {
-        return $this->belongsTo(Estado::class, 'id_estado', 'id_estado');
+        // belongsTo(Modelo, 'llave_foranea_en_ticket', 'llave_primaria_en_estado_ticket')
+        return $this->belongsTo(Estado::class, 'estado', 'estado');
     }
 
-        // 🔹 Relación con Trabajadores
-    public function trabajadores(): BelongsTo
-    {
-        // belongsTo(ModeloRelacionado, 'llave_foranea_en_Ticket', 'llave_primaria_en_Trabajadores')
+    public function trabajadores(): BelongsTo {
         return $this->belongsTo(Trabajador::class, 'id_tr_secc', 'id_tr_secc');
     }
-        
-    
 
-    public function getNombreCoordinacionAttribute()
-    {
+    // ==========================================
+    // ACCESORES DE NOMBRES
+    // ==========================================
+
+    public function getNombreCoordinacionAttribute() {
         return $this->coordinacion?->nombre ?? 'Sin definir';
     }
 
-    public function getNombreSeccionAttribute()
-    {
+    public function getNombreSeccionAttribute() {
         return $this->seccion?->nombre ?? 'Sin definir';
     }
 
-    public function getNombreServicioAttribute()
-    {
+    public function getNombreServicioAttribute() {
         return $this->servicio?->nombre ?? 'Sin definir';
     }
-
-
 }

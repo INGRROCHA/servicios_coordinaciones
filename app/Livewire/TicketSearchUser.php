@@ -50,7 +50,7 @@ class TicketSearchUser extends Component
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
-            ->with(['seccion', 'servicio', 'coordinacion']) // Mantiene la carga optimizada de relaciones
+            ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) // Mantiene la carga optimizada de relaciones
             ->where('ticket.num_economico', $this->no_economico); // Especificamos la tabla para evitar ambigüedad
 
         // 2. Aplicamos la búsqueda expandida (Search) incluyendo las tablas unidas

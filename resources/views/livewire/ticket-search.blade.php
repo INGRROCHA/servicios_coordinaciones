@@ -106,10 +106,10 @@
                                 @endif
                             </div>
                         </th>
-						<th wire:click="setSort('estatus')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
+						<th wire:click="setSort('estado')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                             <div class="flex items-center">
                                 Estatus
-                                @if ($sortBy !== 'estatus')
+                                @if ($sortBy !== 'estado')
                                     <span class="ml-1 opacity-40">↕</span>
                                 @elseif ($sortDir === 'asc')
                                     <span class="ml-1">↑</span>
@@ -167,13 +167,13 @@
                             <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
                             <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
                             <td class="px-6 py-4 text-xs">{{ $ticket->descripcion }}</td>
-                            
-                            <td class="px-6 py-4">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $ticket->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                    {{ $ticket->estatus }}
-                                </span>
-                            </td>
-                            
+                        <!-- Estado -->
+                        <td class="px-6 py-4">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $ticket->estado_color }}">
+                                {{ $ticket->estado_nombre }}
+                            </span>
+                        </td>
+                        <!--  -->
                             <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->created_at }}</td>
                             <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->observaciones }}</td>
                             <td class="px-6 py-4 text-xs text-gray-800">{{ $ticket->updated_at }}</td>

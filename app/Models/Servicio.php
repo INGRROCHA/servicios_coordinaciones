@@ -17,7 +17,7 @@ class Servicio extends Model
         return $this->hasMany(Ticket::class);
     }
 
-     public function estado(): HasMany
+     public function estadoRelacion(): HasMany
     {
         return $this->hasMany(Estado::class);
     }

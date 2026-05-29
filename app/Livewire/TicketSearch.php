@@ -44,7 +44,7 @@ class TicketSearch extends Component
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion') // Incluido para el rastro global
-            ->with(['seccion', 'servicio', 'coordinacion']); 
+            ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']); 
 
         // 2. Aplicamos la búsqueda expandida a nivel sistema
         $query->where(function($q) {

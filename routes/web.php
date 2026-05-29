@@ -25,9 +25,9 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
     // ------------------------------------------
     // RUTAS GLOBALES (Todos los usuarios autenticados)
     // ------------------------------------------
-    Route::get('/mis-tickets', TicketSearchUser::class)->name('tickets.usuario');
+    //Route::get('/mis-tickets', TicketSearchUser::class)->name('tickets.usuario');
     Route::get('/show', function() { return view('show'); });
-    Route::get('/acerca', function () { return view('acerca'); });
+    //Route::get('/acerca', function () { return view('acerca'); });
     Route::post('/logout', [AuthWSDLController::class, 'destroy'])->name('logout');
     Route::get('/tickets/create', [CrearController::class, 'create'])->name('tickets.create');
     Route::get('/buscar-usuario/{num_economico}', [CrearController::class, 'buscarPorNomina']);
@@ -53,7 +53,7 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
     // ADMINISTRADOR
     // ------------------------------------------
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/admin/dashboard', TicketSearch::class); 
+        //Route::get('/admin/dashboard', TicketSearch::class); 
         Route::get('/tickets/all', function() { return view('tickets.all'); }); 
     });
 

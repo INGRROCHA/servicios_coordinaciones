@@ -128,7 +128,7 @@ class CrearController extends Controller
         $descripcion = $request->input('descripcion') ?? '';
         $observaciones = $request->input('observaciones') ?? '';
         
-        // 3. Crea el ticket en la BD PRINCIPAL
+       // 3. Crea el ticket en la BD PRINCIPAL
         Models\Ticket::create([
             'id_coordinacion' => $request->input('coordinacion'),
             'id_seccion'      => $request->input('seccion'), 
@@ -143,10 +143,12 @@ class CrearController extends Controller
             'area_secc'       => $request->input('area_secc'),
 
             'descripcion'     => $descripcion, 
-            'estado'          => 1, // Para desarrollo, se asigna el estado "Abierto"
             'observaciones'   => $observaciones, 
             'id_tr_secc'      => null, 
-            'estatus'         => 'activo'
+
+            // Usamos la constante del modelo en lugar de un número duro
+            'estado'          => 1,
+            'estatus'         => true // Al ser booleano mandamos 'true' (o 1, ambos funcionan)
         ]);
 
         // 4. Actualiza o inserta en dpersonales (BD PRINCIPAL)
