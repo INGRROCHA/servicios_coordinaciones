@@ -134,7 +134,7 @@ class AuthWSDLController extends Controller
                 }
 
                 // Redirección por defecto (Trabajador común)
-                return redirect('/tickets/create')->with('success', '¡Bienvenido ' . $tercerDato . '! Has iniciado sesión correctamente.');
+                return redirect('/show')->with('success', '¡Bienvenido ' . $tercerDato . '! Has iniciado sesión correctamente.');
                     
             } else {
                 return back()->with('error', 'No. Económico o NIP incorrectos.')->withInput();
