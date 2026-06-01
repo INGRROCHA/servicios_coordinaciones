@@ -50,7 +50,7 @@
             <button wire:click="setEstadoFilter(9)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ $selectedEstado == 9 ? 'bg-green-600 text-white border-green-600' : 'bg-green-50 text-green-800 border-green-200 hover:bg-green-100' }}">
-                Cerrados
+                Realizados
             </button>
         </div>
     </div>

@@ -226,7 +226,11 @@
                         </div>
                     </div> 
 
-                    <div class="mt-8 text-right">
+                    <!-- BOTONES DE ACCIÓN -->
+                    <div class="mt-8 flex justify-end gap-4 border-t pt-6">
+                        <a href="javascript:history.back()" class="bg-gray-500 text-white text-lg font-semibold px-8 py-3 rounded-lg shadow hover:bg-gray-700 transition duration-200" style="text-decoration: none;">
+                            Cancelar
+                        </a> 
                         <button type="submit" class="bg-blue-600 text-white text-lg font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-800 transition duration-200">
                             Registrar Ticket
                         </button>
