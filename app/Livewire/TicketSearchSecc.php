@@ -36,6 +36,16 @@ class TicketSearchSecc extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    // Guarda el ID del estado seleccionado (null significa "Todos")
+    public $selectedEstado = null;
+
+    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
+    public function setEstadoFilter($estadoId)
+    {
+        $this->selectedEstado = $estadoId;
+        $this->resetPage();
+    }
+
     public function render()
     {
         // 1. Consulta base
@@ -44,7 +54,11 @@ class TicketSearchSecc extends Component
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion') 
             ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) 
-            ->where('ticket.id_seccion', $this->seccionId);
+            ->where('ticket.id_seccion', $this->seccionId)
+            // Filtro de los botones de estado (si se ha seleccionado alguno)
+            ->when($this->selectedEstado, function ($q) {
+                $q->where('ticket.estado', $this->selectedEstado);
+            });
 
         // 2. Aplicamos la búsqueda expandida
         $query->where(function($q) {

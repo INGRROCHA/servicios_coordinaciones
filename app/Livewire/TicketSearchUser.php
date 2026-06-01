@@ -42,6 +42,17 @@ class TicketSearchUser extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    // Guarda el ID del estado seleccionado (null significa "Todos")
+    public $selectedEstado = null;
+
+    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
+    public function setEstadoFilter($estadoId)
+    {
+        $this->selectedEstado = $estadoId;
+        $this->resetPage();
+    }
+
+
     public function render()
     {
         // 1. Iniciamos la consulta base fijando los LEFT JOINS y el SELECT principal
@@ -51,7 +62,11 @@ class TicketSearchUser extends Component
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
             ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) // Mantiene la carga optimizada de relaciones
-            ->where('ticket.num_economico', $this->no_economico); // Especificamos la tabla para evitar ambigüedad
+            ->where('ticket.num_economico', $this->no_economico) // Especificamos la tabla para evitar ambigüedad
+            // Filtro de los botones de estado (si se ha seleccionado alguno)
+            ->when($this->selectedEstado, function ($q) {
+                $q->where('ticket.estado', $this->selectedEstado);
+            });
 
         // 2. Aplicamos la búsqueda expandida (Search) incluyendo las tablas unidas
         $query->where(function($q) {

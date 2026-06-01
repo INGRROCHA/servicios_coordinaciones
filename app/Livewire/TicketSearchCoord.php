@@ -36,6 +36,17 @@ class TicketSearchCoord extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    // Guarda el ID del estado seleccionado (null significa "Todos")
+    public $selectedEstado = null;
+
+    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
+    public function setEstadoFilter($estadoId)
+    {
+        $this->selectedEstado = $estadoId;
+        $this->resetPage();
+    }
+
+
     public function render()
     {
         // 1. Consulta base con prefijo de tabla en el WHERE para evitar ambigüedad
@@ -44,7 +55,11 @@ class TicketSearchCoord extends Component
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) 
-            ->where('ticket.id_coordinacion', $this->coordinacionId);
+            ->where('ticket.id_coordinacion', $this->coordinacionId)
+            // Filtro de los botones de estado (si se ha seleccionado alguno)
+            ->when($this->selectedEstado, function ($q) {
+                $q->where('ticket.estado', $this->selectedEstado);
+            });
 
         // 2. Aplicamos la búsqueda expandida
         $query->where(function($q) {
