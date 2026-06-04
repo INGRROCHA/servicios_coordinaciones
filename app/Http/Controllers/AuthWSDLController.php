@@ -114,6 +114,7 @@ class AuthWSDLController extends Controller
                 session([
                     'usuario_autenticado' => true,
                     'no_economico'        => $request->IdUsuario,
+                    'nombre_completo'     => $nombreCompleto,
                     'solo_nombre'         => $tercerDato, 
                     'usuario_rol'         => $rol,
                     'id_dis_sis'          => $idDisSis,      

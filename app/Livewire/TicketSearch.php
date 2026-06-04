@@ -10,11 +10,15 @@ class TicketSearch extends Component
 {
     use WithPagination;
 
+    // Propiedades públicas estables para la vista
     public $search = '';
-    public ?int $coordinacionId = null; 
+    public $coordinacionId = null; 
+    public $selectedEstado = null;
     public $sortBy = 'id_ticket';
     public $sortDir = 'desc';
     public $perPage = 10; 
+
+    protected $paginationTheme = 'tailwind';
 
     public function mount($coordinacionId = null)
     {
@@ -34,58 +38,63 @@ class TicketSearch extends Component
         }
     }
 
-    protected $paginationTheme = 'tailwind';
-
-    // Guarda el ID del estado seleccionado (null significa "Todos")
-    public $selectedEstado = null;
-
-    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
+    // Métodos limpios de asignación de filtros
     public function setEstadoFilter($estadoId)
     {
         $this->selectedEstado = $estadoId;
         $this->resetPage();
     }
 
+    public function setCoordinacionFilter($coordinacionId)
+    {
+        $this->coordinacionId = $coordinacionId;
+        $this->resetPage();
+    }
+
     public function render()
     {
-        // 1. Consulta base global 
+        // 1. Inicialización de la Query estructurada
         $query = Ticket::query()
             ->select('ticket.*') 
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
-            ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion') // Incluido para el rastro global
-            ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion'])
-            // Filtro de los botones de estado (si se ha seleccionado alguno)
-            ->when($this->selectedEstado, function ($q) {
-                $q->where('ticket.estado', $this->selectedEstado);
-            }); 
+            ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
+            ->with(['seccion', 'servicio', 'coordinacion', 'estadoRelacion']);
 
-        // 2. Aplicamos la búsqueda expandida a nivel sistema
-        $query->where(function($q) {
-            $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
-              ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
-              ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
-              ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%'); // Buscable globalmente
-        });
+        // 2. Filtros Condicionales Activos
+        if (!is_null($this->selectedEstado)) {
+            $query->where('ticket.estado', $this->selectedEstado);
+        }
 
-        // 3. Ordenamiento completo para las 3 tablas relacionales
+        if (!is_null($this->coordinacionId)) {
+            $query->where('ticket.id_coordinacion', $this->coordinacionId);
+        }
+
+        // 3. Motor de Búsqueda por Cadenas de Texto
+        if (!empty($this->search)) {
+            $query->where(function($q) {
+                $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
+                  ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
+                  ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
+                  ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        // 4. Procesamiento del Ordenamiento Dinámico
         if ($this->sortBy === 'nombre_seccion') {
             $query->orderBy('secciones.seccion', $this->sortDir);
         } elseif ($this->sortBy === 'nombre_servicio') {
             $query->orderBy('servicios.servicio', $this->sortDir);
         } elseif ($this->sortBy === 'nombre_coordinacion') {
-            $query->orderBy('coordinaciones.coordinacion', $this->sortDir); // Ordenable globalmente
+            $query->orderBy('coordinaciones.coordinacion', $this->sortDir);
         } else {
             $query->orderBy('ticket.' . $this->sortBy, $this->sortDir);
         }
 
-        // 4. Ejecutamos la paginación
-        $tickets = $query->paginate($this->perPage);
-
         return view('livewire.ticket-search', [
-            'tickets' => $tickets
+            'tickets' => $query->paginate($this->perPage)
         ])->layout('components.layout');
     }
 }

@@ -28,7 +28,8 @@
     
     <div class="bg-blue-50 p-4 rounded-lg mb-6">
         <p class="text-blue-800">
-            <strong>No. Económico:</strong> {{ session('no_economico') }}
+            <strong>Usuario:</strong> {{ session('nombre_completo') }} 
+            <strong>,   No. Económico:</strong> {{ session('no_economico') }}
         </p>
     </div>
 
@@ -40,9 +41,16 @@
     @if(session('usuario_autenticado'))
         <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
-            <button type="submit" class="bg-red-700 text-white px-6 py-2 rounded hover:bg-red-500">Salir</button>
-        </form>
-    
+            <button type="submit" 
+                    class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+                
+                Salir
+            </button>
+        </form>    
     @endif
    
 

@@ -10,11 +10,16 @@ class TicketSearchUser extends Component
 {
     use WithPagination;
 
+    // Propiedades de estado estables
     public $search = '';
     public $sortBy = 'id_ticket';
     public $sortDir = 'desc';
     public $perPage = 10;
     public ?string $no_economico = null;
+    
+    // Filtros activos coordinados
+    public $selectedEstado = null;
+    public $coordinacionId = null; 
 
     public function mount(?string $no_economico = null)
     {
@@ -42,43 +47,53 @@ class TicketSearchUser extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    // Guarda el ID del estado seleccionado (null significa "Todos")
-    public $selectedEstado = null;
-
-    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
+    // Método que escucha a los botones de estado
     public function setEstadoFilter($estadoId)
     {
         $this->selectedEstado = $estadoId;
         $this->resetPage();
     }
 
+    // Nuevo método que escucha a los botones de coordinación
+    public function setCoordinacionFilter($coordinacionId)
+    {
+        $this->coordinacionId = $coordinacionId;
+        $this->resetPage();
+    }
 
     public function render()
     {
-        // 1. Iniciamos la consulta base fijando los LEFT JOINS y el SELECT principal
+        // 1. Iniciamos la consulta base fijando los LEFT JOINS y restricciones del usuario
         $query = Ticket::query()
-            ->select('ticket.*') // Evita que se mezclen IDs de las tablas unidas
+            ->select('ticket.*') 
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->leftJoin('coordinaciones', 'ticket.id_coordinacion', '=', 'coordinaciones.id_coordinacion')
-            ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) // Mantiene la carga optimizada de relaciones
-            ->where('ticket.num_economico', $this->no_economico) // Especificamos la tabla para evitar ambigüedad
-            // Filtro de los botones de estado (si se ha seleccionado alguno)
+            ->with(['seccion', 'servicio', 'coordinacion', 'estadoRelacion']) 
+            ->where('ticket.num_economico', $this->no_economico) 
+            
+            // Filtro dinámico de Estados
             ->when($this->selectedEstado, function ($q) {
                 $q->where('ticket.estado', $this->selectedEstado);
+            })
+            // Nuevo filtro dinámico de Coordinación heredado
+            ->when($this->coordinacionId, function ($q) {
+                $q->where('ticket.id_coordinacion', $this->coordinacionId);
             });
 
-        // 2. Aplicamos la búsqueda expandida (Search) incluyendo las tablas unidas
-        $query->where(function($q) {
-            $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
-              ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
-              ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
-              ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
-        });
+        // 2. Aplicamos la búsqueda por caracteres (Search)
+        if (!empty($this->search)) {
+            $query->where(function($q) {
+                $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
+                  ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
+                  ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%')
+                  ->orWhere('coordinaciones.coordinacion', 'like', '%' . $this->search . '%');
+            });
+        }
 
-        // 3. Aplicamos el Ordenamiento (Sort) de forma simplificada
+        // 3. Sistema de Ordenamiento Estructurado
         if ($this->sortBy === 'nombre_servicio') {
             $query->orderBy('servicios.servicio', $this->sortDir);
         } elseif ($this->sortBy === 'nombre_seccion') {
@@ -86,11 +101,10 @@ class TicketSearchUser extends Component
         } elseif ($this->sortBy === 'nombre_coordinacion') {
             $query->orderBy('coordinaciones.coordinacion', $this->sortDir);
         } else {
-            // Columnas directas de la tabla ticket
             $query->orderBy('ticket.' . $this->sortBy, $this->sortDir);
         }
 
-        // 4. Ejecutamos la paginación
+        // 4. Ejecutamos la paginación limpia
         $tickets = $query->paginate($this->perPage);
 
         return view('livewire.ticket-search-user', [
