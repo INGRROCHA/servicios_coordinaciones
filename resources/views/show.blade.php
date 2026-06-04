@@ -23,6 +23,13 @@
                         </svg>
                         Panel de Administrador
                     </a>
+                    <a href="{{ url('/tickets/all') }}" 
+                       class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h18" />
+                        </svg>
+                        Todas las Coordinaciones
+                    </a>
 
                 {{-- CASO 2: Es Coordinador --}}
                 @elseif(session('usuario_rol') === 'coordinador' && session('id_coordinacion'))
