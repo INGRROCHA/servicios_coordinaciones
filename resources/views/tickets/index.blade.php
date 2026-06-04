@@ -91,6 +91,10 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th class="py-3 px-2 font-semibold text-gray-900 bg-gray-50/50">Trabajador Asignado</th>
+                                <td class="py-3 px-2 whitespace-pre-line text-justify">{{ $ticket->trabajadores->nombre ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <th class="py-3 px-2 font-semibold text-gray-900 bg-gray-50/50">Fecha de Creación</th>
                                 <td class="py-3 px-2 text-gray-500">{{ $ticket->created_at->format('d/m/Y h:i A') }}</td>
                             </tr>

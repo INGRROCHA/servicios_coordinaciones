@@ -101,9 +101,6 @@
         }
     </style>
 
-    <!-- =========================================================
-         CONTENEDOR PRINCIPAL
-    ========================================================= -->
     <div class="min-h-screen flex flex-col items-center py-10 bg-gray-100 font-sans">
         <div class="bg-white p-8 rounded-2xl shadow-xl max-w-4xl w-full border-t-4 border-blue-700">
             
@@ -111,7 +108,6 @@
                 Editar Ticket de Servicio #{{ $ticket->id_ticket }}
             </h1>
 
-            <!-- Bloque para mostrar errores de validación -->
             @if ($errors->any())
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 shadow-sm" role="alert">
                     <strong class="font-bold">¡Atención!</strong>
@@ -124,14 +120,21 @@
                 </div>
             @endif
 
+            @if ($ticket->estado == 9)
+                <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded-lg relative mb-4 shadow-sm flex items-center gap-2" role="alert">
+                    <span class="text-xl">⚠️</span>
+                    <div>
+                        <strong class="font-bold">Ticket Finalizado:</strong>
+                        <span class="block sm:inline">Este ticket se encuentra en estado <strong>Realizado</strong>. Está en modo de solo lectura y ya no puede ser modificado.</span>
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="/tickets/{{ $ticket->id_ticket }}" id="edicion" name="edicion">    
                 @csrf  
                 @method('PUT') 
 
                 <div class="tabla">
-                    <!-- =========================================================
-                         SECCIÓN 1: DETALLE DEL SERVICIO (Editable)
-                    ========================================================= -->
                     <h2 class="text-xl font-semibold text-gray-700 mt-4 mb-2">1. Detalle del Servicio (Modificable)</h2>
                     
                     <div class="fila">
@@ -147,7 +150,6 @@
                         </div>
                     </div>
 
-                    <!-- Fila de Secciones -->
                     <div class="fila" id="fila_seccion" style="display: none;">
                         <div class="celda font-medium text-gray-700">Sección:</div>
                         <div class="celda">
@@ -157,15 +159,12 @@
                         </div>
                     </div>
 
-                    <!-- Fila de Servicios -->
                     <div class="fila" id="fila_servicios" style="display: none;">
                         <div class="celda font-medium text-gray-700">Servicios que otorgan:</div>
                         <div class="celda" id="contenedor_servicios">
-                            <!-- Aquí se inyectan los radios/checkboxes -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Fila de Trabajadores (Asignación) -->
                     <div class="fila bg-blue-50 rounded-lg" id="fila_trabajador" style="display: none;">
                         <div class="celda font-bold text-blue-800">Asignar Trabajador:</div>
                         <div class="celda" id="contenedor_trabajadores">
@@ -175,9 +174,20 @@
                         </div>
                     </div>
 
-                    <!-- =========================================================
-                         SECCIÓN 2: DATOS DEL USUARIO (Solo Lectura)
-                    ========================================================= -->
+                    <div class="fila bg-gray-50 rounded-lg" id="fila_estado">
+                        <div class="celda font-bold text-gray-700">Estado del Ticket:</div>
+                        <div class="celda">
+                            <select id="estado" name="estado" class="form-control" required>
+                                <option value="1" {{ old('estado', $ticket->estado) == 1 ? 'selected' : '' }}>Abierto</option>
+                                <option value="2" {{ old('estado', $ticket->estado) == 2 ? 'selected' : '' }}>En Proceso</option>
+                                <option value="4" {{ old('estado', $ticket->estado) == 4 ? 'selected' : '' }}>Asignado</option>
+                                <option value="5" {{ old('estado', $ticket->estado) == 5 ? 'selected' : '' }}>Reasignado</option>
+                                <option value="3" {{ old('estado', $ticket->estado) == 3 ? 'selected' : '' }}>Cancelado</option>
+                                <option value="9" {{ old('estado', $ticket->estado) == 9 ? 'selected' : '' }}>Realizado</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <h2 class="text-xl font-semibold text-gray-700 mt-10 mb-2">2. Información del Usuario (Solo Lectura)</h2>
 
                     <div class="fila">
@@ -222,9 +232,6 @@
                         </div>
                     </div>
 
-                    <!-- =========================================================
-                         SECCIÓN 3: UBICACIÓN DEL SERVICIO (Solo Lectura)
-                    ========================================================= -->
                     <h2 class="text-xl font-semibold text-gray-700 mt-10 mb-2">3. Ubicación del Servicio (Solo Lectura)</h2>
 
                     <div class="fila">
@@ -255,14 +262,16 @@
                         </div>
                     </div> 
 
-                    <!-- BOTONES DE ACCIÓN -->
                     <div class="mt-8 flex justify-end gap-4 border-t pt-6">
                         <a href="javascript:history.back()" class="bg-gray-500 text-white text-lg font-semibold px-8 py-3 rounded-lg shadow hover:bg-gray-700 transition duration-200" style="text-decoration: none;">
                             Cancelar
                         </a> 
-                        <button type="submit" class="bg-blue-600 text-white text-lg font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-800 transition duration-200">
-                            Actualizar Ticket
-                        </button>
+                        {{-- Oculta el botón sí el ticket está Realizado (9) --}}
+                        @if ($ticket->estado != 9)
+                            <button type="submit" class="bg-blue-600 text-white text-lg font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-800 transition duration-200">
+                                Actualizar Ticket
+                            </button>
+                        @endif
                     </div>
 
                 </div>
@@ -270,12 +279,12 @@
         </div>
     </div>
     
-    <!-- =========================================================
-         JAVASCRIPT CONSOLIDADO Y LÓGICA DE AUTO-LLENADO
-    ========================================================= -->
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             
+            // Detecta sí el ticket está realizado
+            const esRealizado = {{ $ticket->estado == 9 ? 'true' : 'false' }};
+
             // Variables DOM principales
             const selectCoord = document.getElementById('id_coordinacion');
             const selectSeccion = document.getElementById('id_seccion');
@@ -715,6 +724,23 @@
                 return html;
             }
 
+            // APAGADO DE CONTROLES SI ES REALIZADO
+            if (esRealizado) {
+                // Deshabilita los selectores principales del HTML
+                selectCoord.disabled = true;
+                selectSeccion.disabled = true;
+                document.getElementById('estado').disabled = true;
+
+                // Un pequeño retraso para asegurar que los elementos creados dinámicamente por JS se deshabiliten también
+                setTimeout(() => {
+                    document.querySelectorAll('#contenedor_servicios input, #contenedor_servicios textarea, #id_tr_secc').forEach(elemento => {
+                        elemento.disabled = true;
+                        // Cambia el estilo visual para que se note el bloqueo
+                        elemento.style.backgroundColor = '#e5e7eb'; 
+                        elemento.style.cursor = 'not-allowed';
+                    });
+                }, 150);
+            }
         });
     </script>
 </x-layout>

@@ -196,7 +196,7 @@
             </tr>
             <tr>
                 <td width="50%">Trabajador que realizó el servicio</td>
-				<td width="50%"><br>  {{ $ticket->trabajadores->nombre ?? 'Sin dato'}} </td>
+				<td width="50%"><br>  {{ $ticket->trabajadores->nombre ?? 'N/A'}} </td>
             </tr>
             <tr>
                 <td>Fecha y hora de terminación</td>

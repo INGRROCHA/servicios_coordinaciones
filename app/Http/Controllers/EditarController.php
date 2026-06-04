@@ -13,17 +13,20 @@ class EditarController extends Controller
      */
     public function editarTicket(Request $request, $id_ticket) 
     {
-        // 1. Validación
+        // 1. Validación (Se añadió la regla para el campo 'estado')
         $request->validate([
             'coordinacion' => 'required',
             'seccion'      => 'required',
             'servicio'     => 'required',
-            'id_tr_secc' => 'nullable|integer',
+            'id_tr_secc'   => 'nullable|integer',
+            'estado'       => 'required|in:1,2,3,4,5,9', // Nuevas opciones autorizadas del dropdown
         ], [
             'coordinacion.required' => 'Es obligatorio seleccionar una Coordinación.',
             'seccion.required'      => 'Es obligatorio seleccionar una Sección.',
             'servicio.required'     => 'Es obligatorio seleccionar un Servicio.',
-            'id_tr_secc.integer' => 'El ID del trabajador debe ser un número entero.',
+            'id_tr_secc.integer'    => 'El ID del trabajador debe ser un número entero.',
+            'estado.required'       => 'Es obligatorio seleccionar un Estado para el ticket.',
+            'estado.in'             => 'El estado seleccionado no es válido.',
         ]);
 
         // 2. Procesar lógica del servicio y limpieza de datos
@@ -42,21 +45,28 @@ class EditarController extends Controller
 
         // 3. Actualización usando Eloquent para aprovechar eventos y relaciones
         $ticket = Ticket::where('id_ticket', $id_ticket)->firstOrFail();
-        
+
+        // Bloquear si ya está Realizado (9)
+        if ($ticket->estado == 9) {
+            return redirect()->back()->withErrors([
+                'error' => 'Este ticket ya ha sido marcado como Realizado y se encuentra cerrado. No es posible modificarlo.'
+            ]);
+        }
+
         $ticket->update([
             'id_coordinacion' => $request->input('coordinacion'),
             'id_seccion'      => $request->input('seccion'), 
             'id_servicio'     => $id_servicio,
             'descripcion'     => $request->input('descripcion') ?? null,
-            'estado'          => 1, // Para desarrollo, se asigna el estado "Abierto"
-            'id_tr_secc'      => $id_tr_secc, // Asignamos el trabajador
+            'estado'          => $request->input('estado'), 
+            'id_tr_secc'      => $id_tr_secc, 
         ]);
 
         // 4. Redirección
         return redirect('/tickets/index')->with('success', 'Ticket actualizado exitosamente.');
     }
 
-     public function obtenerTrabajadoresPorSeccion(Request $request) 
+    public function obtenerTrabajadoresPorSeccion(Request $request) 
     {
         // 1. Capturamos las variables que vienen en la URL
         $seccion = $request->query('seccion');
