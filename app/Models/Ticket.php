@@ -9,7 +9,8 @@ use App\Models\Seccion;
 use App\Models\Servicio;
 use App\Models\Estado;
 use Spatie\Activitylog\Traits\LogsActivity; 
-use Spatie\Activitylog\LogOptions;          
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;          
 
 class Ticket extends Model
 {
@@ -54,6 +55,11 @@ class Ticket extends Model
         'estatus' => 'integer',
     ];
 
+
+    // ==========================================
+    // CONFIGURACIÓN DE SPATIE ACTIVITYLOG
+    // ==========================================
+    
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -62,6 +68,22 @@ class Ticket extends Model
             ->dontSubmitEmptyLogs()
             ->useLogName('ticket_modificacion'); 
     }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        // 1. Capturamos el nombre desde la sesión activa
+        $nombreUsuario = session('nombre_completo', 'Usuario Desconocido');
+        $propiedadesActuales = $activity->properties instanceof \Illuminate\Support\Collection 
+            ? $activity->properties 
+            : collect($activity->properties ?? []);
+
+        // 2. Fusionamos los datos que Spatie ya capturó (cambios viejos/nuevos) con el nombre del usuario que hizo la modificación
+        $activity->properties = $propiedadesActuales->merge([
+            'causer_name' => $nombreUsuario
+        ]);
+    }
+
+
 
     // ==========================================
     // ACCESOR PARA EL NOMBRE DEL ESTADO (DINÁMICO DESDE BD)

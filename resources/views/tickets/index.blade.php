@@ -146,6 +146,15 @@
 
                                         @if(isset($activity->properties['old']) && isset($activity->properties['attributes']))
                                             <div class="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200 text-xs">
+                                                
+                                                {{-- Mostrar el usuario que hizo la modificación --}}
+                                                @if(isset($activity->properties['causer_name']))
+                                                    <div class="mb-2 text-blue-800">
+                                                        <span class="font-semibold text-gray-700">Modificado por:</span> 
+                                                        <span class="font-medium">{{ $activity->properties['causer_name'] }}</span>
+                                                    </div>
+                                                @endif
+
                                                 <strong class="text-gray-600 block mb-1">Detalle de modificaciones:</strong>
                                                 <ul class="list-disc pl-5 space-y-1 text-gray-600">
                                                     @foreach($activity->properties['attributes'] as $columna => $nuevoValor)
