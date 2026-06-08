@@ -46,6 +46,24 @@ class TicketSearchCoord extends Component
         $this->resetPage();
     }
 
+    public $mostrarModal = false;
+    public $ticketSeleccionado = null;
+
+    // Método para cargar los datos y abrir el modal
+    public function verHistorial($id_ticket)
+    {
+        // Buscamos el ticket con todas sus relaciones para mostrarlas en el modal
+        $this->ticketSeleccionado = \App\Models\Ticket::with(['coordinacion', 'seccion', 'servicio', 'trabajadores', 'activities.causer', 'estadoRelacion'])->find($id_ticket);
+        
+        $this->mostrarModal = true;
+    }
+
+    // Método para cerrar el modal
+    public function cerrarModal()
+    {
+        $this->mostrarModal = false;
+        $this->ticketSeleccionado = null;
+    }
 
     public function render()
     {
