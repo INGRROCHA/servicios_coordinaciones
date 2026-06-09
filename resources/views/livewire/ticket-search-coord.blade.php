@@ -195,16 +195,12 @@
                             <button wire:click.prevent="verHistorial({{ $ticket->id_ticket }})" class="flex-shrink-0 cursor-pointer transition transform hover:scale-110 focus:outline-none"> 
                                 <img src="{{ asset('imagenes/history-blue.png') }}" alt="Ver Historial" title="Ver Detalles e Historial" class="w-[30px] h-[30px] object-contain">
                             </button>
-
-                            <a href="/tickets/{{ $ticket->id_ticket }}/editar" class="flex-shrink-0"> 
+                            <a href="/tickets/{{ $ticket->id_ticket }}/editar" class="flex-shrink-0 cursor-pointer transition transform hover:scale-110 focus:outline-none"> 
                                 <img src="{{ asset('imagenes/edit.png') }}" alt="Editar" title="Editar Ticket" class="w-[30px] h-[30px] object-contain">
                             </a>
-                            <a href="/tickets/{{ $ticket->id_ticket }}/generar-pdf" class="flex-shrink-0">
-                                <img src="{{ asset('imagenes/download-pdf.png') }}" alt="Descargar PDF" title="Descargar PDF" class="w-[30px] h-[30px] object-contain">
-                            </a>
-                            <a href="/tickets/{{ $ticket->id_ticket }}/ver-pdf" target="_blank" class="flex-shrink-0">
+                            <button wire:click.prevent="verPdf({{ $ticket->id_ticket }})" class="flex-shrink-0 cursor-pointer transition transform hover:scale-110 focus:outline-none">
                                 <img src="{{ asset('imagenes/view.png') }}" alt="Ver PDF" title="Ver PDF" class="w-[30px] h-[30px] object-contain">
-                            </a>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -393,5 +389,259 @@
         </div>
     </div>
     @endif
+
+    @if($mostrarModalPdf && $ticketSeleccionado)
+    <div class="fixed inset-0 z-[60] overflow-y-auto" aria-labelledby="modal-pdf" role="dialog" aria-modal="true">
+        
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            
+            <div wire:click="cerrarModalPdf" class="fixed inset-0 bg-gray-900 bg-opacity-80 transition-opacity cursor-pointer" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-gray-200 rounded-lg text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                
+                <div class="bg-slate-800 px-4 py-3 flex justify-between items-center">
+                    <h3 class="text-white font-bold text-lg">Vista Previa de Impresión</h3>
+                    <button wire:click="cerrarModalPdf" class="text-gray-300 hover:text-white transition">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="p-6 overflow-y-auto max-h-[80vh] flex justify-center bg-gray-200">
+                    
+                    <div class="pdf-preview shadow-xl">
+                        <style>
+                            /* Estilos encapsulados para no romper Tailwind */
+                            .pdf-preview {
+                                background-color: white;
+                                width: 100%;
+                                max-width: 800px;
+                                margin: 0 auto;
+                                padding: 30px;
+                                font-family: sans-serif;
+                                color: black;
+                            }
+                            .pdf-preview h1, .pdf-preview h2, .pdf-preview h3, .pdf-preview h4, .pdf-preview h5, .pdf-preview h6, .pdf-preview p, .pdf-preview span, .pdf-preview label {
+                                font-family: sans-serif;
+                            }
+                            .pdf-preview table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-bottom: 15px !important;
+                            }
+                            .pdf-preview table thead th {
+                                height: 28px;
+                                text-align: left;
+                                font-size: 16px;
+                            }
+                            .pdf-preview table, .pdf-preview th, .pdf-preview td {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                                font-size: 14px;
+                            }
+                            .pdf-preview .text-start { text-align: left; }
+                            .pdf-preview .text-end { text-align: right; }
+                            .pdf-preview .text-center { text-align: center; }
+                            .pdf-preview .company-data span {
+                                margin-bottom: 4px;
+                                display: inline-block;
+                                font-size: 14px;
+                                font-weight: 400;
+                            }
+                            .pdf-preview .no-border { border: 1px solid #fff !important; }
+                        </style>
+
+                        <table class="order-details">
+                            <thead>
+                                <tr>
+                                    <th width="50%" colspan="2" class="no-border">
+                                        <img width="250" src="https://computo.xoc.uam.mx/archivos/conjunto-baseXoc.png" alt="Servicios de Cómputo UAM-X">
+                                    </th>
+                                    <th width="50%" colspan="2" class="text-end company-data no-border">
+                                        <h5 class="text-start" style="font-size: 16px; margin:0;">Ticket de Solicitud de Servicio de la {{ $ticketSeleccionado->coordinacion->coordinacion ?? 'N/A' }}.</h5>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        
+                        <table class="order-details" style="margin-top: 10px;">
+                            <tr>
+                                <th width="33%" class="text-end company-data no-border">
+                                    <span>Sección: {{ $ticketSeleccionado->seccion->seccion ?? 'N/A' }}</span>
+                                </th>
+                                <th width="33%" class="text-center company-data no-border">
+                                    <span>Ticket #: {{ $ticketSeleccionado->id_ticket }}</span>
+                                </th>
+                                <th width="33%" class="text-end company-data no-border">
+                                    <span>Fecha: {{ date('d/m/y') }}</span>
+                                </th>   
+                            </tr>
+                        </table>
+                        
+                        <table class="user-details" style="margin-top: 15px;">
+                            <tbody>
+                                <tr>
+                                    <td width="30%">Nombre del solicitante</td>
+                                    <td width="70%">{{ $ticketSeleccionado->nombre ?? 'Sin dato' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>División/Coordinación General</td>
+                                    <td>{{ $ticketSeleccionado->adscripcion ?? 'Sin dato' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Departamento/Coordinación Administrativa</td>
+                                    <td>{{ $ticketSeleccionado->dpto_coord ?? 'Sin dato' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Área Académica/Sección Administrativa</td>
+                                    <td>{{ $ticketSeleccionado->area_secc ?? 'Sin dato' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td width="10%">Edificio</td>
+                                    <td width="40%">{{ $ticketSeleccionado->dpersonales->edificio ?? 'Sin dato' }}</td>
+                                    <td width="10%">Nivel</td>
+                                    <td width="40%">{{ $ticketSeleccionado->dpersonales->nivel ?? 'Sin dato' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Cubículo</td>
+                                    <td>{{ $ticketSeleccionado->dpersonales->cubiculo ?? 'Sin dato' }}</td>
+                                    <td>Extensión</td>
+                                    <td>{{ $ticketSeleccionado->dpersonales->extension ?? 'Sin dato' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <table class="servicio-details">
+                            <thead>
+                                <tr>
+                                    <th class="no-border" colspan="2" style="background:#f3f4f6;">
+                                        Descripción del Trabajo a Realizar
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="20%">Tipo de Trabajo</td>
+                                    <td width="80%">{{ $ticketSeleccionado->servicio->servicio ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Descripción</td>
+                                    <td>{{ $ticketSeleccionado->descripcion }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="no-border" colspan="1" style="background:#f3f4f6;">
+                                        Observaciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $ticketSeleccionado->observaciones ?? 'Sin dato' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>    
+                        
+                        <table style="margin-top: 20px;">
+                            <tbody>
+                                <tr>
+                                    <td width="50%">Recibí de conformidad al terminar el servicio</td>
+                                    <td width="50%" class="text-center"><br><br>__________________________<br>Nombre y Firma</td>
+                                </tr>
+                                <tr>
+                                    <td>Responsable del Área</td>
+                                    <td><br>{{ $ticketSeleccionado->id_secc->j_secc ?? 'Sin dato'}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Trabajador que realizó el servicio</td>
+                                    <td><br>{{ $ticketSeleccionado->trabajadores->nombre ?? 'N/A'}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha y hora de terminación</td>
+                                    <td class="text-center">* Campo para llenar a mano</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                </div>
+
+                <div class="bg-gray-50 px-4 py-3 flex flex-col sm:flex-row justify-between items-center rounded-b-lg border-t gap-3 sm:gap-0">
+                    <button wire:click="cerrarModalPdf" type="button" class="w-full sm:w-auto px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition shadow">
+                        Cerrar Ventana
+                    </button>
+                    
+                    <div class="flex w-full sm:w-auto gap-3">
+                        
+                        <button onclick="imprimirTicketPDF()" type="button" class="flex-1 sm:flex-none flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded font-bold hover:bg-green-700 transition shadow">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                            </svg>
+                            Imprimir
+                        </button>
+
+                        <a href="/tickets/{{ $ticketSeleccionado->id_ticket }}/generar-pdf" class="flex-1 sm:flex-none flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition shadow">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Descargar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <script>
+    function imprimirTicketPDF() {
+        // 1. Obtenemos solo el contenido limpio del div que tiene la clase .pdf-preview
+        var contenidoTicket = document.querySelector('.pdf-preview').innerHTML;
+        
+        // 2. Abrimos una ventana temporal emergente
+        var ventanaImpresion = window.open('', '_blank');
+        
+        // 3. Escribimos la estructura HTML básica y los mismos estilos CSS que usa el ticket
+        ventanaImpresion.document.write('<html><head><title>Imprimir Ticket</title>');
+        ventanaImpresion.document.write('<style>');
+        ventanaImpresion.document.write(`
+            body { margin: 10px; padding: 10px; font-family: sans-serif; color: black; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 15px !important; }
+            th { height: 28px; text-align: left; font-size: 16px; }
+            table, th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; }
+            .text-start { text-align: left; }
+            .text-end { text-align: right; }
+            .text-center { text-align: center; }
+            .company-data span { margin-bottom: 4px; display: inline-block; font-size: 14px; font-weight: 400; }
+            .no-border { border: 1px solid #fff !important; }
+            @media print { @page { margin: 1cm; } }
+        `);
+        ventanaImpresion.document.write('</style></head><body>');
+        
+        // 4. Inyectamos el contenido del ticket
+        ventanaImpresion.document.write(contenidoTicket);
+        ventanaImpresion.document.write('</body></html>');
+        
+        // 5. Cerramos la escritura para que el navegador procese el DOM
+        ventanaImpresion.document.close();
+        ventanaImpresion.focus();
+        
+        // 6. Damos 300ms de tiempo para asegurar que el logo/imágenes carguen antes de imprimir
+        setTimeout(function() {
+            ventanaImpresion.print();
+            ventanaImpresion.close();
+        }, 300);
+    }
+    </script>
 
 </div>

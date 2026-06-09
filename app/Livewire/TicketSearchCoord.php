@@ -48,6 +48,7 @@ class TicketSearchCoord extends Component
 
     public $mostrarModal = false;
     public $ticketSeleccionado = null;
+    public $mostrarModalPdf = false;
 
     // Método para cargar los datos y abrir el modal
     public function verHistorial($id_ticket)
@@ -62,6 +63,22 @@ class TicketSearchCoord extends Component
     public function cerrarModal()
     {
         $this->mostrarModal = false;
+        $this->ticketSeleccionado = null;
+    }
+        
+
+    // Métodos para abrir y cerrar el modal del PDF
+    public function verPdf($id_ticket)
+    {
+        // Cargamos el ticket con todas las relaciones necesarias para el formato PDF
+        $this->ticketSeleccionado = \App\Models\Ticket::with(['coordinacion', 'seccion', 'servicio', 'trabajadores', 'dpersonales'])->find($id_ticket);
+        
+        $this->mostrarModalPdf = true;
+    }
+
+    public function cerrarModalPdf()
+    {
+        $this->mostrarModalPdf = false;
         $this->ticketSeleccionado = null;
     }
 
