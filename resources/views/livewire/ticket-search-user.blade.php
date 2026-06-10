@@ -158,12 +158,7 @@
                             @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
                         </div>
                     </th>
-                    <th wire:click="setSort('updated_at')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
-                        <div class="flex items-center">Última actualización
-                            @if ($sortBy !== 'updated_at') <span class="ml-1 opacity-40">↕</span>
-                            @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
-                        </div>
-                    </th>
+
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -184,7 +179,7 @@
                         </td>
                         <td class="px-6 py-4 text-xs text-gray-500">{{ $ticket->created_at }}</td>
                         <td class="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">{{ $ticket->observaciones }}</td>
-                        <td class="px-6 py-4 text-xs text-gray-500">{{ $ticket->updated_at }}</td>
+
                     </tr>
                 @empty
                     <tr>
