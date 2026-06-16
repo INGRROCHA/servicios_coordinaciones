@@ -21,24 +21,24 @@
             <button wire:click="setCoordinacionFilter(1)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ $coordinacionId == 1 ? 'bg-blue-600 text-white border-blue-600' : 'bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100' }}">
-                CSC (1)
+                CSC
             </button>
 
             <button wire:click="setCoordinacionFilter(2)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ $coordinacionId == 2 ? 'bg-yellow-500 text-white border-yellow-500' : 'bg-yellow-50 text-yellow-800 border-yellow-200 hover:bg-yellow-100' }}">
-                CSG (2)
+                CSG
             </button>
 
             <button wire:click="setCoordinacionFilter(3)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ $coordinacionId == 3 ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-indigo-50 text-indigo-800 border-indigo-200 hover:bg-indigo-100' }}">
-                CEF (3)
+                CEF
             </button>
             <button wire:click="setCoordinacionFilter(4)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ $coordinacionId == 4 ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100' }}">
-                CSCI (4)
+                CSCI
             </button>
             
             {{-- Filtros por Estado --}}

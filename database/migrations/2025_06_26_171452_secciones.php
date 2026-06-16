@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('secciones', function (Blueprint $table) {
             $table->integer('id_seccion')->primary();
+            $table->integer('id_coordinacion');
             $table->integer('id_rol');
             $table->string('seccion');
             $table->string('ClavePuesto');

@@ -24,6 +24,14 @@ class TicketSearchCoord extends Component
     public function updatingSearch() { $this->resetPage(); }
     public function updatingPerPage() { $this->resetPage(); }
 
+    public ?int $seccionId = null;
+    // Método para escuchar el clic del botón de Sección
+    public function setSeccionFilter($seccionId)
+    {
+        $this->seccionId = $seccionId;
+        $this->resetPage();
+    }
+
     public function setSort($column)
     {
         if ($this->sortBy === $column) {
@@ -94,6 +102,13 @@ class TicketSearchCoord extends Component
             // Filtro de los botones de estado (si se ha seleccionado alguno)
             ->when($this->selectedEstado, function ($q) {
                 $q->where('ticket.estado', $this->selectedEstado);
+            })
+            ->when($this->coordinacionId, function ($q) {
+                $q->where('ticket.id_coordinacion', $this->coordinacionId);
+            })
+            // Filtro para la sección seleccionada
+            ->when($this->seccionId, function ($q) {
+                $q->where('ticket.id_seccion', $this->seccionId);
             });
 
         // 2. Aplicamos la búsqueda expandida
@@ -114,9 +129,12 @@ class TicketSearchCoord extends Component
 
         // 3. Ejecutamos la paginación
         $tickets = $query->paginate($this->perPage);
+        // Si coordinacionId es null (Todas), esto devolverá una colección vacía para no mostrar secciones de otras áreas.
+        $secciones = \App\Models\Seccion::where('id_coordinacion', $this->coordinacionId)->get();
 
         return view('livewire.ticket-search-coord', [
-            'tickets' => $tickets
+            'tickets' => $query->paginate($this->perPage),
+            'secciones' => $secciones // Pasamos las secciones a la vista
         ])->layout('components.layout');
     }
 }

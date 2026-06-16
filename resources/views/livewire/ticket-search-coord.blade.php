@@ -11,6 +11,27 @@
         <div class="flex flex-wrap gap-2 items-center">
             <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 mr-1">Filtrar por:</span>
             
+            {{-- Filtros por Sección Dinámicos --}}
+            @if($secciones && $secciones->count() > 0)
+                <span class="text-xs font-bold uppercase tracking-wider text-gray-500 mr-1 md:ml-4">Sección:</span>
+                
+                <button wire:click="setSeccionFilter(null)" 
+                        class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
+                        {{ is_null($seccionId) ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' }}">
+                    Todas
+                </button>
+
+                @foreach($secciones as $seccion)
+                    <button wire:click="setSeccionFilter({{ $seccion->id_seccion }})" 
+                            class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
+                            {{ $seccionId == $seccion->id_seccion ? 'bg-teal-600 text-white border-teal-600' : 'bg-teal-50 text-teal-800 border-teal-200 hover:bg-teal-100' }}">
+                        {{ $seccion->seccion }}
+                    </button>
+                @endforeach
+            @endif
+            
+            {{-- Filtros por Estado --}}
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-500 md:ml-4 mr-1">Estado:</span>
             <button wire:click="setEstadoFilter(null)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ is_null($selectedEstado) ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' }}">
