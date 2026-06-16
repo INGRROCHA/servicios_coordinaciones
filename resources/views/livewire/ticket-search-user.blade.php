@@ -10,7 +10,7 @@
         <div class="flex flex-wrap gap-2 items-center">
             <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 mr-1">Filtrar por:</span>
             
-            {{-- Filtros por Coordinación Nuevos y Sincronizados --}}
+            {{-- Filtros por Coordinación  --}}
             <span class="text-xs font-bold uppercase tracking-wider text-gray-500 mr-1">Coordinación:</span>
             <button wire:click="setCoordinacionFilter(null)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
@@ -116,24 +116,6 @@
                             @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
                         </div>
                     </th>
-                    <th wire:click="setSort('adscripcion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
-                        <div class="flex items-center">Adscripción
-                            @if ($sortBy !== 'adscripcion') <span class="ml-1 opacity-40">↕</span>
-                            @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
-                        </div>
-                    </th>
-                    <th wire:click="setSort('dpto_coord')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
-                        <div class="flex items-center">Coordinación Administrativa o Departamento Académico
-                            @if ($sortBy !== 'dpto_coord') <span class="ml-1 opacity-40">↕</span>
-                            @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
-                        </div>
-                    </th>						
-                    <th wire:click="setSort('area_secc')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
-                        <div class="flex items-center">Área Académica o Sección Administrativa
-                            @if ($sortBy !== 'area_secc') <span class="ml-1 opacity-40">↕</span>
-                            @elseif ($sortDir === 'asc') <span class="ml-1">↑</span> @else <span class="ml-1">↓</span> @endif
-                        </div>
-                    </th>
                     <th wire:click="setSort('descripcion')" class="px-6 py-4 cursor-pointer hover:bg-blue-300 transition">
                         <div class="flex items-center">Descripción
                             @if ($sortBy !== 'descripcion') <span class="ml-1 opacity-40">↕</span>
@@ -168,9 +150,6 @@
                         <td class="px-6 py-4 text-xs">{{ $ticket->coordinacion?->coordinacion ?? 'Sin coordinación' }}</td>         
                         <td class="px-6 py-4 text-xs">{{ $ticket->seccion?->seccion ?? 'Sin sección' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $ticket->servicio?->servicio ?? 'Sin servicio' }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->adscripcion ?? 'Sin dato' }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->dpto_coord ?? 'Sin dato' }}</td>
-                        <td class="px-6 py-4 text-xs">{{ $ticket->area_secc ?? 'Sin dato' }}</td>
                         <td class="px-6 py-4 text-xs max-w-xs truncate">{{ $ticket->descripcion }}</td>
                         <td class="px-6 py-4">
                             <span class="px-2 inline-flex text-xs leading-5 font-bold rounded-full {{ $ticket->estado_color }}">
