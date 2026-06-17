@@ -547,7 +547,7 @@
                                 </tr>
                                 <tr>
                                     <td>Responsable del Área</td>
-                                    <td><br>{{ $ticketSeleccionado->id_secc->j_secc ?? 'Sin dato'}}</td>
+                                    <td><br>{{ session('nombre_completo') ?? 'Sin dato' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Trabajador que realizó el servicio</td>
@@ -555,7 +555,7 @@
                                 </tr>
                                 <tr>
                                     <td>Fecha y hora de terminación</td>
-                                    <td class="text-center">* Campo para llenar a mano</td>
+                                    <td class="text-center"> </td>
                                 </tr>
                             </tbody>
                         </table>

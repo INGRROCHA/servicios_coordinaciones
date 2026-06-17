@@ -192,7 +192,7 @@
             </tr>
             <tr>
                 <td>Responsable del Área</td>
-				<td width="50%"><br>***  j_Secc  *** y Firma</td>
+				<td width="50%"><br>{{ session('nombre_completo') ?? 'Sin dato' }}</td>
             </tr>  
             <tr>
                 <td width="50%">Trabajador que realizó el servicio</td>
@@ -200,7 +200,7 @@
             </tr>
             <tr>
                 <td>Fecha y hora de terminación</td>
-				<td text-center width="50%">* Campo para rellenar a mano *</td>
+				<td text-center width="50%"> </td>
             </tr>
         </tbody>
     </table>
