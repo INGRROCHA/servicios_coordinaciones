@@ -115,6 +115,8 @@
                 <div class="tabla">
                     <h2 class="text-xl font-semibold text-gray-700 mt-4 mb-2">1. Detalle del Servicio</h2>
                     
+                    <livewire:service-search />
+
                     <div class="fila">
                         <div class="celda font-medium text-gray-700">Coordinación:</div>
                         <div class="celda">
@@ -249,10 +251,44 @@
                --------------------------------------------------------- */
             const selectCoord = document.getElementById('id_coordinacion');
             const selectSeccion = document.getElementById('id_seccion');
-            const filaSeccion = document.getElementById('fila_seccion');
-            
+            const filaSeccion = document.getElementById('fila_seccion');            
             const contenedorServicios = document.getElementById('contenedor_servicios');
             const filaServicios = document.getElementById('fila_servicios');
+
+            /* ---------------------------------------------------------
+                LÓGICA DE PRELLENADO MEDIANTE EL BUSCADOR LIVEWIRE
+               --------------------------------------------------------- */
+            window.addEventListener('service-selected', event => {
+                const detalle = event.detail;
+                
+                if (!detalle.coordinacion || !detalle.seccion || !detalle.id_servicio) return;
+
+                // 1. Forzar la selección de la Coordinación y disparar su evento 'change' nativo
+                selectCoord.value = detalle.coordinacion;
+                selectCoord.dispatchEvent(new Event('change'));
+
+                // 2. Forzar la selección de la Sección y disparar su evento 'change' nativo
+                selectSeccion.value = detalle.seccion;
+                selectSeccion.dispatchEvent(new Event('change'));
+
+                // 3. Damos un pequeño retraso (100ms) para garantizar que la función 
+                //    obtenerHTMLServicios() haya terminado de inyectar el HTML en el contenedor.
+                setTimeout(() => {
+                    // Buscamos el radio o checkbox que posea el value igual al id_servicio devuelto por la BD
+                    const inputServicio = document.querySelector(`input[value="${detalle.id_servicio}"]`);
+                    
+                    if (inputServicio) {
+                        // El método .click() simula la acción del usuario, marcando el elemento
+                        // y ejecutando inmediatamente la función inline onclick="mostrarCampos(...)"
+                        inputServicio.click();
+                        
+                        // Desplazamos suavemente la pantalla hacia el servicio seleccionado
+                        inputServicio.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        console.warn(`No se encontró ningún input con value="${detalle.id_servicio}" en el HTML generado.`);
+                    }
+                }, 100);
+            });
 
             // 1. Al cambiar la Coordinación -> Mostrar Secciones
             selectCoord.addEventListener('change', function() {
