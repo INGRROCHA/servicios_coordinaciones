@@ -8,6 +8,8 @@
                 class="w-full p-4 border-2 border-blue-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
         </div>
 
+        <div class="flex flex-col gap-4">
+    
         <div class="flex flex-wrap gap-2 items-center">
             <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 mr-1">Filtrar por:</span>
             
@@ -29,9 +31,12 @@
                     </button>
                 @endforeach
             @endif
+        </div>
+        
+        <div class="flex flex-wrap gap-2 items-center">
+            {{-- Le quitamos el md:ml-4 al "Estado:" para que quede alineado a la izquierda --}}
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-500 mr-1">Estado:</span>
             
-            {{-- Filtros por Estado --}}
-            <span class="text-xs font-bold uppercase tracking-wider text-gray-500 md:ml-4 mr-1">Estado:</span>
             <button wire:click="setEstadoFilter(null)" 
                     class="px-3 py-2 text-xs font-bold rounded-lg border transition shadow-sm 
                     {{ is_null($selectedEstado) ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' }}">
@@ -74,6 +79,8 @@
                 Realizados
             </button>
         </div>
+
+    </div>
     </div>
 
 <!-- Tabla de Resultados -->
