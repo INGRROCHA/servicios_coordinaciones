@@ -33,6 +33,67 @@ class ServiceSearch extends Component
             ->get();
     }
 
+    /**
+     * Obtiene la Coordinación y Sección según el prefijo del código del servicio.
+     */
+    public function obtenerInfoCategoria(string $codigo): array
+    {
+        // Extraemos el prefijo antes del guion bajo (ej. 'me' de 'me_1')
+        $prefijo = explode('_', $codigo)[0];
+
+        $mapeo = [
+            'saat'   => [
+                'coordinacion' => 'Coordinación de Servicios de Cómputo',
+                'seccion'      => 'Servicios Análisis y Apoyo Técnico'
+            ],
+            'redes'  => [
+                'coordinacion' => 'Coordinación de Servicios de Cómputo',
+                'seccion'      => 'Redes y Conectividad'
+            ],
+            'saos'   => [
+                'coordinacion' => 'Coordinación de Servicios de Cómputo',
+                'seccion'      => 'Servicios de Administración Operativa de Sistemas'
+            ],
+            'ij'     => [
+                'coordinacion' => 'Coordinación de Servicios Generales',
+                'seccion'      => 'Intendencia y Jardinería'
+            ],
+            'transp' => [
+                'coordinacion' => 'Coordinación de Servicios Generales',
+                'seccion'      => 'Transportes'
+            ],
+            'vigil'  => [
+                'coordinacion' => 'Coordinación de Servicios Generales',
+                'seccion'      => 'Vigilancia'
+            ],
+            'mc'     => [
+                'coordinacion' => 'Coordinación de Espacios Físicos',
+                'seccion'      => 'Mantenimiento de Campo'
+            ],
+            'me'     => [
+                'coordinacion' => 'Coordinación de Espacios Físicos',
+                'seccion'      => 'Mantenimiento Especializado'
+            ],
+            'mabi'   => [
+                'coordinacion' => 'Coordinación de Espacios Físicos',
+                'seccion'      => 'Mantenimiento, Adaptaciones a Bienes Inmuebles'
+            ],
+            'cafe'   => [
+                'coordinacion' => 'Coordinación de Servicios para la Convivencia Integral',
+                'seccion'      => 'Cafetería'
+            ],
+            'adep'   => [
+                'coordinacion' => 'Coordinación de Servicios para la Convivencia Integral',
+                'seccion'      => 'Actividades Deportivas'
+            ],
+        ];
+
+        return $mapeo[$prefijo] ?? [
+            'coordinacion' => 'Coordinación no especificada',
+            'seccion'      => 'Sección no especificada'
+        ];
+    }
+
     // Método al hacer clic en una opción
     public function selectService($id_servicio)
     {

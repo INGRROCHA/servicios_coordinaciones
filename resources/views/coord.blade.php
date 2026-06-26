@@ -6,10 +6,7 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         
         <div>
-            <h2 class="font-bold text-lg text-gray-800">{{ $coord['coordinacion'] }}</h2>
-            <p class="text-gray-600 mt-1">
-                Tickets de Servicios de la {{ $coord['coordinacion'] }}.
-            </p>
+            <h2 class="font-bold text-lg text-gray-800">Tickets de Servicios de la {{ $coord['coordinacion'] }}</h2>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3">

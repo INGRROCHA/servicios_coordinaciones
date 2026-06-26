@@ -13,11 +13,28 @@
             @foreach($results as $item)
                 <button type="button" 
                         wire:click="selectService('{{ $item->id_servicio }}')" 
-                        class="w-full text-left px-4 py-3 hover:bg-blue-50 transition border-b border-gray-100 last:border-b-0 flex flex-col gap-0.5">
-                    <span class="font-semibold text-gray-800 text-sm">{{ $item->servicio }}</span>
-                    <span class="text-xs text-gray-400">
-                        Código identificador: <span class="font-mono text-blue-600 font-bold">{{ $item->id_servicio }}</span>
+                        class="w-full text-left px-4 py-2.5 hover:bg-blue-50 transition border-b border-gray-100 last:border-b-0 flex flex-col gap-1">
+                    
+                    <span class="font-bold text-gray-800 text-sm uppercase">
+                        {{ $item->servicio }}
                     </span>
+                    
+                    @php 
+                        $infoCat = $this->obtenerInfoCategoria($item->id_servicio); 
+                    @endphp
+                    
+                    <div class="flex flex-wrap gap-x-2 gap-y-0.5 text-[11px] text-gray-500 font-medium">
+                        <div>
+                            <span class="text-blue-600 font-semibold">Coordinación:</span> 
+                            {{ $infoCat['coordinacion'] }}
+                        </div>
+                        <div class="hidden sm:block text-gray-300">|</div>
+                        <div>
+                            <span class="text-teal-600 font-semibold">Sección:</span> 
+                            {{ $infoCat['seccion'] }}
+                        </div>
+                    </div>
+
                 </button>
             @endforeach
         </div>
