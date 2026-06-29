@@ -25,7 +25,7 @@ class TicketSearchCoord extends Component
     public function updatingPerPage() { $this->resetPage(); }
 
     public ?int $seccionId = null;
-    // Método para escuchar el clic del botón de Sección
+
     public function setSeccionFilter($seccionId)
     {
         $this->seccionId = $seccionId;
@@ -44,10 +44,8 @@ class TicketSearchCoord extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    // Guarda el ID del estado seleccionado (null significa "Todos")
     public $selectedEstado = null;
 
-    // Método que escucha a los botones de la vista y reinicia la página al cambiar el filtro
     public function setEstadoFilter($estadoId)
     {
         $this->selectedEstado = $estadoId;
@@ -58,29 +56,21 @@ class TicketSearchCoord extends Component
     public $ticketSeleccionado = null;
     public $mostrarModalPdf = false;
 
-    // Método para cargar los datos y abrir el modal
     public function verHistorial($id_ticket)
     {
-        // Buscamos el ticket con todas sus relaciones para mostrarlas en el modal
         $this->ticketSeleccionado = \App\Models\Ticket::with(['coordinacion', 'seccion', 'servicio', 'trabajadores', 'activities.causer', 'estadoRelacion'])->find($id_ticket);
-        
         $this->mostrarModal = true;
     }
 
-    // Método para cerrar el modal
     public function cerrarModal()
     {
         $this->mostrarModal = false;
         $this->ticketSeleccionado = null;
     }
-        
 
-    // Métodos para abrir y cerrar el modal del PDF
     public function verPdf($id_ticket)
     {
-        // Cargamos el ticket con todas las relaciones necesarias para el formato PDF
         $this->ticketSeleccionado = \App\Models\Ticket::with(['coordinacion', 'seccion', 'servicio', 'trabajadores', 'dpersonales'])->find($id_ticket);
-        
         $this->mostrarModalPdf = true;
     }
 
@@ -92,33 +82,36 @@ class TicketSearchCoord extends Component
 
     public function render()
     {
-        // 1. Consulta base con prefijo de tabla en el WHERE para evitar ambigüedad
+        // 1. Consulta base
         $query = Ticket::query()
             ->select('ticket.*') 
             ->leftJoin('servicios', 'ticket.id_servicio', '=', 'servicios.id_servicio')
             ->leftJoin('secciones', 'ticket.id_seccion', '=', 'secciones.id_seccion')
             ->with(['seccion', 'servicio', 'coordinacion','estadoRelacion']) 
             ->where('ticket.id_coordinacion', $this->coordinacionId)
+            
             // Filtro de los botones de estado (si se ha seleccionado alguno)
             ->when($this->selectedEstado, function ($q) {
-                $q->where('ticket.estado', $this->selectedEstado);
+                return $q->where('ticket.estado', $this->selectedEstado);
             })
-            ->when($this->coordinacionId, function ($q) {
-                $q->where('ticket.id_coordinacion', $this->coordinacionId);
-            })
+            
             // Filtro para la sección seleccionada
             ->when($this->seccionId, function ($q) {
-                $q->where('ticket.id_seccion', $this->seccionId);
+                return $q->where('ticket.id_seccion', $this->seccionId);
             });
 
-        // 2. Aplicamos la búsqueda expandida
-        $query->where(function($q) {
-            $q->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
-              ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
-              ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
-              ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%');
+        // 2. Aplicamos la búsqueda expandida SOLO si el buscador tiene texto escrito
+        $query->when(filled($this->search), function($q) {
+            return $q->where(function($subQuery) {
+                $subQuery->where('ticket.id_ticket', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.nombre', 'like', '%' . $this->search . '%')
+                  ->orWhere('ticket.descripcion', 'like', '%' . $this->search . '%')
+                  ->orWhere('servicios.servicio', 'like', '%' . $this->search . '%')
+                  ->orWhere('secciones.seccion', 'like', '%' . $this->search . '%');
+            });
         });
+
+        // Ordenamiento de columnas
         if ($this->sortBy === 'nombre_seccion') {
             $query->orderBy('secciones.seccion', $this->sortDir);
         } elseif ($this->sortBy === 'nombre_servicio') {
@@ -127,14 +120,15 @@ class TicketSearchCoord extends Component
             $query->orderBy('ticket.' . $this->sortBy, $this->sortDir);
         }
 
-        // 3. Ejecutamos la paginación
+        // 3. Ejecutamos la paginación una sola vez de forma limpia
         $tickets = $query->paginate($this->perPage);
-        // Si coordinacionId es null (Todas), esto devolverá una colección vacía para no mostrar secciones de otras áreas.
+
+        // Obtener colecciones de apoyo
         $secciones = \App\Models\Seccion::where('id_coordinacion', $this->coordinacionId)->get();
 
         return view('livewire.ticket-search-coord', [
-            'tickets' => $query->paginate($this->perPage),
-            'secciones' => $secciones // Pasamos las secciones a la vista
+            'tickets' => $tickets,
+            'secciones' => $secciones 
         ])->layout('components.layout');
     }
 }
