@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    // ... tu función buscarPorNomina se queda igual ...
 
     public function storeDatosPersonales(Request $request)
     {

@@ -9,6 +9,8 @@ class Trabajador extends Model
 {
 
     protected $table = 'tr_secc';
+    protected $primaryKey = 'id_tr_secc';
+
     protected $fillable = [
         'id_tr_secc',
         'id_rol',
