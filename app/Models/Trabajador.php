@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Trabajador extends Model
 {
-
     protected $table = 'tr_secc';
     protected $primaryKey = 'id_tr_secc';
 
@@ -22,9 +21,19 @@ class Trabajador extends Model
         'updated_at'
     ];
 
+    // ==========================================
+    // NUEVA RELACIÓN AGREGADA PARA EL DASHBOARD
+    // ==========================================
+    public function servicio(): BelongsTo
+    {
+        return $this->belongsTo(Servicio::class, 'id_servicio', 'id_servicio');
+    }
+
+    // ==========================================
+    // RELACIONES EXISTENTES
+    // ==========================================
     public function ticket(): BelongsTo
     {
-        // belongsTo(ModeloRelacionado, 'llave_foranea_en_Trabajadores', 'llave_primaria_en_Ticket')
         return $this->belongsTo(Ticket::class, 'tr_secc', 'id_ticket');
     }
  
@@ -38,15 +47,15 @@ class Trabajador extends Model
         return $this->belongsTo(Seccion::class, 'id_seccion', 'id_seccion');
     }
 
-     public function j_secc(): BelongsTo
+    public function j_secc(): BelongsTo
     {
         return $this->belongsTo(J_Secc::class);
     }
 
     public function coordinacion(): BelongsTo
     {
+        // OJO: Si id_seccion se vincula con id_coordinacion, asegúrate de que esto sea intencional en tu base de datos.
+        // Lo habitual sería ('id_coordinacion', 'id_coordinacion') o pasar a través de la tabla secciones.
         return $this->belongsTo(Coordinacion::class, 'id_seccion', 'id_coordinacion');
     }
-
-
 }

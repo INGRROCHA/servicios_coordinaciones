@@ -1,60 +1,51 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Seccion;
-use App\Models\Servicio;
-use App\Models\Trabajador;
+use Illuminate\Http\Request;
 
 class AdminSeccController extends Controller
 {
-    
-    // ========================================================
-    // Método servicio filtrado por Seccion con paginación
-    // ========================================================
-    public function servicioPorSeccion(int $id)
+    /**
+     * 🛡️ Método centralizado para validar permisos y obtener la sección.
+     */
+    private function validarAcceso($id)
     {
-        // 🛡️ SEGURIDAD: Si es usuario de sección, forzamos su ID de sesión.
-        // Si es 'admin', se le permite ver el ID de la URL que solicitó.
-        if (session('usuario_rol') === 'seccion') {
-            $id2 = session('id_seccion');
-        }
-
-        $secc = Seccion::find($id);
+        $idValidado = (session('usuario_rol') === 'seccion') ? session('id_seccion') : $id;
+        $secc = Seccion::find($idValidado);
         
         if (!$secc) {
             abort(404, 'La sección solicitada no existe.');
         }
 
-        $servicio = Servicio::with([ 'seccion', 'servicios'])
-                        ->where('id_seccion', $id)
-                        ->paginate(20); 
-
-        return view('secc', compact('servicio', 'secc'));
+        return $secc;
     }
 
-    
     // ========================================================
-    // Método trabajador filtrado por Seccion con paginación
+    // Dashboard Principal
     // ========================================================
-    public function trabajadorPorSeccion(int $id2)
+    public function index($id)
     {
-        // 🛡️ SEGURIDAD: Si es usuario de sección, forzamos su ID de sesión.
-        // Si es 'admin', se le permite ver el ID de la URL que solicitó.
-        if (session('usuario_rol') === 'seccion') {
-            $id2 = session('id_seccion');
-        }
-
-        $secc = Seccion::find($id2);
-        
-        if (!$secc) {
-            abort(404, 'La sección solicitada no existe.');
-        }
-
-        $trabajador = Trabajador::with([ 'seccion', 'trabajadores'])
-                        ->where('id_seccion', $id2)
-                        ->paginate(20); 
-
-        return view('secc', compact('trabajador', 'secc'));
+        $secc = $this->validarAcceso($id);
+        return view('admin', compact('secc'));
     }
 
+    // ========================================================
+    // Vista de Servicios
+    // ========================================================
+    public function servicios($id)
+    {
+        $secc = $this->validarAcceso($id);
+        return view('admin-servicios', compact('secc'));
+    }
+
+    // ========================================================
+    // Vista de Trabajadores (tr_secc)
+    // ========================================================
+    public function trabajadores($id)
+    {
+        $secc = $this->validarAcceso($id);
+        return view('admin-tr_secc', compact('secc'));
+    }
 }

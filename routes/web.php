@@ -66,8 +66,14 @@ Route::middleware([VerificarSesionUAM::class, 'prevent-back'])->group(function (
     // SECCIONES (y Admin)
     // ------------------------------------------
     Route::middleware(['role:seccion,admin'])->group(function () {
-       // Route::get('/admin/{id}', AdminSeccController::class); 
-        Route::get('/seccs/{id}', [ServicioController::class, 'ticketsPorSeccion']);
+        // Dashboard Principal
+        Route::get('/seccs/{id}/admin', [App\Http\Controllers\AdminSeccController::class, 'index'])->name('admin.secc.index');
+        
+        // Vistas específicas
+        Route::get('/seccs/{id}/admin/trabajadores', [App\Http\Controllers\AdminSeccController::class, 'trabajadores'])->name('admin.secc.trabajadores');
+        Route::get('/seccs/{id}/admin/servicios', [App\Http\Controllers\AdminSeccController::class, 'servicios'])->name('admin.secc.servicios');
+        
+        Route::get('/seccs/{id}', [App\Http\Controllers\ServicioController::class, 'ticketsPorSeccion']);
     });
 
 });
