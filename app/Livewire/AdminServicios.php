@@ -11,9 +11,38 @@ class AdminServicios extends Component
     use WithPagination;
 
     public $id_seccion;
-    
-    // Campos para nuevo registro
     public $nuevoServicio = '';
+
+    // Nuevas propiedades para la tabla interactiva
+    public $search = '';
+    public $perPage = 10; // Paginación por defecto
+    public $sortColumn = 'id_servicio'; // Columna por defecto
+    public $sortDirection = 'asc'; // Orden por defecto (ascendente)
+
+    // Cuando el usuario escribe en el buscador, regresamos a la página 1
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    // Cuando el usuario cambia la cantidad de registros por página, regresamos a la página 1
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
+    // Función para alternar el ordenamiento al hacer clic en los encabezados
+    public function sortBy($column)
+    {
+        if ($this->sortColumn === $column) {
+            // Si ya estaba ordenando por esta columna, invierte la dirección
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Si es una columna nueva, empieza en ascendente
+            $this->sortDirection = 'asc';
+            $this->sortColumn = $column;
+        }
+    }
 
     public function toggleEstatus($id)
     {
@@ -83,10 +112,27 @@ class AdminServicios extends Component
 
     public function render()
     {
-        $servicios = Servicio::where('id_seccion', $this->id_seccion)
-            // Cambiamos el orderBy para que ordene numéricamente y no alfabéticamente
-            ->orderByRaw("CAST(SUBSTRING_INDEX(id_servicio, '_', -1) AS UNSIGNED) DESC")
-            ->paginate(10);
+        $query = Servicio::where('id_seccion', $this->id_seccion);
+
+        // 1. Aplicar la Búsqueda Dinámica
+        if (!empty($this->search)) {
+            $query->where(function($q) {
+                $q->where('servicio', 'like', '%' . $this->search . '%')
+                  ->orWhere('id_servicio', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        // 2. Aplicar el Ordenamiento Dinámico
+        if ($this->sortColumn === 'id_servicio') {
+            // Ordenamiento especial para los códigos alfanuméricos (me_1, me_10)
+            $query->orderByRaw("CAST(SUBSTRING_INDEX(id_servicio, '_', -1) AS UNSIGNED) " . $this->sortDirection);
+        } else {
+            // Ordenamiento normal para las demás columnas (ej. 'servicio')
+            $query->orderBy($this->sortColumn, $this->sortDirection);
+        }
+
+        // 3. Aplicar paginación dinámica
+        $servicios = $query->paginate($this->perPage);
 
         return view('livewire.admin-servicios', compact('servicios'));
     }
