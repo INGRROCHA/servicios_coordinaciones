@@ -11,7 +11,7 @@
     <form wire:submit="guardar" class="mb-8 flex gap-4 items-end bg-gray-50 p-4 rounded-lg">
         <div class="flex-1">
             <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del Nuevo Servicio</label>
-            <input type="text" wire:model="nuevoServicio" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. Mantenimiento Preventivo">
+            <input type="text" wire:model="nuevoServicio" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. MANTENIMIENTO PREVENTIVO" required style="text-transform:uppercase">
             @error('nuevoServicio') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
         <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">

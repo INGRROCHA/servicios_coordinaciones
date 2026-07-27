@@ -13,7 +13,7 @@
         <!-- Input Nombre -->
         <div class="md:col-span-1">
             <label class="block text-sm font-bold text-gray-700 mb-1">Nombre del Trabajador</label>
-            <input type="text" wire:model="nombre" class="w-full text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. Juan Pérez">
+            <input type="text" wire:model="nombre" class="w-full text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. JUAN PÉREZ" required style="text-transform:uppercase">
             @error('nombre') <span class="text-xs text-red-500 font-medium">{{ $message }}</span> @enderror
         </div>
 

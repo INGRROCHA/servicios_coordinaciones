@@ -10,6 +10,12 @@ class Servicio extends Model
     protected $table = 'servicios';
     protected $primaryKey = 'id_servicio';
 
+    // Desactivar el auto-incremento interno de Laravel
+    public $incrementing = false;
+    
+    // Indicar que la llave es de tipo string
+    protected $keyType = 'string';
+
     protected $fillable = [
         'id_servicio',
         'servicio',
@@ -19,7 +25,7 @@ class Servicio extends Model
         'updated_at'
     ];
     
-    public $incrementing = false; // porque es tipo string (saat_1, etc)
+    // porque es tipo string (saat_1, etc)
 
     public function ticket(): HasMany
     {

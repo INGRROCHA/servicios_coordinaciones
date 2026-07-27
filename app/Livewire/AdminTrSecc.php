@@ -31,14 +31,14 @@ class AdminTrSecc extends Component
         // Validamos que el servicio seleccionado exista en la tabla servicios
         $this->validate([
             'nombre' => 'required|string|max:255',
-            'id_servicio' => 'required|exists:servicios,id_servicio'
+            'id_servicio' => 'sometimes|nullable|exists:servicios,id_servicio'
         ]);
 
         Trabajador::create([
             'nombre' => $this->nombre,
             'id_seccion' => $this->id_seccion,
             'id_servicio' => $this->id_servicio,
-            'id_rol' => 2, // Valor fijo por defecto, como solicitaste
+            'id_rol' => 2, // Valor fijo por defecto
             'estatus' => 1 // Activo por defecto
         ]);
 
@@ -49,7 +49,6 @@ class AdminTrSecc extends Component
     public function render()
     {
         // 1. Obtenemos los trabajadores de la sección con paginación
-        // (Asumimos que el modelo Trabajador tiene la relación "servicio()")
         $trabajadores = Trabajador::with('servicio')
                             ->where('id_seccion', $this->id_seccion)
                             ->orderBy('id_tr_secc', 'desc')
