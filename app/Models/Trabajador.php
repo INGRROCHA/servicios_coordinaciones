@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 
 class Trabajador extends Model
 {
+    use LogsActivity;
+
     protected $table = 'tr_secc';
     protected $primaryKey = 'id_tr_secc';
 
@@ -22,16 +27,41 @@ class Trabajador extends Model
     ];
 
     // ==========================================
-    // NUEVA RELACIÓN AGREGADA PARA EL DASHBOARD
+    // CONFIGURACIÓN DE SPATIE ACTIVITYLOG
     // ==========================================
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable() 
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->useLogName('trabajador_modificacion'); 
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        // 1. Capturamos el nombre desde la sesión activa
+        $nombreUsuario = session('nombre_completo', 'Usuario Desconocido');
+        
+        $propiedadesActuales = $activity->properties instanceof \Illuminate\Support\Collection 
+            ? $activity->properties 
+            : collect($activity->properties ?? []);
+
+        // 2. Fusionamos los datos que Spatie ya capturó con el nombre del usuario,
+        // Y agregamos el ID y Nombre del trabajador para que siempre queden registrados
+        $activity->properties = $propiedadesActuales->merge([
+            'causer_name' => $nombreUsuario,
+            'id_tr_secc'  => $this->id_tr_secc, // Inyectamos el ID del trabajador afectado
+            'nombre'      => $this->nombre,     // Inyectamos el nombre del trabajador afectado
+        ]);
+    }
+    // ==========================================
+
     public function servicio(): BelongsTo
     {
         return $this->belongsTo(Servicio::class, 'id_servicio', 'id_servicio');
     }
 
-    // ==========================================
-    // RELACIONES EXISTENTES
-    // ==========================================
     public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class, 'tr_secc', 'id_ticket');
@@ -54,8 +84,6 @@ class Trabajador extends Model
 
     public function coordinacion(): BelongsTo
     {
-        // OJO: Si id_seccion se vincula con id_coordinacion, asegúrate de que esto sea intencional en tu base de datos.
-        // Lo habitual sería ('id_coordinacion', 'id_coordinacion') o pasar a través de la tabla secciones.
         return $this->belongsTo(Coordinacion::class, 'id_seccion', 'id_coordinacion');
     }
 }
