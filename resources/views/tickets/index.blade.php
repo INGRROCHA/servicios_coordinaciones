@@ -4,7 +4,7 @@
     <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full border-t-4 border-blue-700">
         
         <div class="mb-4">
-            <h1 class="text-xl font-bold text-gray-800">Consultar Estatus de Ticket de Servicio</h1>
+            <h1 class="text-xl font-bold text-gray-800">Panel de Administración - Administrador</h1>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 mb-6 border-b pb-5">
@@ -24,6 +24,10 @@
                 </svg>
                 Todas las Coordinaciones
             </a>
+        </div>
+
+        <div class="mb-4">
+            <h1 class="text-xl font-bold text-gray-800">Consultar Estatus de Ticket de Servicio</h1>
         </div>
 
         <form method="POST" action="{{ route('consultar.buscar') }}" class="mb-6">
