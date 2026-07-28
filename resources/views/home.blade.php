@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Acceso a la Mesa de Servicios, UAM-Xochimilco</title>
+  <title>Mesa de Servicios, UAM-X</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Favicon personalizado -->
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="h-full flex flex-col min-h-screen">
